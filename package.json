@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@next/font": "13.1.4",
     "@reduxjs/toolkit": "^1.9.1",
     "@semicolondsm/react-emotion-theme": "^1.0.10",
