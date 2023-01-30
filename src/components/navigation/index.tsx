@@ -1,26 +1,18 @@
 import styled from "@emotion/styled";
 
-type ListItem =
-  | "외출/이동 수락"
-  | "외출자 목록"
-  | "출결 상태"
-  | "인원 변경"
-  | "자습 감독 선생님 변경";
-
-interface Props {
-  list: ListItem[];
-}
-
-const Navigation = ({ list }: Props) => {
+const Navigation = () => {
   return (
     <Wrapper>
       <TitleContainer>
         <LOGO />
         <h1>OOO 선생님</h1>
       </TitleContainer>
-      {/*list.map((item) => {
-        <p>{item}</p>;
-      })*/}
+      <ItemContainer>
+        <ItemWrapper>
+          <Img />
+          <ItemName>외출/이동 수락</ItemName>
+        </ItemWrapper>
+      </ItemContainer>
     </Wrapper>
   );
 };
@@ -55,6 +47,29 @@ const TitleContainer = styled.div`
     text-align: center;
     color: ${({ theme }) => theme.colors.black};
   }
+`;
+
+const ItemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+`;
+
+const Img = styled.div`
+  width: 28px;
+  height: 28px;
+  margin-right: 20px;
+  background-color: ${({ theme }) => theme.colors.black};
+`;
+
+const ItemName = styled.p`
+  font-weight: 500;
+  font-size: 24px;
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export default Navigation;
