@@ -1,23 +1,35 @@
 import styled from "@emotion/styled";
+import Image from "next/image";
+import Link from "next/link";
 
-const Item = () => {
+interface ItemProps {
+  link: string;
+  Icon: string;
+  name: string;
+  dropdown: boolean;
+}
+
+const Item = ({ name, link, Icon, dropdown }: ItemProps) => {
   return (
-    <ItemWrapper>
-      <Img />
-      <ItemName>외출/이동 수락</ItemName>
-    </ItemWrapper>
+    <Link style={{ textDecoration: "none" }} href={`/${link}`}>
+      <ItemWrapper>
+        <Image src={Icon} alt="" />
+        <ItemName>{name}</ItemName>
+      </ItemWrapper>
+    </Link>
   );
 };
 
 const ItemWrapper = styled.div`
   display: flex;
-`;
+  cursor: pointer;
+  width: 360px;
+  height: 76px;
+  padding: 24px;
 
-const Img = styled.div`
-  width: 28px;
-  height: 28px;
-  margin-right: 20px;
-  background-color: ${({ theme }) => theme.colors.black};
+  > img {
+    margin-right: 20px;
+  }
 `;
 
 const ItemName = styled.p`

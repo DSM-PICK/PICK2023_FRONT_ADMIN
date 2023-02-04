@@ -1,9 +1,29 @@
 import styled from "@emotion/styled";
 import Item from "./Item";
+import { check, list, people, teacher } from "../../assets/navigation/index";
 
-interface Props {
-  name: string;
-}
+const nameToInfo = [
+  {
+    name: "외출/이동 수락",
+    link: "",
+    Icon: check,
+    dropdown: false,
+  },
+  {
+    name: "외출자 목록",
+    link: "",
+    Icon: list,
+    dropdown: false,
+  },
+  { name: "출결 상태", link: "", Icon: list, dropdown: false },
+  { name: "인원 변경", link: "", Icon: people, dropdown: true },
+  {
+    name: "자습 감독 선생님 변경",
+    link: "",
+    Icon: teacher,
+    dropdown: false,
+  },
+];
 
 const Navigation = () => {
   return (
@@ -13,7 +33,18 @@ const Navigation = () => {
         <h1>OOO 선생님</h1>
       </TitleContainer>
       <ItemContainer>
-        <Item />
+        {nameToInfo.map((item, idx) => {
+          const { Icon, link, name, dropdown } = item;
+          return (
+            <Item
+              key={name}
+              name={name}
+              Icon={Icon}
+              link={link}
+              dropdown={dropdown}
+            />
+          );
+        })}
       </ItemContainer>
     </Wrapper>
   );
@@ -21,9 +52,8 @@ const Navigation = () => {
 
 const Wrapper = styled.div`
   width: 400px;
-  min-height: 100%;
-  max-height: 100%;
-  padding: 124px 45px 260px 46px;
+  height: 100%;
+  padding: 124px 20px 260px 20px;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.gray100};
@@ -40,7 +70,7 @@ const TitleContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 120px;
+  margin-bottom: 100px;
 
   > h1 {
     margin-top: 24px;
@@ -54,7 +84,7 @@ const TitleContainer = styled.div`
 const ItemContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 24px;
 `;
 
 export default Navigation;
