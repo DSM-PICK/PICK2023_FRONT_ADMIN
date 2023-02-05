@@ -1,4 +1,4 @@
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/layout/index";
 
 export default function Home() {
   return <Navigation />;

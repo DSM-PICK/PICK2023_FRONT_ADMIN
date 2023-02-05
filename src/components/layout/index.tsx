@@ -56,7 +56,7 @@ const nameToInfo = [
   },
 ];
 
-const Navigation = () => {
+const SidebarLayout = () => {
   const [activeItem, setActiveItem] = useState<number>();
   const router = useRouter();
 
@@ -66,10 +66,11 @@ const Navigation = () => {
 
   const onClickLogo = () => {
     router.push("/");
+    setActiveItem(0);
   };
 
   return (
-    <Wrapper>
+    <SidebarWrapper>
       <TitleContainer>
         <Image onClick={onClickLogo} src={Logo} alt="logo" />
         <h1>OOO 선생님</h1>
@@ -91,11 +92,11 @@ const Navigation = () => {
           );
         })}
       </ItemContainer>
-    </Wrapper>
+    </SidebarWrapper>
   );
 };
 
-const Wrapper = styled.div`
+const SidebarWrapper = styled.div`
   width: 400px;
   height: 100%;
   padding: 124px 20px 260px 20px;
@@ -130,4 +131,4 @@ const ItemContainer = styled.div`
   gap: 24px;
 `;
 
-export default Navigation;
+export default SidebarLayout;
