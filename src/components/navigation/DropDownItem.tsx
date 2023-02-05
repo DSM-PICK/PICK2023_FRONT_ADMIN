@@ -47,7 +47,9 @@ const DropDownItem = ({
         <ItemName dropdown={dropdown} isState={isState}>
           {name}
         </ItemName>
-        <Image src={isState ? whiteVector : blackVector} alt="vector" />
+        <VectorImgContainer isFold={isFold}>
+          <Image src={isState ? whiteVector : blackVector} alt="vector" />
+        </VectorImgContainer>
         {isFold && (
           <ListWrapper>
             {DropDownValue.map((item) => (
@@ -97,6 +99,11 @@ const ItemName = styled.p<{ dropdown: boolean; isState: boolean }>`
   font-size: 24px;
   color: ${({ isState, theme }) =>
     isState ? theme.colors.white : theme.colors.black};
+`;
+
+const VectorImgContainer = styled.div<{ isFold: boolean }>`
+  transition: all ease 200ms;
+  transform: rotate(${(props) => (props.isFold ? "180" : "0")}deg);
 `;
 
 const ListWrapper = styled.div`
