@@ -1,7 +1,21 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
+import Image from "next/image";
+import Logo from "../../assets/Logo.svg";
+import { useRouter } from "next/router";
 import Item from "./Item";
-import { check, list, people, teacher } from "../../assets/navigation/index";
+import {
+  check,
+  activeCheck,
+  list,
+  activeList,
+  people,
+  activePeople,
+  teacher,
+  activeTeacher,
+  out,
+  activeOut,
+} from "../../assets/navigation/index";
 
 /* link는 후에 page 추가 할때마다 채워넣기 */
 const nameToInfo = [
@@ -9,40 +23,60 @@ const nameToInfo = [
     name: "외출/이동 수락",
     link: "",
     Icon: check,
+    activeIcon: activeCheck,
     dropdown: false,
   },
   {
     name: "외출자 목록",
     link: "",
-    Icon: list,
+    Icon: out,
+    activeIcon: activeOut,
     dropdown: false,
   },
-  { name: "출결 상태", link: "", Icon: list, dropdown: false },
-  { name: "인원 변경", link: "", Icon: people, dropdown: true },
+  {
+    name: "출결 상태",
+    link: "",
+    Icon: list,
+    activeIcon: activeList,
+    dropdown: false,
+  },
+  {
+    name: "인원 변경",
+    link: "",
+    Icon: people,
+    activeIcon: activePeople,
+    dropdown: true,
+  },
   {
     name: "자습 감독 선생님 변경",
     link: "",
     Icon: teacher,
+    activeIcon: activeTeacher,
     dropdown: false,
   },
 ];
 
 const Navigation = () => {
   const [activeItem, setActiveItem] = useState<number>();
+  const router = useRouter();
 
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
   };
 
+  const onClickLogo = () => {
+    router.push("/");
+  };
+
   return (
     <Wrapper>
       <TitleContainer>
-        <LOGO />
+        <Image onClick={onClickLogo} src={Logo} alt="logo" />
         <h1>OOO 선생님</h1>
       </TitleContainer>
       <ItemContainer>
         {nameToInfo.map((item, idx) => {
-          const { Icon, link, name, dropdown } = item;
+          const { Icon, link, name, dropdown, activeIcon } = item;
           return (
             <Item
               key={name}
@@ -50,6 +84,7 @@ const Navigation = () => {
               onClick={() => onClickItem((idx + 1) * 10)}
               name={name}
               Icon={Icon}
+              activeIcon={activeIcon}
               link={link}
               dropdown={dropdown}
             />
@@ -69,18 +104,16 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
-const LOGO = styled.div`
-  width: 244px;
-  height: 56px;
-  background-color: ${({ theme }) => theme.colors.black};
-`;
-
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 100px;
+
+  > img {
+    cursor: pointer;
+  }
 
   > h1 {
     margin-top: 24px;

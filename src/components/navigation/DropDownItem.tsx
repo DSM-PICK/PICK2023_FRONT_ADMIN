@@ -7,6 +7,7 @@ import { whiteVector, blackVector } from "../../assets/navigation/index";
 interface ItemProps {
   link: string;
   Icon: string;
+  activeIcon: string;
   name: string;
   dropdown: boolean;
   isState: boolean;
@@ -24,6 +25,7 @@ const DropDownItem = ({
   name,
   link,
   Icon,
+  activeIcon,
   dropdown,
   isState,
   onClick,
@@ -43,7 +45,13 @@ const DropDownItem = ({
   return (
     <label onClick={() => onClickLabel(link)}>
       <Wrapper onClick={onClick} isState={isState}>
-        <Image className="icon" src={Icon} alt="logo" />
+        <Image
+          width={29}
+          height={29}
+          className="icon"
+          src={isState ? activeIcon : Icon}
+          alt="logo"
+        />
         <ItemName dropdown={dropdown} isState={isState}>
           {name}
         </ItemName>

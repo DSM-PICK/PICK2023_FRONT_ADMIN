@@ -1,6 +1,12 @@
 export { default as check } from "./check.svg";
+export { default as activeCheck } from "./activeCheck.svg";
 export { default as list } from "./list.svg";
+export { default as activeList } from "./activeList.svg";
 export { default as people } from "./people.svg";
+export { default as activePeople } from "./activePeople.svg";
 export { default as teacher } from "./teacher.svg";
+export { default as activeTeacher } from "./activeTeacher.svg";
+export { default as out } from "./out.svg";
+export { default as activeOut } from "./activeOut.svg";
 export { default as whiteVector } from "./whiteVector.svg";
 export { default as blackVector } from "./blackVector.svg";

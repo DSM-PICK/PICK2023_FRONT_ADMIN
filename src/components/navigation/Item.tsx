@@ -5,19 +5,29 @@ import DropDownItem from "./DropDownItem";
 interface ItemProps {
   link: string;
   Icon: string;
+  activeIcon: string;
   name: string;
   dropdown: boolean;
   isState: boolean;
   onClick: () => void;
 }
 
-const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
+const Item = ({
+  name,
+  link,
+  Icon,
+  activeIcon,
+  dropdown,
+  isState,
+  onClick,
+}: ItemProps) => {
   return (
     <Link style={{ textDecoration: "none" }} href={`/${link}`}>
       {dropdown ? (
         <DropDownItem
           onClick={onClick}
           Icon={Icon}
+          activeIcon={activeIcon}
           name={name}
           link={link}
           dropdown={dropdown}
@@ -25,7 +35,13 @@ const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
         />
       ) : (
         <ItemWrapper onClick={onClick} isState={isState}>
-          <Image className="icon" src={Icon} alt="logo" />
+          <Image
+            width={29}
+            height={29}
+            className="icon"
+            src={isState ? activeIcon : Icon}
+            alt="logo"
+          />
           <ItemName isState={isState} dropdown={dropdown}>
             {name}
           </ItemName>
