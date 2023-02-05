@@ -1,7 +1,9 @@
+import { useState } from "react";
 import styled from "@emotion/styled";
 import Item from "./Item";
 import { check, list, people, teacher } from "../../assets/navigation/index";
 
+/* link는 후에 page 추가 할때마다 채워넣기 */
 const nameToInfo = [
   {
     name: "외출/이동 수락",
@@ -26,6 +28,12 @@ const nameToInfo = [
 ];
 
 const Navigation = () => {
+  const [activeItem, setActiveItem] = useState<number>();
+
+  const onClickItem = (idx: number) => {
+    setActiveItem(idx);
+  };
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -38,6 +46,8 @@ const Navigation = () => {
           return (
             <Item
               key={name}
+              isState={(idx + 1) * 10 === activeItem}
+              onClick={() => onClickItem((idx + 1) * 10)}
               name={name}
               Icon={Icon}
               link={link}
