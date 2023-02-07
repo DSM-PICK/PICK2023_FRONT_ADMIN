@@ -15,13 +15,13 @@ const Outing = ({ 외출자 }: OutType) => {
   const [isModal, setIsModal] = useState<boolean>(false);
 
   const closeModal = () => {
-    setModal(false);
+    setIsModal(false);
   };
   const openModal = () => {
-    setModal(true);
+    setIsModal(true);
   };
   const comeback = () => {
-    setModal(false);
+    setIsModal(false);
     //API
   };
 
