@@ -1,13 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { whiteVector, blackVector } from "../../assets/navigation/index";
+import { vector } from "../../assets/navigation/index";
+import VectorImg from "@/assets/navigation/vector";
 
 interface ItemProps {
   link: string;
-  Icon: string;
-  activeIcon: string;
+  Icon: JSX.Element;
   name: string;
   dropdown: boolean;
   isState: boolean;
@@ -25,7 +25,6 @@ const DropDownItem = ({
   name,
   link,
   Icon,
-  activeIcon,
   dropdown,
   isState,
   onClick,
@@ -45,18 +44,12 @@ const DropDownItem = ({
   return (
     <label onClick={() => onClickLabel(link)}>
       <Wrapper onClick={onClick} isState={isState}>
-        <Image
-          width={29}
-          height={29}
-          className="icon"
-          src={isState ? activeIcon : Icon}
-          alt="logo"
-        />
+        {Icon}
         <ItemName dropdown={dropdown} isState={isState}>
           {name}
         </ItemName>
         <VectorImgContainer isFold={isFold}>
-          <Image src={isState ? whiteVector : blackVector} alt="vector" />
+          <VectorImg color={isState} />
         </VectorImgContainer>
         {isFold && (
           <ListWrapper>
@@ -82,7 +75,6 @@ const Wrapper = styled.div<{ isState: boolean }>`
   cursor: pointer;
   width: 360px;
   height: 76px;
-  padding: 24px;
   border-radius: 12px;
   background-color: ${({ isState, theme }) =>
     isState && theme.colors.purple400};
