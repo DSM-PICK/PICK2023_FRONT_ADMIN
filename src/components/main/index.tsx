@@ -41,7 +41,7 @@ const Main = () => {
         </AttendanceBtn>
         <OutingListBtn>
         <TextContainer>
-          <MainText>현재 외출 중인 학생은<br/>총</MainText>
+          <MainText>현재 외출 중인 학생은<br/>총 </MainText>
             <MainLayer>4명</MainLayer>
             <MainText>입니다.<br/></MainText> 
             </TextContainer> 
