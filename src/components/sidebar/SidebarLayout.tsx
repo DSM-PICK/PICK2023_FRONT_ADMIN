@@ -45,7 +45,7 @@ const nameToInfo = [
   },
 ];
 
-const SidebarLayout = () => {
+const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
   const router = useRouter();
 
@@ -82,6 +82,7 @@ const SidebarLayout = () => {
           })}
         </ItemContainer>
       </SidebarWrapper>
+      {children}
     </>
   );
 };

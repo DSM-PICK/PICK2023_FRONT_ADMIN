@@ -3,6 +3,7 @@ import Head from "next/head";
 import { SDSThemeProvider } from "@semicolondsm/react-emotion-theme";
 import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyle";
+import SidebarLayout from "@/components/sidebar/SidebarLayout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -25,7 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <SDSThemeProvider mode="light-only">
         <Global styles={globalStyles} />
-        <Component {...pageProps} />
+        <SidebarLayout>
+          <Component {...pageProps} />
+        </SidebarLayout>
       </SDSThemeProvider>
     </>
   );
