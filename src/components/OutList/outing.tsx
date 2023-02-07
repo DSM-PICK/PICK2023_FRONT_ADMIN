@@ -12,7 +12,7 @@ interface OutType {
 
 const Outing = ({ 외출자 }: OutType) => {
   const { 학번, 이름, 시간 } = 외출자;
-  const [isModal, setModal] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
 
   const closeModal = () => {
     setModal(false);
