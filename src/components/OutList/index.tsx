@@ -4,21 +4,25 @@ import styled from "@emotion/styled";
 const OutList = () => {
   const List = [
     {
+      id: 1,
       학번: 2120,
       이름: "추혜연",
       시간: "17:30",
     },
     {
+      id: 2,
       학번: 2419,
       이름: "하혜령",
       시간: "17:30",
     },
     {
+      id: 3,
       학번: 2106,
       이름: "김의찬",
       시간: "18:00",
     },
     {
+      id: 4,
       학번: 2218,
       이름: "정대현",
       시간: "18:00",
@@ -37,7 +41,7 @@ const OutList = () => {
       </Heading>
       <ListBox>
         {List.map((list) => {
-          return <Outing 외출자={list} />;
+          return <Outing key={list.id} 외출자={list} />;
         })}
       </ListBox>
     </Container>
