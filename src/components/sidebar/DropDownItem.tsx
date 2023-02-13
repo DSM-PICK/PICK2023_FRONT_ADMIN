@@ -71,10 +71,6 @@ const Wrapper = styled.div<{ isState: boolean }>`
   background-color: ${({ isState, theme }) =>
     isState && theme.colors.purple400};
 
-  .icon {
-    margin-right: 20px;
-  }
-
   > label {
     cursor: pointer;
     display: flex;
@@ -116,12 +112,12 @@ const ListOptionBox = styled.div`
   padding: 16px 229px 16px 75px;
 
   > p {
+    font-size: 20px;
     color: ${({ theme }) => theme.colors.white};
   }
 
   :hover {
-    text-decoration: underline;
-    text-decoration-color: ${({ theme }) => theme.colors.white};
+    font-weight: 700;
   }
 `;
 
