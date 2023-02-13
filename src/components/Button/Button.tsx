@@ -1,109 +1,122 @@
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
+const styleState = {
+  colorState: {
+    default: "#5C5961",
+    purple: "#F9F7FA",
+    red: "#F9F7FA",
+    ghost: "#98959E",
+  },
+  backColorState: {
+    default: "#F9F7FA",
+    purple: "#9650FA",
+    red: "#F04D51",
+    ghost: "#ffffff",
+  },
+  borderState: {
+    default: "0",
+    purple: "0",
+    red: "0",
+    ghost: "1px solid #EAE7EE",
+  },
+  hoverState: {
+    default: "#EAE7EE",
+    purple: "#8335F0",
+    red: "#D61A20",
+    ghost: "#F9F7FA",
+  },
+  disabledState: {
+    defautl: ``,
+    purple: `
+      background-color: #f0e6ff;
+      pointer-events: none;
+    `,
+    red: `
+      background-color: #ffe6e6;
+      pointer-events: none;
+    `,
+    ghost: `
+      border-color: #f2f0f5;
+      color: #dbd7e0;
+      pointer-events: none;
+    `,
+  },
+};
 
 interface BtnProps {
   children?: string;
   fill?: string;
   disabled?: boolean;
   onClick?: () => void;
-  style?: {
+  customStyle?: {
     [index: string]: string;
   };
 }
 
-const Button = ({ children, fill, disabled, onClick, style }: BtnProps) => {
+interface BtnStyle {
+  [index: string]: string;
+}
+
+const Button = ({ children, fill, disabled, onClick, customStyle }: BtnProps) => {
+  interface BtnStyleVariable {
+    [index: string]: BtnStyle;
+  }
+
+  const {
+    colorState,
+    backColorState,
+    borderState,
+    hoverState,
+    disabledState,
+  }: BtnStyleVariable = styleState;
+
+  let btnStyle: BtnStyle = {
+    color: colorState.default,
+    backColor: backColorState.default,
+    border: borderState.default,
+    hover: hoverState.default,
+    disabled: disabledState.defautl,
+  };
   if (fill) {
-    interface BtnProps {
-      [index: string]: JSX.Element;
-    }
-    const buttonStyle: BtnProps = {
-      ghost: (
-        <GhostBtn style={style} disabled={disabled} onClick={onClick}>
-          {children}
-        </GhostBtn>
-      ),
-      red: (
-        <RedBtn style={style} disabled={disabled} onClick={onClick}>
-          {children}
-        </RedBtn>
-      ),
-      purple: (
-        <PurpleBtn style={style} disabled={disabled} onClick={onClick}>
-          {children}
-        </PurpleBtn>
-      ),
-      default: (
-        <DefaultBtn style={style} disabled={disabled} onClick={onClick}>
-          {children}
-        </DefaultBtn>
-      ),
-    };
-    return buttonStyle[fill];
+    btnStyle.color = colorState[fill];
+    btnStyle.backColor = backColorState[fill];
+    btnStyle.border = borderState[fill];
+    btnStyle.hover = hoverState[fill];
+    btnStyle.disabled = disabledState[fill];
   }
   return (
-    <DefaultBtn style={style} disabled={disabled} onClick={onClick}>
+    <DefaultBtn
+      btnStyle={btnStyle}
+      style={customStyle}
+      disabled={disabled}
+      onClick={onClick}
+    >
       {children}
     </DefaultBtn>
   );
 };
 
-const DefaultBtn = styled.button`
+const DefaultBtn = styled.button<{ btnStyle: BtnStyle }>`
   height: 40px;
-  border: 0;
   border-radius: 8px;
   padding: 0 21px;
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
-  color: ${({ theme }) => theme.colors.gray700};
-  background-color: ${({ theme }) => theme.colors.gray50};
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray200};
-  }
-`;
-
-const GhostBtn = styled(DefaultBtn)`
-  background-color: #ffffff;
-  border: 1px solid ${({ theme }) => theme.colors.gray200};
-  color: ${({ theme }) => theme.colors.gray500};
-  font-weight: 400;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.gray50};
-  }
-  &:disabled {
-    border-color: ${({ theme }) => theme.colors.gray100};
-    color: ${({ theme }) => theme.colors.gray300};
-    &:hover {
-      background-color: #ffffff;
-    }
-  }
-`;
-
-const PurpleBtn = styled(DefaultBtn)`
-  background-color: ${({ theme }) => theme.colors.purple400};
-  color: #ffffff;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.purple500};
-  }
-  &:disabled {
-    background-color: ${({ theme }) => theme.colors.purple50};
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.purple50};
-    }
-  }
-`;
-
-const RedBtn = styled(DefaultBtn)`
-  background-color: ${({ theme }) => theme.colors.red400};
-  color: #ffffff;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.red600};
-  }
-  &:disabled {
-    background-color: ${({ theme }) => theme.colors.red50};
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.red50};
-    }
-  }
+  ${({ btnStyle }) =>
+    btnStyle &&
+    css`
+      background-color: ${btnStyle.backColor};
+      color: ${btnStyle.color};
+      border: ${btnStyle.border};
+      &:hover {
+        background-color: ${btnStyle.hover};
+      }
+      &:disabled {
+        ${btnStyle.disabled}
+      }
+    `}
 `;
 
 export default Button;
