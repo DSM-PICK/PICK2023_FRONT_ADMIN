@@ -13,7 +13,7 @@ interface ItemProps {
 
 const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
   return (
-    <Link style={{ textDecoration: "none" }} href={`/${link}`}>
+    <>
       {dropdown ? (
         <DropDownItem
           onClick={onClick}
@@ -24,14 +24,16 @@ const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
           isState={isState}
         />
       ) : (
-        <ItemWrapper onClick={onClick} isState={isState}>
-          {Icon}
-          <ItemName isState={isState} dropdown={dropdown}>
-            {name}
-          </ItemName>
-        </ItemWrapper>
+        <Link style={{ textDecoration: "none" }} href={`/${link}`}>
+          <ItemWrapper onClick={onClick} isState={isState}>
+            {Icon}
+            <ItemName isState={isState} dropdown={dropdown}>
+              {name}
+            </ItemName>
+          </ItemWrapper>
+        </Link>
       )}
-    </Link>
+    </>
   );
 };
 

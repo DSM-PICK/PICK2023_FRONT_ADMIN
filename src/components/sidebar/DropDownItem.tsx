@@ -1,9 +1,8 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
-import Image from "next/image";
 import { useRouter } from "next/router";
-import { vector } from "../../assets/navigation/index";
 import VectorImg from "@/assets/navigation/vector";
+import Link from "next/link";
 
 interface ItemProps {
   link: string;
@@ -30,19 +29,13 @@ const DropDownItem = ({
   onClick,
 }: ItemProps) => {
   const [isFold, setIsFold] = useState<boolean>(false);
-  const router = useRouter();
 
-  const onClickLabel = (url: string) => {
+  const onClickLabel = () => {
     setIsFold(!isFold);
-    router.push(`/${url}`);
-  };
-
-  const onClickDropDownItem = (url: string) => {
-    router.push(`/${url}`);
   };
 
   return (
-    <label onClick={() => onClickLabel(link)}>
+    <label onClick={onClickLabel}>
       <Wrapper onClick={onClick} isState={isState}>
         {Icon}
         <ItemName dropdown={dropdown} isState={isState}>
@@ -54,12 +47,11 @@ const DropDownItem = ({
         {isFold && (
           <ListWrapper>
             {DropDownValue.map((item) => (
-              <ListOptionBox
-                key={item.link}
-                onClick={() => onClickDropDownItem(item.link)}
-              >
-                <p>{item.value}</p>
-              </ListOptionBox>
+              <Link style={{ textDecoration: "none" }} href={`/${link}`}>
+                <ListOptionBox key={item.link}>
+                  <p>{item.value}</p>
+                </ListOptionBox>
+              </Link>
             ))}
           </ListWrapper>
         )}
