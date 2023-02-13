@@ -45,7 +45,7 @@ const styleState = {
 };
 
 interface BtnProps {
-  children?: string;
+  children: string;
   fill?: string;
   disabled?: boolean;
   onClick?: () => void;
