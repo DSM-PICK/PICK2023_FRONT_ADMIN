@@ -58,7 +58,7 @@ interface BtnStyle {
   [index: string]: string;
 }
 
-const Button = ({ children, fill, disabled, onClick, customStyle }: BtnProps) => {
+const ButtonComponent = ({ children, fill, disabled, onClick, customStyle }: BtnProps) => {
   interface BtnStyleVariable {
     [index: string]: BtnStyle;
   }
@@ -119,4 +119,4 @@ const DefaultBtn = styled.button<{ btnStyle: BtnStyle }>`
     `}
 `;
 
-export default Button;
+export default ButtonComponent;
