@@ -85,9 +85,9 @@ const DefaultBtn = styled.button<{
   ${({ size }) =>
     size &&
     css`
-    width: ${size[0]};
-    height: ${size[1]};
-  `}
+      width: ${size[0]};
+      height: ${size[1]};
+    `}
   ${({ btnStyle }) =>
     btnStyle &&
     css`
