@@ -4,7 +4,7 @@ import { styleState } from "./constants/index";
 
 interface BtnProps {
   children: string;
-  fill?: string;
+  fill?: "default" | "purple" | "red" | "ghost";
   disabled?: boolean;
   onClick?: () => void;
   customStyle?: {
