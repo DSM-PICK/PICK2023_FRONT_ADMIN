@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { styleState } from "./constants/index";
-import { type } from "os";
 
 interface BtnProps {
   children: string;
