@@ -5,7 +5,11 @@ import { Button } from "@semicolondsm/ui";
 
 const Main = () => {
   return (
+<<<<<<< Updated upstream
     <Wrapper>
+=======
+    <>
+>>>>>>> Stashed changes
       <Date>1월 24일 금요일</Date>
       <TitleContainer>
         <Title>장연순선생님은</Title>
@@ -20,6 +24,7 @@ const Main = () => {
           <MainText>4층 고진영선생님</MainText>
         </MainContainer>
       </MainWrapper>
+<<<<<<< Updated upstream
       <BtnWrapper>
         <OutingBtn>
           <TextContainer>
@@ -53,6 +58,131 @@ const Main = () => {
   );
 };
 
+=======
+    </>
+  );
+};
+
+const Btns= () => {
+  return (
+    <BtnWrapper>
+      <OutingBtn>
+        <TextContainer>
+          <MainText>
+            현재 외출 신청 학생은
+            <br />총
+          </MainText>
+          <MainLayer>10명</MainLayer>
+          <MainText>
+            입니다.
+            <br />
+          </MainText>
+        </TextContainer>
+        <Image src={Attendance} alt="" />
+        <TextBtn fullWidth>외출 수락하러 가기</TextBtn>
+      </OutingBtn>
+      <AttendanceBtn>
+        <TextContainer>
+          <MainText>
+            {" "}
+            현재 2층에서 이동한
+            <br />
+            학생 수는
+          </MainText>
+          <MainLayer>24명</MainLayer>
+          <MainText>
+            {" "}
+            입니다.
+            <br />{" "}
+          </MainText>
+        </TextContainer>
+        <Image src={Outing} alt="" />
+        <TextBtn fullWidth>출결 상태 확인하기</TextBtn>
+      </AttendanceBtn>
+      <OutingListBtn>
+        <TextContainer>
+          <MainText>
+            {" "}
+            현재 외출 중인 학생은
+            <br />총{" "}
+          </MainText>
+          <MainLayer>4명</MainLayer>
+          <MainText>
+            입니다.
+            <br />
+          </MainText>
+        </TextContainer>
+        <Image src={OutingList} alt="" />
+        <TextBtn fullWidth>외출자 목록보기</TextBtn>
+      </OutingListBtn>
+    </BtnWrapper>
+  );
+};
+
+const MainPage = () => {
+  return (
+    <>
+      <Wrapper>
+        <Main />
+        <Btns />
+      </Wrapper>
+    </>
+  );
+};
+
+const BtnWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const OutingBtn = styled.div`
+  align-items: center;
+  text-align: center;
+  width: 360px;
+  height: 446px;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  padding: 54px 28px 36px 28px;
+`;
+const AttendanceBtn = styled.div`
+  align-items: center;
+  text-align: center;
+  width: 360px;
+  height: 446px;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  padding: 54px 28px 36px 28px;
+`;
+const OutingListBtn = styled.div`
+  align-items: center;
+  text-align: center;
+  width: 360px;
+  height: 446px;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  padding: 54px 28px 36px 28px;
+`;
+const TextBtn = styled(Button)`
+  background: #9650fa;
+  height: 52px;
+  border-radius: 12px;
+  margin-top: 58px;
+  > div {
+    color: #f9f7fa;
+    font-weight: 500;
+    font-size: 20px;
+  }
+`;
+
+const MainLayer = styled.span`
+  font-weight: 400;
+  font-size: 24px;
+  color: #9650fa;
+`;
+const TextContainer = styled.div`
+  padding-bottom: 36px;
+`;
+
+>>>>>>> Stashed changes
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,6 +239,7 @@ const MainText = styled.span`
   font-weight: 400;
   font-size: 24px;
   line-height: 36px;
+<<<<<<< Updated upstream
 
 `;
 
@@ -164,3 +295,8 @@ const TextContainer=styled.div`
   padding-bottom: 36px;
 `
 export default Main;
+=======
+`;
+
+export default MainPage;
+>>>>>>> Stashed changes
