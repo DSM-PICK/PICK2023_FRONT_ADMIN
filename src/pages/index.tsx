@@ -1,3 +1,10 @@
+import ActivityAccept from "@/components/activityAccept/ActivityAccept";
+import { RecoilRoot } from "recoil";
+
 export default function Home() {
-  return <></>;
+  return (
+    <RecoilRoot>
+      <ActivityAccept />
+    </RecoilRoot>
+  );
 }
