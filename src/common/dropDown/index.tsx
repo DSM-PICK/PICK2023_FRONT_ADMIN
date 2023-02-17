@@ -51,6 +51,10 @@ const SelectButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 64px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${({ theme }) => theme.colors.gray800};
 `;
 
 const SelectList = styled.div`
