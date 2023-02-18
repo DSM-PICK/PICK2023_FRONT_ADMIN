@@ -6,15 +6,18 @@ import { useState } from "react";
 const DropDown = ({
   title,
   dropDownItem,
+  setResult,
 }: {
   title: string;
   dropDownItem: string[];
+  setResult: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [isClick, setIsCLick] = useState<boolean>(false);
   const [value, setValue] = useState(title);
 
   const onChange = async (item: string) => {
     setValue(item);
+    setResult(item);
     setIsCLick(false);
   };
 
@@ -22,7 +25,7 @@ const DropDown = ({
     <SelectBoxContainer>
       <SelectButton onClick={() => setIsCLick(!isClick)}>
         <span>{value}</span>
-        <Image width={8} height={4} src={DropDownIcon} alt="" />
+        <Image width={12} height={6} src={DropDownIcon} alt="" />
       </SelectButton>
       {isClick && (
         <SelectList>
