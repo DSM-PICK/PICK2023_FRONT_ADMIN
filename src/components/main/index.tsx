@@ -232,3 +232,4 @@ const TextContainer = styled.div`
   padding-bottom: 36px;
 `;
 export default MainPage;
+
