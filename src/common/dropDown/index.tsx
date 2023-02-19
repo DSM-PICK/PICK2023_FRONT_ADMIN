@@ -79,9 +79,9 @@ const SelectButton = styled.button<{ fontColor: string; borderColor: string }>`
   border: 1px solid ${(props) => props.borderColor};
   border-radius: 12px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 16px;
   align-items: center;
-  gap: 64px;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
