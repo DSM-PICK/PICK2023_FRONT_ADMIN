@@ -4,12 +4,12 @@ import { LayerToggleAtom } from "@/utils/atom";
 import { useRecoilState } from "recoil";
 import ButtonComponent from "@/common/Button/ButtonComponent";
 import { css } from "@emotion/react";
+import OutingComponent from "./OutingComponent";
 
 interface headBarProps {
   title: string;
   children: JSX.Element;
 }
-
 const HeadBar = ({ title, children }: headBarProps) => {
   const Container = styled.div`
     width: 100%;
@@ -56,6 +56,58 @@ const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
   );
 };
 
+const data = [
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+];
+
 const ActivityAccept = () => {
   const today = new Date();
   const YYYY = today.getFullYear();
@@ -82,7 +134,23 @@ const ActivityAccept = () => {
             <HeadBar title="외출 신청 목록">
               <ActivityBtn>새로운 외출증 발급</ActivityBtn>
             </HeadBar>
-            ${/* grid 들어갈곳 */}
+            <OutingGrid>
+              {data.map((list) => (
+                <OutingComponent data={list} />
+              ))}
+            </OutingGrid>
+            <AcceptBtns>
+              <ButtonComponent size={[131, 48]} fill="ghost" onClick={() => {}}>
+                거절하기
+              </ButtonComponent>
+              <ButtonComponent
+                size={[131, 48]}
+                fill="purple"
+                onClick={() => {}}
+              >
+                수락하기
+              </ButtonComponent>
+            </AcceptBtns>
           </ActivityWrapper>
           <ActivityWrapper width={"35%"}>
             <HeadBar title="이동한 학생">
@@ -169,6 +237,18 @@ const Text = styled.p<{
       line-height: ${height};
       color: ${color};
     `}
+`;
+const OutingGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(auto-fill, minmax(48px, auto));
+  row-gap: 16px;
+  flex: 1;
+`;
+const AcceptBtns = styled.div`
+  display: flex;
+  gap: 12px;
+  justify-content: end;
 `;
 
 export default ActivityAccept;
