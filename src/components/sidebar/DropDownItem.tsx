@@ -1,6 +1,4 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
-import { useRouter } from "next/router";
 import VectorImg from "@/assets/navigation/vector";
 import Link from "next/link";
 
@@ -11,6 +9,8 @@ interface ItemProps {
   dropdown: boolean;
   isState: boolean;
   onClick: () => void;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
 }
 
 // link에 해당 url 넣기
@@ -27,24 +27,20 @@ const DropDownItem = ({
   dropdown,
   isState,
   onClick,
+  onMouseEnter,
+  onMouseLeave,
 }: ItemProps) => {
-  const [isFold, setIsFold] = useState<boolean>(false);
-
-  const onClickLabel = () => {
-    setIsFold(!isFold);
-  };
-
   return (
-    <label onClick={onClickLabel}>
+    <label onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <Wrapper onClick={onClick} isState={isState}>
         {Icon}
         <ItemName dropdown={dropdown} isState={isState}>
           {name}
         </ItemName>
-        <VectorImgContainer isFold={isFold}>
+        <VectorImgContainer isFold={isState}>
           <VectorImg color={isState} />
         </VectorImgContainer>
-        {isFold && (
+        {isState && (
           <ListWrapper>
             {DropDownValue.map((item) => (
               <Link style={{ textDecoration: "none" }} href={`/${link}`}>
