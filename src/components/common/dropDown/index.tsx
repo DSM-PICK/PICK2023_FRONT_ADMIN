@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ItemType } from "@/models/common";
+import { useTheme } from "@emotion/react";
 
 const DropDown = ({
   title,
@@ -13,43 +14,42 @@ const DropDown = ({
   dropDownItem: ItemType[];
   setResult: React.Dispatch<React.SetStateAction<ItemType>>;
 }) => {
-  const [isClick, setIsCLick] = useState<boolean>(false);
+  const [isClick, setIsClick] = useState<boolean>(false);
   const [value, setValue] = useState<string>(title);
-  const [fontColor, setFontColor] = useState<string>("#3F3C42");
-  const [borderColor, setBorderColor] = useState<string>("#DBD7E0");
   const [isAttendance, setIsAttendance] = useState<boolean>(false);
+  const theme = useTheme();
+  const [fontColor, setFontColor] = useState<string>(theme.colors.gray800);
+  const [borderColor, setBorderColor] = useState<string>(theme.colors.gray300);
 
-  const onChange = async (item: ItemType) => {
+  const onChange = (item: ItemType) => {
     setValue(item.option);
     setResult(item);
-    setIsCLick(false);
+    setIsClick(false);
+  };
+
+  const changeStates = (
+    fontColor: string,
+    borderColor: string,
+    isAttendance: boolean
+  ) => {
+    setFontColor(fontColor);
+    setBorderColor(borderColor);
+    setIsAttendance(isAttendance);
   };
 
   useEffect(() => {
     switch (value) {
       case "이동":
-        setFontColor("#9F62F5");
-        setBorderColor("#D3B3FF");
-        setIsAttendance(true);
+        changeStates(theme.colors.purple300, theme.colors.purple100, true);
         break;
       case "외출":
-        setFontColor("#6D1BE0");
-        setBorderColor("#B885FF");
-        setIsAttendance(true);
+        changeStates(theme.colors.purple600, theme.colors.purple200, true);
         break;
       case "무단":
-        setFontColor("#F04D51");
-        setBorderColor("#FFB3B5");
-        setIsAttendance(true);
+        changeStates(theme.colors.red400, theme.colors.red100, true);
         break;
       case "출석":
-        setFontColor("#3F3C42");
-        setBorderColor("#DBD7E0");
-        setIsAttendance(true);
-        break;
-      default:
-        setFontColor("#3F3C42");
-        setBorderColor("#DBD7E0");
+        changeStates(theme.colors.gray800, theme.colors.gray300, true);
         break;
     }
   }, [value]);
@@ -61,7 +61,7 @@ const DropDown = ({
         borderColor={borderColor}
         isAttendance={isAttendance}
         isClick={isClick}
-        onClick={() => setIsCLick(!isClick)}
+        onClick={() => setIsClick(!isClick)}
       >
         <span>{value}</span>
         <Image width={12} height={6} src={DropDownIcon} alt="" />
