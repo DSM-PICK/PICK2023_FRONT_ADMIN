@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import ButtonComponent from "@/common/Button/ButtonComponent";
 import { css } from "@emotion/react";
 import OutingComponent from "./OutingComponent";
+import MovingComponent from "./MovingComponent";
 
 interface headBarProps {
   title: string;
@@ -58,13 +59,15 @@ const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
 
 const data = [
   {
-    num: 2120,
-    name: "추혜연",
+    key: 1,
+    num: 2302,
+    name: "강용수",
     time: "16:30~17:30",
     reason:
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 2,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
@@ -72,6 +75,7 @@ const data = [
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 3,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
@@ -79,6 +83,7 @@ const data = [
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 4,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
@@ -86,6 +91,7 @@ const data = [
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 5,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
@@ -93,6 +99,7 @@ const data = [
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 6,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
@@ -100,11 +107,57 @@ const data = [
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
   {
+    key: 7,
     num: 2120,
     name: "추혜연",
     time: "16:30~17:30",
     reason:
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    key: 8,
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+  {
+    key: 9,
+    num: 2120,
+    name: "추혜연",
+    time: "16:30~17:30",
+    reason:
+      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
+  },
+];
+const even = data.filter((number) => number.key % 2 === 0);
+const odd = data.filter((number) => number.key % 2 === 1);
+
+const movinglist = [
+  {
+    num: 2218,
+    name: "정대현",
+    from: "2 - 2",
+    to: "세미나실 2-1",
+  },
+  {
+    num: 2218,
+    name: "정대현",
+    from: "2 - 2",
+    to: "세미나실 2-1",
+  },
+  {
+    num: 2218,
+    name: "정대현",
+    from: "2 - 2",
+    to: "세미나실 2-1",
+  },
+  {
+    num: 2218,
+    name: "정대현",
+    from: "2 - 2",
+    to: "세미나실 2-1",
   },
 ];
 
@@ -134,11 +187,18 @@ const ActivityAccept = () => {
             <HeadBar title="외출 신청 목록">
               <ActivityBtn>새로운 외출증 발급</ActivityBtn>
             </HeadBar>
-            <OutingGrid>
-              {data.map((list) => (
-                <OutingComponent data={list} />
-              ))}
-            </OutingGrid>
+            <OutingBox>
+              <OutingList>
+                {odd.map((data) => (
+                  <OutingComponent data={data} />
+                ))}
+              </OutingList>
+              <OutingList>
+                {even.map((data) => (
+                  <OutingComponent data={data} />
+                ))}
+              </OutingList>
+            </OutingBox>
             <AcceptBtns>
               <ButtonComponent size={[131, 48]} fill="ghost" onClick={() => {}}>
                 거절하기
@@ -156,6 +216,11 @@ const ActivityAccept = () => {
             <HeadBar title="이동한 학생">
               <ActivityBtn>이동 제한</ActivityBtn>
             </HeadBar>
+            <MovingBox>
+              {movinglist.map((data) => (
+                <MovingComponent data={data} />
+              ))}
+            </MovingBox>
           </ActivityWrapper>
         </Container>
       </Wrapper>
@@ -177,12 +242,12 @@ const Wrapper = styled.div`
   margin: auto auto;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 `;
 const Header = styled.header`
   display: flex;
   align-items: end;
   justify-content: space-between;
-  margin-bottom: 20px;
 `;
 const Title = styled.div`
   display: flex;
@@ -210,25 +275,23 @@ const Container = styled.main`
   border-radius: 16px;
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 36px;
+  align-items: center;
+  padding: 40px;
 `;
 const ActivityWrapper = styled.div<{ width: string }>`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px;
-  height: 90%;
+  height: 100%;
   width: ${({ width }) => width};
-  padding: 2vh 3vh;
+  padding: 24px 32px;
   display: flex;
   flex-direction: column;
-  gap: 3vh;
+  gap: 32px;
 `;
+
 const Text = styled.p<{
-  color: string;
-  size: string;
-  weight: string;
-  height: string;
+  [index: string]: string;
 }>`
   ${({ color, size, weight, height }) =>
     css`
@@ -237,6 +300,18 @@ const Text = styled.p<{
       line-height: ${height};
       color: ${color};
     `}
+`;
+const OutingBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 545px;
+  overflow-y: scroll;
+`;
+const OutingList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-x: scroll;
 `;
 const OutingGrid = styled.div`
   display: grid;
@@ -249,6 +324,11 @@ const AcceptBtns = styled.div`
   display: flex;
   gap: 12px;
   justify-content: end;
+`;
+const MovingBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 export default ActivityAccept;
