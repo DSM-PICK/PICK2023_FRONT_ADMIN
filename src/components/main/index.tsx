@@ -125,7 +125,7 @@ const BtnContainer = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 149px 0 551px;
+  padding: 0 149px 0 150px;
   margin-top: 124px;
 `;
 

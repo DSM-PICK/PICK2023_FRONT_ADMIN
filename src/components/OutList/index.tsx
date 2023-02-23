@@ -230,6 +230,7 @@ const Container = styled.div`
   width: max-content;
   margin: 0 auto;
   padding-top: 10vh;
+  padding-left: 150px;
   display: flex;
   flex-direction: column;
   gap: 24px;
