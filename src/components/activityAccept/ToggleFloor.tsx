@@ -6,32 +6,14 @@ import { useRecoilState } from "recoil";
 const LayerToggle = () => {
   const [selector, setSelector] = useRecoilState<boolean>(LayerToggleAtom);
 
-  const btnData = [
-    {
-      content: "층별로 보기",
-      select: !selector,
-      onClick: () => {
-        setSelector(false);
-      },
-      style: { "border-radius": "12px 0 0 12px" },
-    },
-    {
-      content: "반별로 보기",
-      select: selector,
-      onClick: () => {
-        setSelector(true);
-      },
-      style: { "border-radius": "0 12px 12px 0" },
-    },
-  ];
-
   return (
     <ButtonBox>
-      {btnData.map((list) => (
-        <Button border={list.style} select={list.select} onClick={list.onClick}>
-          {list.content}
-        </Button>
-      ))}
+      <LeftBtn select={!selector} onClick={() => setSelector(false)}>
+        층별로 보기
+      </LeftBtn>
+      <RightBtn select={selector} onClick={() => setSelector(true)}>
+        반별로 보기
+      </RightBtn>
     </ButtonBox>
   );
 };
@@ -44,7 +26,7 @@ const ButtonBox = styled.div`
   display: flex;
   box-sizing: border-box;
 `;
-const Button = styled.button<{ select: boolean; border: {} }>`
+const Button = styled.button<{ select: boolean }>`
   width: 120px;
   height: 48px;
   font-size: 16px;
@@ -53,14 +35,19 @@ const Button = styled.button<{ select: boolean; border: {} }>`
   color: ${({ theme }) => theme.colors.gray600};
   background-color: #ffffff;
   border: 0;
-  ${({ border }) => border}
-  ${({ select, theme }) =>
+  ${({ theme, select }) =>
     select &&
     css`
       border: 1px solid ${theme.colors.purple200};
       background-color: ${theme.colors.purple50};
       color: ${theme.colors.gray800};
     `}
+`;
+const LeftBtn = styled(Button)`
+  border-radius: 12px 0 0 12px;
+`;
+const RightBtn = styled(Button)`
+  border-radius: 0 12px 12px 0;
 `;
 
 export default LayerToggle;

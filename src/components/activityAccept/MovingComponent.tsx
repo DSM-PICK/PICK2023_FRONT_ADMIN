@@ -4,24 +4,24 @@ import Image from "next/image";
 
 interface MovingProps {
   data: {
-    num: number;
-    name: string;
-    from: string;
-    to: string;
+    student_number: number;
+    student_name: string;
+    before: string;
+    after: string;
   };
 }
 
 const MovingComponent = ({ data }: MovingProps) => {
-  const { num, name, from, to } = data;
+  const { student_number, student_name, before, after } = data;
   return (
     <Container>
       <User>
-        <p>{num + " " + name}</p>
+        <p>{student_number + " " + student_name}</p>
       </User>
       <Class>
-        <ClassName>{from}</ClassName>
+        <ClassName>{before}</ClassName>
         <Image src={arrow} alt="->" />
-        <ClassName>{to}</ClassName>
+        <ClassName>{after}</ClassName>
       </Class>
     </Container>
   );

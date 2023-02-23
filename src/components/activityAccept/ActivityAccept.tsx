@@ -12,24 +12,14 @@ interface headBarProps {
   children: JSX.Element;
 }
 const HeadBar = ({ title, children }: headBarProps) => {
-  const Container = styled.div`
-    width: 100%;
-    height: 6vh;
-    border-radius: 12px;
-    background-color: ${({ theme }) => theme.colors.gray50};
-    padding: 0 2vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `;
 
   return (
-    <Container>
+    <HeaderContainer>
       <Text color="#1f1e21" size="20px" weight="500" height="28px">
         {title}
       </Text>
       {children}
-    </Container>
+    </HeaderContainer>
   );
 };
 
@@ -134,30 +124,30 @@ const data = [
 const even = data.filter((number) => number.key % 2 === 0);
 const odd = data.filter((number) => number.key % 2 === 1);
 
-const movinglist = [
+const move_list = [
   {
-    num: 2218,
-    name: "정대현",
-    from: "2 - 2",
-    to: "세미나실 2-1",
+    student_number: 2218,
+    student_name: "정대현",
+    before: "2 - 2",
+    after: "세미나실 2-1",
   },
   {
-    num: 2218,
-    name: "정대현",
-    from: "2 - 2",
-    to: "세미나실 2-1",
+    student_number: 2218,
+    student_name: "정대현",
+    before: "2 - 2",
+    after: "세미나실 2-1",
   },
   {
-    num: 2218,
-    name: "정대현",
-    from: "2 - 2",
-    to: "세미나실 2-1",
+    student_number: 2218,
+    student_name: "정대현",
+    before: "2 - 2",
+    after: "세미나실 2-1",
   },
   {
-    num: 2218,
-    name: "정대현",
-    from: "2 - 2",
-    to: "세미나실 2-1",
+    student_number: 2218,
+    student_name: "정대현",
+    before: "2 - 2",
+    after: "세미나실 2-1",
   },
 ];
 
@@ -211,7 +201,7 @@ const ActivityAccept = () => {
             <ActivityBtn>이동 제한</ActivityBtn>
           </HeadBar>
           <MovingBox>
-            {movinglist.map((data) => (
+            {move_list.map((data) => (
               <MovingComponent data={data} />
             ))}
           </MovingBox>
@@ -221,6 +211,16 @@ const ActivityAccept = () => {
   );
 };
 
+const HeaderContainer = styled.div`
+width: 100%;
+height: 6vh;
+border-radius: 12px;
+background-color: ${({ theme }) => theme.colors.gray50};
+padding: 0 2vh;
+display: flex;
+align-items: center;
+justify-content: space-between;
+`;
 const Wrapper = styled.div`
   height: 80vh;
   width: 65vw;
