@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import LayerToggle from "./ToggleFloor";
+import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
 import ButtonComponent from "@/common/Button/ButtonComponent";
 import { css } from "@emotion/react";
-import OutingComponent from "./OutingComponent";
-import MovingComponent from "./MovingComponent";
+import OutingComponent from "../components/activityAccept/OutingComponent";
+import MovingComponent from "../components/activityAccept/MovingComponent";
 
 interface headBarProps {
   title: string;
