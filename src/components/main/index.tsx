@@ -68,9 +68,6 @@ const contant = [
   },
 ];
 
-
-
-
 const Btns = () => {
   const BtnsStyles = {
     "margin-top": "58px",
@@ -94,7 +91,7 @@ const Btns = () => {
                 <br />
               </MainText>
             </TextContainer>
-            <Image src={props.Image} alt="" />
+            <Image src={props.Image} alt="Image" />
             <ButtonComponent
               customStyle={BtnsStyles}
               fill="purple"
