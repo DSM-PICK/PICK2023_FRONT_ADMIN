@@ -168,74 +168,59 @@ const ActivityAccept = () => {
   const DD = ("0" + today.getDate()).slice(-2);
 
   return (
-    <W>
-      <Sidebar />
-      <Wrapper>
-        <Header>
-          <Title>
-            <MainTitle>외출/이동 수락</MainTitle>
-            <SubTitle>
-              {YYYY}-{MM}-{DD}
-            </SubTitle>
-          </Title>
-          <Filter>
-            <LayerToggle />
-          </Filter>
-        </Header>
-        <Container>
-          <ActivityWrapper width={"55%"}>
-            <HeadBar title="외출 신청 목록">
-              <ActivityBtn>새로운 외출증 발급</ActivityBtn>
-            </HeadBar>
-            <OutingBox>
-              <OutingList>
-                {odd.map((data) => (
-                  <OutingComponent data={data} />
-                ))}
-              </OutingList>
-              <OutingList>
-                {even.map((data) => (
-                  <OutingComponent data={data} />
-                ))}
-              </OutingList>
-            </OutingBox>
-            <AcceptBtns>
-              <ButtonComponent size={[131, 48]} fill="ghost" onClick={() => {}}>
-                거절하기
-              </ButtonComponent>
-              <ButtonComponent
-                size={[131, 48]}
-                fill="purple"
-                onClick={() => {}}
-              >
-                수락하기
-              </ButtonComponent>
-            </AcceptBtns>
-          </ActivityWrapper>
-          <ActivityWrapper width={"35%"}>
-            <HeadBar title="이동한 학생">
-              <ActivityBtn>이동 제한</ActivityBtn>
-            </HeadBar>
-            <MovingBox>
-              {movinglist.map((data) => (
-                <MovingComponent data={data} />
+    <Wrapper>
+      <Header>
+        <Title>
+          <MainTitle>외출/이동 수락</MainTitle>
+          <SubTitle>
+            {YYYY}-{MM}-{DD}
+          </SubTitle>
+        </Title>
+        <Filter>
+          <LayerToggle />
+        </Filter>
+      </Header>
+      <Container>
+        <ActivityWrapper width={"55%"}>
+          <HeadBar title="외출 신청 목록">
+            <ActivityBtn>새로운 외출증 발급</ActivityBtn>
+          </HeadBar>
+          <OutingBox>
+            <OutingList>
+              {odd.map((data) => (
+                <OutingComponent data={data} />
               ))}
-            </MovingBox>
-          </ActivityWrapper>
-        </Container>
-      </Wrapper>
-    </W>
+            </OutingList>
+            <OutingList>
+              {even.map((data) => (
+                <OutingComponent data={data} />
+              ))}
+            </OutingList>
+          </OutingBox>
+          <AcceptBtns>
+            <ButtonComponent size={[131, 48]} fill="ghost" onClick={() => {}}>
+              거절하기
+            </ButtonComponent>
+            <ButtonComponent size={[131, 48]} fill="purple" onClick={() => {}}>
+              수락하기
+            </ButtonComponent>
+          </AcceptBtns>
+        </ActivityWrapper>
+        <ActivityWrapper width={"35%"}>
+          <HeadBar title="이동한 학생">
+            <ActivityBtn>이동 제한</ActivityBtn>
+          </HeadBar>
+          <MovingBox>
+            {movinglist.map((data) => (
+              <MovingComponent data={data} />
+            ))}
+          </MovingBox>
+        </ActivityWrapper>
+      </Container>
+    </Wrapper>
   );
 };
 
-const W = styled.div`
-  display: flex;
-`;
-const Sidebar = styled.div`
-  width: 21vw;
-  height: 100vh;
-  background-color: #f5f5f5;
-`;
 const Wrapper = styled.div`
   height: 80vh;
   width: 65vw;
@@ -312,13 +297,6 @@ const OutingList = styled.div`
   flex-direction: column;
   gap: 16px;
   overflow-x: scroll;
-`;
-const OutingGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(auto-fill, minmax(48px, auto));
-  row-gap: 16px;
-  flex: 1;
 `;
 const AcceptBtns = styled.div`
   display: flex;
