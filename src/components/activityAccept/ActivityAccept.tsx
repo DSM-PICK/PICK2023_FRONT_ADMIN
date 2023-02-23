@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import LayerToggle from "./ToggleFloor";
-import { LayerToggleAtom } from "@/utils/atom";
-import { useRecoilState } from "recoil";
+import { useState } from "react";
 import ButtonComponent from "@/common/Button/ButtonComponent";
 import { css } from "@emotion/react";
 import OutingComponent from "./OutingComponent";
@@ -12,7 +11,6 @@ interface headBarProps {
   children: JSX.Element;
 }
 const HeadBar = ({ title, children }: headBarProps) => {
-
   return (
     <HeaderContainer>
       <Text color="#1f1e21" size="20px" weight="500" height="28px">
@@ -157,6 +155,8 @@ const ActivityAccept = () => {
   const MM = ("0" + (today.getMonth() + 1)).slice(-2);
   const DD = ("0" + today.getDate()).slice(-2);
 
+  const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
+
   return (
     <Wrapper>
       <Header>
@@ -167,7 +167,15 @@ const ActivityAccept = () => {
           </SubTitle>
         </Title>
         <Filter>
-          <LayerToggle />
+          <LayerToggle
+            action={isLayerToggle}
+            leftClick={() => {
+              setIsLayerToggle(false);
+            }}
+            rightClick={() => {
+              setIsLayerToggle(true);
+            }}
+          />
         </Filter>
       </Header>
       <Container>
@@ -212,14 +220,14 @@ const ActivityAccept = () => {
 };
 
 const HeaderContainer = styled.div`
-width: 100%;
-height: 6vh;
-border-radius: 12px;
-background-color: ${({ theme }) => theme.colors.gray50};
-padding: 0 2vh;
-display: flex;
-align-items: center;
-justify-content: space-between;
+  width: 100%;
+  height: 6vh;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  padding: 0 2vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 const Wrapper = styled.div`
   height: 80vh;

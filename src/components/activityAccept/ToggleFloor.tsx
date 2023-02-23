@@ -1,17 +1,19 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { LayerToggleAtom } from "@/utils/atom";
-import { useRecoilState } from "recoil";
 
-const LayerToggle = () => {
-  const [selector, setSelector] = useRecoilState<boolean>(LayerToggleAtom);
+interface ToggleProps {
+  action: boolean;
+  leftClick: () => void;
+  rightClick: () => void;
+}
 
+const LayerToggle = ({ action, leftClick, rightClick }: ToggleProps) => {
   return (
     <ButtonBox>
-      <LeftBtn select={!selector} onClick={() => setSelector(false)}>
+      <LeftBtn select={!action} onClick={leftClick}>
         층별로 보기
       </LeftBtn>
-      <RightBtn select={selector} onClick={() => setSelector(true)}>
+      <RightBtn select={action} onClick={rightClick}>
         반별로 보기
       </RightBtn>
     </ButtonBox>
