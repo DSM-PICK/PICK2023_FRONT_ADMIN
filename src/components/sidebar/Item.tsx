@@ -1,22 +1,35 @@
 import styled from "@emotion/styled";
-import Image from "next/image";
 import Link from "next/link";
 import DropDownItem from "./DropDownItem";
+
 interface ItemProps {
   link: string;
   Icon: JSX.Element;
   name: string;
   dropdown: boolean;
   isState: boolean;
+  onMouseEnter: () => void;
+  onMouseLeave: () => void;
   onClick: () => void;
 }
 
-const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
+const Item = ({
+  name,
+  link,
+  Icon,
+  dropdown,
+  isState,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+}: ItemProps) => {
   return (
     <>
       {dropdown ? (
         <DropDownItem
           onClick={onClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           Icon={Icon}
           name={name}
           link={link}
@@ -25,11 +38,9 @@ const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
         />
       ) : (
         <Link style={{ textDecoration: "none" }} href={`/${link}`}>
-          <ItemWrapper onClick={onClick} isState={isState}>
+          <ItemWrapper onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
             {Icon}
-            <ItemName isState={isState} dropdown={dropdown}>
-              {name}
-            </ItemName>
+            <ItemName dropdown={dropdown}>{name}</ItemName>
           </ItemWrapper>
         </Link>
       )}
@@ -37,27 +48,33 @@ const Item = ({ name, link, Icon, dropdown, isState, onClick }: ItemProps) => {
   );
 };
 
-const ItemWrapper = styled.div<{ isState: boolean }>`
+const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
   width: 360px;
   height: 76px;
   border-radius: 12px;
-  background-color: ${({ isState, theme }) =>
-    isState && theme.colors.purple400};
+  background-color: ${({ theme }) => theme.colors.gray100};
+
+  :hover {
+    background-color: ${({ theme }) => theme.colors.purple400};
+
+    > p {
+      color: ${({ theme }) => theme.colors.white};
+    }
+  }
 
   .icon {
     margin-right: 20px;
   }
 `;
 
-const ItemName = styled.p<{ dropdown: boolean; isState: boolean }>`
+const ItemName = styled.p<{ dropdown: boolean }>`
   margin-right: ${({ dropdown }) => dropdown && "145px"};
   font-weight: 500;
   font-size: 24px;
-  color: ${({ isState, theme }) =>
-    isState ? theme.colors.white : theme.colors.black};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export default Item;

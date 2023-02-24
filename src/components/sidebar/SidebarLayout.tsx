@@ -21,7 +21,7 @@ const nameToInfo = [
   },
   {
     name: "외출자 목록",
-    link: "outing-list",
+    link: "outlist",
     Icon: out,
     dropdown: false,
   },
@@ -47,6 +47,7 @@ const nameToInfo = [
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
+  const [iconState, setIconState] = useState<boolean>();
   const router = useRouter();
 
   const onClickItem = (idx: number) => {
@@ -74,6 +75,8 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
                 isState={(idx + 1) * 6 === activeItem}
                 onClick={() => onClickItem((idx + 1) * 6)}
                 name={name}
+                onMouseEnter={() => onClickItem((idx + 1) * 6)}
+                onMouseLeave={() => onClickItem(idx - 1)}
                 Icon={<Icon color={(idx + 1) * 6 === activeItem} />}
                 link={link}
                 dropdown={dropdown}
@@ -89,7 +92,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
 
 const SidebarWrapper = styled.div`
   width: 400px;
-  height: 100vh;
+  height: 100%;
   padding: 124px 20px 260px 20px;
   display: flex;
   flex-direction: column;
