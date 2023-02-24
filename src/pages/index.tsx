@@ -1,9 +1,10 @@
-import MainPage from "@/components/main";
+import Main from "@/components/main";
+
 
 export default function Home() {
   return (
     <>
-      <MainPage />
+    <Main/>
     </>
   );
 }
