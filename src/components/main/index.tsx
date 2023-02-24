@@ -7,18 +7,18 @@ import ButtonComponent from "@/common/Button/ButtonComponent";
 interface MainProps {
   todayTeacher: string;
   layer: number;
-  teacher2: string;
-  teacher3: string;
-  teacher4: string;
+  second_floor: string;
+  third_floor: string;
+  fourth_floor: string;
   isDirector: boolean;
 }
 
 const Main = ({
   todayTeacher,
   layer,
-  teacher2,
-  teacher3,
-  teacher4,
+  second_floor,
+  third_floor,
+  fourth_floor,
   isDirector,
 }: MainProps) => {
   return (
@@ -32,32 +32,39 @@ const Main = ({
       <MainWrapper>
         <MainTitle>오늘의 자습감독</MainTitle>
         <MainContainer>
-          <MainText>2층 {teacher2}선생님</MainText>
-          <MainText>3층 {teacher3}선생님</MainText>
-          <MainText>4층 {teacher4}선생님</MainText>
+          <MainText>2층 {second_floor}선생님</MainText>
+          <MainText>3층 {third_floor}선생님</MainText>
+          <MainText>4층 {fourth_floor}선생님</MainText>
         </MainContainer>
       </MainWrapper>
     </>
   );
 };
 
+const picnic = 12;
+const application = 4;
+const classroom_movement = 3;
+
 const contant = [
   {
     Text: "현재 외출 신청 학생은",
     Image: Outing,
     Button: "외출 수락하러 가기",
+    count: picnic,
     onclick: () => {},
   },
   {
     Text: "현재 2층에서 이동한 학생은",
     Image: Attendance,
     Button: "출결상태 확인하기",
+    count: application,
     onclick: () => {},
   },
   {
     Text: "현재 외출중인 학생은",
     Image: OutingList,
     Button: "외출자 목록보기",
+    count: classroom_movement,
     onclick: () => {},
   },
 ];
@@ -73,19 +80,19 @@ const Btns = () => {
     <BtnContainer>
       {contant.map((props) => (
         <BtnWrapper>
-          <OutingBtn>
+          <MainBtns>
             <TextContainer>
               <MainText>
                 {props.Text}
                 <br />총
               </MainText>
-              <MainLayer> 10명</MainLayer>
+              <MainLayer> {props.count + "명"}</MainLayer>
               <MainText>
                 입니다.
                 <br />
               </MainText>
             </TextContainer>
-            <Image src={props.Image} alt="" />
+            <Image src={props.Image} alt="Image" />
             <ButtonComponent
               customStyle={BtnsStyles}
               fill="purple"
@@ -93,7 +100,7 @@ const Btns = () => {
             >
               {props.Button}
             </ButtonComponent>
-          </OutingBtn>
+          </MainBtns>
         </BtnWrapper>
       ))}
     </BtnContainer>
@@ -107,9 +114,9 @@ const MainPage = () => {
         <Main
           todayTeacher="장연순"
           layer={2}
-          teacher2="장연순"
-          teacher3="신요셉"
-          teacher4="고진영"
+          second_floor="장연순"
+          third_floor="신요셉"
+          fourth_floor="고진영"
           isDirector={true}
         />
         <Btns />
@@ -184,7 +191,7 @@ const BtnWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const OutingBtn = styled.div`
+const MainBtns = styled.div`
   align-items: center;
   text-align: center;
   width: 360px;
@@ -192,35 +199,6 @@ const OutingBtn = styled.div`
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.gray50};
   padding: 54px 28px 36px 28px;
-`;
-const AttendanceBtn = styled.div`
-  align-items: center;
-  text-align: center;
-  width: 360px;
-  height: 446px;
-  border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 54px 28px 36px 28px;
-`;
-const OutingListBtn = styled.div`
-  align-items: center;
-  text-align: center;
-  width: 360px;
-  height: 446px;
-  border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 54px 28px 36px 28px;
-`;
-const TextBtn = styled(Button)`
-  background: #9650fa;
-  height: 52px;
-  border-radius: 12px;
-  margin-top: 58px;
-  > div {
-    color: #f9f7fa;
-    font-weight: 500;
-    font-size: 20px;
-  }
 `;
 
 const MainLayer = styled.span`
