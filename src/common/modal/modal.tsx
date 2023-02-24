@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -57,7 +57,6 @@ const Backdrop = styled.div`
   top: 0;
   z-index: 9999;
   background-color: rgba(33, 33, 33, 0.3);
-  
 `;
 
 export default Modal;

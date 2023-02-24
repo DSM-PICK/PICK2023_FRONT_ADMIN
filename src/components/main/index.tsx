@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { Attendance, Outing, OutingList } from "@/assets/main";
 import Image from "next/image";
-import ButtonComponent from "@/common/button/ButtonComponent";
+import { Button } from "@semicolondsm/ui";
+import ButtonComponent from "@/common/Button/ButtonComponent";
 
 interface MainProps {
   todayTeacher: string;
@@ -40,30 +41,30 @@ const Main = ({
   );
 };
 
-const picnic=12;
-const application=4;
-const classroom_movement=3;
+const picnic = 12;
+const application = 4;
+const classroom_movement = 3;
 
 const contant = [
   {
     Text: "현재 외출 신청 학생은",
     Image: Outing,
     Button: "외출 수락하러 가기",
-    count:picnic,
+    count: picnic,
     onclick: () => {},
   },
   {
     Text: "현재 2층에서 이동한 학생은",
     Image: Attendance,
     Button: "출결상태 확인하기",
-    count:application,
+    count: application,
     onclick: () => {},
   },
   {
     Text: "현재 외출중인 학생은",
     Image: OutingList,
     Button: "외출자 목록보기",
-    count:classroom_movement,
+    count: classroom_movement,
     onclick: () => {},
   },
 ];
@@ -103,7 +104,6 @@ const Btns = () => {
         </BtnWrapper>
       ))}
     </BtnContainer>
-  
   );
 };
 
@@ -119,7 +119,7 @@ const MainPage = () => {
           fourth_floor="고진영"
           isDirector={true}
         />
-        <Btns/>
+        <Btns />
       </Wrapper>
     </>
   );
@@ -200,7 +200,6 @@ const MainBtns = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
   padding: 54px 28px 36px 28px;
 `;
-
 
 const MainLayer = styled.span`
   font-weight: 400;

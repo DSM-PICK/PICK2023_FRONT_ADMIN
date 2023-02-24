@@ -39,4 +39,4 @@ const contant: ContantType = {
   },
 };
 
-export default contant
+export default contant;
