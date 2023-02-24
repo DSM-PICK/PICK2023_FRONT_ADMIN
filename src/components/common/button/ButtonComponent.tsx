@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { styleState } from "./constants/index";
+import { buttonStyleMap } from "../../../constants/buttonStyleMap";
 
 interface BtnProps {
   children: string;
@@ -34,7 +34,7 @@ const ButtonComponent = ({
     borderState,
     hoverState,
     disabledState,
-  }: BtnStyleVariable = styleState;
+  }: BtnStyleVariable = buttonStyleMap;
   let btnStyle: BtnStyle = {
     color: colorState.default,
     backColor: backColorState.default,

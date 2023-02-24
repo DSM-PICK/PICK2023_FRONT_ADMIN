@@ -61,8 +61,8 @@ const Wrapper = styled.div<{ isState: boolean }>`
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 360px;
-  height: 76px;
+  width: 100%;
+  height: 60px;
   border-radius: 12px;
   background-color: ${({ isState, theme }) =>
     isState && theme.colors.purple400};
@@ -80,12 +80,13 @@ const Wrapper = styled.div<{ isState: boolean }>`
 const ItemName = styled.p<{ dropdown: boolean; isState: boolean }>`
   margin-right: ${({ dropdown }) => dropdown && "145px"};
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   color: ${({ isState, theme }) =>
     isState ? theme.colors.white : theme.colors.black};
 `;
 
 const VectorImgContainer = styled.div<{ isFold: boolean }>`
+  width: 10px;
   transition: all ease 200ms;
   transform: rotate(${(props) => (props.isFold ? "180" : "0")}deg);
 `;
@@ -104,11 +105,11 @@ const ListOptionBox = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  height: 56px;
-  padding: 16px 229px 16px 75px;
+  height: 30px;
+  padding: 16px 16px;
 
   > p {
-    font-size: 20px;
+    font-size: 18px;
     color: ${({ theme }) => theme.colors.white};
   }
 

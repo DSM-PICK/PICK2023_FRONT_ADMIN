@@ -6,9 +6,9 @@ interface Props {
 
 const ListImg = ({ color }: Props) => {
   return (
-    <Wrapper
-      width="27"
-      height="32"
+    <svg
+      width="24"
+      height="24"
       viewBox="0 0 27 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -20,13 +20,8 @@ const ListImg = ({ color }: Props) => {
         stroke-linecap="round"
         stroke-linejoin="round"
       />
-    </Wrapper>
+    </svg>
   );
 };
-
-const Wrapper = styled.svg`
-  margin-left: 23px;
-  margin-right: 23px;
-`;
 
 export default ListImg;

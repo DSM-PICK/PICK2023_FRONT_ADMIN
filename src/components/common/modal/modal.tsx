@@ -15,9 +15,7 @@ function Modal({
       <Backdrop
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
-          if (onClickToggleModal) {
-            onClickToggleModal();
-          }
+          onClickToggleModal?.();
         }}
       />
     </ModalContainer>

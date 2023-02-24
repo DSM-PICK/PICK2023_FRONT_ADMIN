@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
-import ButtonComponent from "@/common/Button/ButtonComponent";
+import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";

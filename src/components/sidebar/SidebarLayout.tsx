@@ -91,9 +91,11 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
 };
 
 const SidebarWrapper = styled.div`
-  width: 400px;
-  height: 100%;
-  padding: 124px 20px 260px 20px;
+  width: 300px;
+  height: 100vh;
+  padding: 100px 20px 260px 20px;
+  overflow-y: scroll;
+  position: fixed;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.gray100};
@@ -105,15 +107,14 @@ const TitleContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 100px;
-
   > img {
+    width: 150px;
     cursor: pointer;
   }
-
   > h1 {
     margin-top: 24px;
     font-weight: 700;
-    font-size: 40px;
+    font-size: 20px;
     text-align: center;
     color: ${({ theme }) => theme.colors.black};
   }
