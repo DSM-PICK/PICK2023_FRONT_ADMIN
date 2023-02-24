@@ -37,9 +37,9 @@ const ModalContainer = styled.div`
 `;
 
 const ModalBox = styled.dialog`
-padding: 60px 44px 28px 45px;
- width: 680px;
-height: 380px;
+  padding: 60px 44px 28px 45px;
+  width: 680px;
+  height: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,4 +60,4 @@ const Backdrop = styled.div`
   
 `;
 
-export default Modal
+export default Modal;

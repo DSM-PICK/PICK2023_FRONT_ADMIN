@@ -2,11 +2,11 @@ import { useState, useCallback, Children } from "react";
 import styled from "@emotion/styled";
 import Modal from "./modal";
 import ButtonComponent from "../Button/ButtonComponent";
+import contant from "./contant";
 
 interface Props {
   gcn: number;
   studentName: string;
-
 }
 
 const Props = {
@@ -49,6 +49,7 @@ const content :ContentType= {
   },
 };
 
+
 const ModalPage = () => {
   const BtnsStyles = {
     "font-weight": "400",
@@ -67,6 +68,7 @@ const ModalPage = () => {
         <Modal onClickToggleModal={onClickToggleModal}>
           <TitleWrapper>
             <MainText>
+
              {content.restriction? `오늘 ${"2"}층의 모든 이동을`: Props.gcn+Props.studentName +"학생의"}
             </MainText>
             <MainText>{content.restriction.Text}</MainText>
@@ -77,6 +79,14 @@ const ModalPage = () => {
           <LayerText>
             {content.restriction.Layer2}
           </LayerText>
+              {contant.restriction
+                ? `오늘 ${"2"}층의 모든 이동을`
+                : Props.gcn + Props.studentName + "학생의"}
+            </MainText>
+            <MainText>{contant.restriction.Text}</MainText>
+          </TitleWrapper>
+          <LayerText>{contant.restriction.Layer1}</LayerText>
+          <LayerText>{contant.restriction.Layer2}</LayerText>
           <BtnContainer>
             <ButtonComponent
               customStyle={BtnsStyles}
@@ -93,6 +103,11 @@ const ModalPage = () => {
               disabled={false}
             >
             {content.restriction.Button}
+              fill={contant.restriction.Fill}
+              size={["288px", "60px"]}
+              disabled={false}
+            >
+              {contant.restriction.Button}
             </ButtonComponent>
           </BtnContainer>
         </Modal>
