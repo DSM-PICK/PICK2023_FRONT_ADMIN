@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
-import ButtonComponent from "@/common/Button/ButtonComponent";
+import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
@@ -238,6 +238,7 @@ const Wrapper = styled.div`
   gap: 20px;
 `;
 const Header = styled.header`
+  padding-top: 20px;
   display: flex;
   align-items: end;
   justify-content: space-between;
@@ -248,15 +249,14 @@ const Title = styled.div`
   gap: 24px;
 `;
 const MainTitle = styled.p`
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 700;
-  line-height: 60px;
+  line-height: 40px;
   color: ${({ theme }) => theme.colors.gray900};
 `;
 const SubTitle = styled.p`
   font-size: 24px;
   font-weight: 500;
-  line-height: 36px;
   color: ${({ theme }) => theme.colors.gray600};
 `;
 const Filter = styled.div`

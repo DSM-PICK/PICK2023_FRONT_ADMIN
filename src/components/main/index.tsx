@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Attendance, Outing, OutingList } from "@/assets/main";
 import Image from "next/image";
 import { Button } from "@semicolondsm/ui";
-import ButtonComponent from "@/common/Button/ButtonComponent";
+import ButtonComponent from "@/components/common/button/ButtonComponent";
 
 interface MainProps {
   todayTeacher: string;

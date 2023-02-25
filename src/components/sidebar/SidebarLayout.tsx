@@ -60,7 +60,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <>
+    <LayoutWrapper>
       <SidebarWrapper>
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
@@ -85,15 +85,27 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
           })}
         </ItemContainer>
       </SidebarWrapper>
+      <Spacer />
       {children}
-    </>
+    </LayoutWrapper>
   );
 };
 
+const LayoutWrapper = styled.div`
+  display: flex;
+  height: 100vh;
+`;
+
+const Spacer = styled.div`
+  width: 300px;
+`;
+
 const SidebarWrapper = styled.div`
-  width: 400px;
-  height: 100%;
-  padding: 124px 20px 260px 20px;
+  width: 300px;
+  height: 100vh;
+  padding: 100px 20px 20px;
+  overflow-y: scroll;
+  position: fixed;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.gray100};
@@ -104,16 +116,15 @@ const TitleContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 100px;
-
+  margin-bottom: 40px;
   > img {
+    width: 150px;
     cursor: pointer;
   }
-
   > h1 {
     margin-top: 24px;
     font-weight: 700;
-    font-size: 40px;
+    font-size: 20px;
     text-align: center;
     color: ${({ theme }) => theme.colors.black};
   }

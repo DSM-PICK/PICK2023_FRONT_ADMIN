@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Link from "next/link";
 import DropDownItem from "./DropDownItem";
-
+import Image from "next/image";
 interface ItemProps {
   link: string;
   Icon: JSX.Element;
@@ -52,8 +52,10 @@ const ItemWrapper = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: 360px;
-  height: 76px;
+  width: 100%;
+  height: 60px;
+  padding: 16px 24px;
+  gap: 16px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray100};
 
@@ -64,16 +66,16 @@ const ItemWrapper = styled.div`
       color: ${({ theme }) => theme.colors.white};
     }
   }
+`;
 
-  .icon {
-    margin-right: 20px;
-  }
+const IconWrapper = styled(Image)`
+  width: 18px;
 `;
 
 const ItemName = styled.p<{ dropdown: boolean }>`
   margin-right: ${({ dropdown }) => dropdown && "145px"};
   font-weight: 500;
-  font-size: 24px;
+  font-size: 16px;
   color: ${({ theme }) => theme.colors.black};
 `;
 

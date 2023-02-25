@@ -21,29 +21,31 @@ const LayerToggle = ({ action, leftClick, rightClick }: ToggleProps) => {
 };
 
 const ButtonBox = styled.div`
-  width: 240px;
-  height: 48px;
-  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  width: 212px;
+  height: 38px;
   border-radius: 12px;
   display: flex;
+
   box-sizing: border-box;
 `;
 const Button = styled.button<{ select: boolean }>`
   width: 120px;
-  height: 48px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 24px;
   color: ${({ theme }) => theme.colors.gray600};
   background-color: #ffffff;
   border: 0;
   ${({ theme, select }) =>
-    select &&
-    css`
-      border: 1px solid ${theme.colors.purple200};
-      background-color: ${theme.colors.purple50};
-      color: ${theme.colors.gray800};
-    `}
+    select
+      ? css`
+          border: 1px solid ${theme.colors.purple200};
+          background-color: ${theme.colors.purple50};
+          color: ${theme.colors.gray800};
+        `
+      : css`
+          border: 1px solid ${theme.colors.gray300};
+        `}
 `;
 const LeftBtn = styled(Button)`
   border-radius: 12px 0 0 12px;

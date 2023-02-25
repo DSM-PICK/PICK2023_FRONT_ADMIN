@@ -1,4 +1,4 @@
-import Outing from "./outing";
+import Outing from "./Outing";
 import styled from "@emotion/styled";
 
 const OutList = () => {

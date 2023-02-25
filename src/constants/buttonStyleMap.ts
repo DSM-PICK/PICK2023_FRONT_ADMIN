@@ -1,4 +1,4 @@
-export const styleState = {
+export const buttonStyleMap = {
   colorState: {
     default: "#5C5961",
     purple: "#F9F7FA",
@@ -24,7 +24,7 @@ export const styleState = {
     ghost: "#F9F7FA",
   },
   disabledState: {
-    defautl: ``,
+    default: ``,
     purple: `
       background-color: #f0e6ff;
       pointer-events: none;
