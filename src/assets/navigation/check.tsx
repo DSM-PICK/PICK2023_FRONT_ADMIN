@@ -7,7 +7,7 @@ interface Props {
 const CheckImg = ({ color }: Props) => {
   return (
     <svg
-      width="24"
+      width="20"
       height="24"
       viewBox="0 0 28 28"
       fill="none"

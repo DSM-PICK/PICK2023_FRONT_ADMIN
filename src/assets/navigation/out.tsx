@@ -7,7 +7,7 @@ interface Props {
 const OutImg = ({ color }: Props) => {
   return (
     <svg
-      width="24"
+      width="28"
       height="24"
       viewBox="0 0 40 28"
       fill="none"

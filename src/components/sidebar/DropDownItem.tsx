@@ -63,7 +63,9 @@ const Wrapper = styled.div<{ isState: boolean }>`
   cursor: pointer;
   width: 100%;
   height: 60px;
-  border-radius: 12px;
+  padding: 16px 24px;
+  border-radius: ${({ isState }) => (isState ? "12px 12px 0 0" : "12px")};
+  gap: 16px;
   background-color: ${({ isState, theme }) =>
     isState && theme.colors.purple400};
 
@@ -78,14 +80,16 @@ const Wrapper = styled.div<{ isState: boolean }>`
 `;
 
 const ItemName = styled.p<{ dropdown: boolean; isState: boolean }>`
-  margin-right: ${({ dropdown }) => dropdown && "145px"};
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   color: ${({ isState, theme }) =>
     isState ? theme.colors.white : theme.colors.black};
 `;
 
 const VectorImgContainer = styled.div<{ isFold: boolean }>`
+  position: absolute;
+  right: 24px;
+
   width: 10px;
   transition: all ease 200ms;
   transform: rotate(${(props) => (props.isFold ? "180" : "0")}deg);
@@ -93,12 +97,16 @@ const VectorImgContainer = styled.div<{ isFold: boolean }>`
 
 const ListWrapper = styled.div`
   position: absolute;
-  top: 56px;
-  left: 0;
+  top: 60px;
+  right: 0;
   z-index: 99;
-  width: 360px;
-  border-radius: 12px;
+  width: 100%;
+  border-radius: 0 0 12px 12px;
   background-color: ${({ theme }) => theme.colors.purple400};
+  padding: 0 60px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const ListOptionBox = styled.div`
@@ -106,10 +114,8 @@ const ListOptionBox = styled.div`
   align-items: center;
   width: 100%;
   height: 30px;
-  padding: 16px 16px;
-
   > p {
-    font-size: 18px;
+    font-size: 15px;
     color: ${({ theme }) => theme.colors.white};
   }
 

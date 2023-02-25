@@ -54,7 +54,8 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   width: 100%;
   height: 60px;
-  padding: 24px;
+  padding: 16px 24px;
+  gap: 16px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray100};
 

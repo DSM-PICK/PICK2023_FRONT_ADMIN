@@ -26,11 +26,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <SDSThemeProvider mode="light-only">
         <Global styles={globalStyles} />
-        <style>
-          {`#__next{
-          display: flex;
-        }`}
-        </style>
         <SidebarLayout>
           <Component {...pageProps} />
         </SidebarLayout>

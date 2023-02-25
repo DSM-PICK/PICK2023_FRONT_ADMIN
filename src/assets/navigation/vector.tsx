@@ -5,7 +5,7 @@ interface Props {
 const VectorImg = ({ color }: Props) => {
   return (
     <svg
-      width="21"
+      width="16"
       height="12"
       viewBox="0 0 21 12"
       fill="none"
