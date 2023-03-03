@@ -16,12 +16,10 @@ const Member = ({ data }: MemberProps) => {
   const { num, name, isLeader } = data;
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
-  const SetLeader = () => {
-    console.log("동아리장 위임");
+  const setLeader = () => {
     onClick();
   };
-  const ChangeClub = () => {
-    console.log("동아리 변경");
+  const changeClub = () => {
     onClick();
   };
 
@@ -42,8 +40,8 @@ const Member = ({ data }: MemberProps) => {
       </MoreBtn>
       {openMenu && (
         <Menu
-          clubClick={ChangeClub}
-          leaderClick={SetLeader}
+          clubClick={changeClub}
+          leaderClick={setLeader}
           setMenu={onClick}
           isLeader={isLeader}
         />

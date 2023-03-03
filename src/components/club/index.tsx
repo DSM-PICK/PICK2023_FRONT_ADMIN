@@ -14,7 +14,7 @@ const ClubPerson = () => {
     id: "Title",
   });
 
-  const membarList = [
+  const memberList = [
     {
       num: "1115",
       name: "이정호",
@@ -53,7 +53,7 @@ const ClubPerson = () => {
         </div>
       </Header>
       <Container>
-        {membarList.map((list) => (
+        {memberList.map((list) => (
           <Member data={list} />
         ))}
       </Container>
