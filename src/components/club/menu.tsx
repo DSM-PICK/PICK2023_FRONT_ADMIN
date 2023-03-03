@@ -22,7 +22,7 @@ const Menu = ({ clubClick, leaderClick, setMenu, isLeader }: MenuProps) => {
 const Container = styled.div`
   position: absolute;
   width: 120px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.colors.white};
   right: 15px;
   top: 37px;
   border-radius: 8px;

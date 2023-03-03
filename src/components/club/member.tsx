@@ -53,7 +53,7 @@ const Member = ({ data }: MemberProps) => {
 const Container = styled.div`
   width: 100%;
   height: 45px;
-  background-color: #fff;
+  background-color: ${({theme})=>theme.colors.white};
   border-radius: 8px;
   display: flex;
   align-items: center;
