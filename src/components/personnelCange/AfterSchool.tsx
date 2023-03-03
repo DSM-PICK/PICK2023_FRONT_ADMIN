@@ -9,6 +9,7 @@ interface List {
 }
 
 const AfterSchool = () => {
+
   const StudentAdd = {
     "margin-top": "122px",
     "font-weight": "400px",
@@ -17,6 +18,13 @@ const AfterSchool = () => {
     "margin-left": "725px",
     color: "#DBD7E0",
   };
+
+  const AddBtn={
+    "font-weight": "400px",
+    "font-size": "20px",
+    "line-height": "24px",
+    color: "#DBD7E0",
+  }
 
   const List = [
     {
@@ -113,6 +121,8 @@ const AfterSchool = () => {
     },
   ];
 
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
   return (
     <>
       <Wrapper>
@@ -123,6 +133,7 @@ const AfterSchool = () => {
             fill="ghost"
             size={["147px;", "48px"]}
             customStyle={StudentAdd}
+            onClick={() => setOpenModal(true)}
           >
             인원 추가하기
           </ButtonComponent>
@@ -133,18 +144,25 @@ const AfterSchool = () => {
           ))}
         </ListContainer>
       </Wrapper>
+      {isOpenModal && (
+        <ModalPage
+          setOpenModal={setOpenModal}
+          isDanger={false}
+          btnText="추가하기"
+          callBack={() => {}}
+        >
+          <InputWrapper>
+          <Input placeholder="이름 초성을 입력해주세요."></Input>
+          <ButtonComponent  customStyle={AddBtn} size={["93px", "48px"]} fill={"ghost"}> 추가</ButtonComponent>
+          </InputWrapper>
+          
+        </ModalPage>
+      )}
     </>
   );
 };
 
 const ListBox = ({ 학번, 이름 }: List) => {
-  const Delete = {
-    "margin-top": "12px",
-    "margin-left": "268px",
-    "font-weight": "500px",
-    "font-size": "16px",
-  };
-
   const StudentDelete = {
     "margin-top": "12px",
     "font-weight": "500px",
@@ -186,6 +204,30 @@ const ListBox = ({ 학번, 이름 }: List) => {
     </>
   );
 };
+
+const InputWrapper=styled.div`
+display: flex;
+  
+`
+const Input = styled.input`
+  width: 400px;
+  height: 48px;
+  
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.gray50};
+  border-color: ${({ theme }) => theme.colors.gray300};
+  margin-bottom: 190px;
+  border: 1px solid ${({ theme }) => theme.colors.gray300};
+  padding: 12px 0 12px 32px;
+  :focus {
+    outline: 1px solid #9650fa;
+  }
+  ::placeholder {
+    color: ${({ theme }) => theme.colors.gray300};
+    font-weight: 400;
+    font-size: 20px;
+  }
+`;
 
 const Wrapper = styled.div`
   padding-left: 150px;
