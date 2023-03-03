@@ -185,11 +185,10 @@ const DropDownItems = styled.div`
   top: 0px;
   display: flex;
   flex-direction: column;
-  padding: 12px 16px;
-  gap: 12px;
+  padding: 6px 16px;
   color: ${({ theme }) => theme.colors.black};
   font-size: 16px;
-  line-height: 24px;
+  line-height: 36px;
   > p {
     cursor: pointer;
   }
