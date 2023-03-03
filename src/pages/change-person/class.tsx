@@ -61,7 +61,7 @@ const ChangeClass = () => {
           <Filter>
             <EditButton
               size={[120, 40]}
-              color={buttonColor}
+              defaultColor={buttonColor}
               hoverColor={buttonHoverColor}
               onClick={() => {
                 if (isEditing) {
