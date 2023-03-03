@@ -39,9 +39,6 @@ const ItemBox = styled.div`
   cursor: pointer;
   border-radius: 8px;
   z-index: 2;
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.purple50};
-  }
 `;
 const Background = styled.div`
   position: absolute;
