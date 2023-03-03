@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
 interface StyleProps {
   size: [number, number];
@@ -30,14 +31,18 @@ export default EditButton;
 
 const Wrapper = styled.div<StyleProps>`
   position: relative;
-  width: ${(props) => props.size[0]}px;
-  height: ${(props) => props.size[1]}px;
-  border: 1px solid ${(props) => props.defaultColor.border};
-  color: ${(props) => props.defaultColor.text};
-  :hover {
-    border: 1px solid ${(props) => props.hoverColor.border};
-    color: ${(props) => props.hoverColor.text};
-  }
+  ${(props) => {
+    return css`
+      width: ${props.size[0]}px;
+      height: ${props.size[1]}px;
+      border: 1px solid ${props.defaultColor.border};
+      color: ${props.defaultColor.text};
+      :hover {
+        border: 1px solid ${props.hoverColor.border};
+        color: ${props.hoverColor.text};
+      }
+    `;
+  }}
   border-radius: 12px;
   display: flex;
   align-items: center;
