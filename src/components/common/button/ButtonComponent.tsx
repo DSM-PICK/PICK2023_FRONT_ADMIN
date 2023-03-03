@@ -82,6 +82,7 @@ const DefaultBtn = styled.button<{
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
+  cursor: pointer;
   ${({ size }) =>
     size &&
     css`
