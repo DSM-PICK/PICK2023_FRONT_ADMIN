@@ -2,15 +2,21 @@ import styled from "@emotion/styled";
 import DropDown from "@/components/common/dropDown";
 import { useState } from "react";
 import { ItemType } from "../../models/common/index";
-import { layerDropDownItem, classDropDownItem } from "../../components/club/DropDownItem"
+import {
+  layerDropDownItem,
+  classDropDownItem,
+} from "../../components/club/DropDownItem";
 import Member from "@/components/club/member";
 
 const ClubPerson = () => {
-  const description = "정";
   const name = "세미나실 4-1";
 
-  const [result, setResult] = useState<ItemType>({
+  const [layerResult, setLayerResult] = useState<ItemType>({
     option: "layer",
+    id: "Title",
+  });
+  const [classResult, setClassResult] = useState<ItemType>({
+    option: "class",
     id: "Title",
   });
 
@@ -36,19 +42,20 @@ const ClubPerson = () => {
     <Wrapper>
       <Header>
         <div>
-          <Title>{description}</Title>
+          {/*  */}
+          <Title>{classResult.id}</Title>
           <SubTitle>{name}(장연순선생님 담당)</SubTitle>
         </div>
         <div>
           <DropDown
             title="layer"
             dropDownItem={layerDropDownItem}
-            setResult={setResult}
+            setResult={setLayerResult}
           />
           <DropDown
             title="class"
             dropDownItem={classDropDownItem}
-            setResult={setResult}
+            setResult={setClassResult}
           />
         </div>
       </Header>
