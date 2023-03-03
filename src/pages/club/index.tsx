@@ -87,11 +87,11 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  div {
+  > div {
     display: flex;
     align-items: end;
   }
-  div:nth-child(2) {
+  > div:nth-child(2) {
     gap: 10px;
   }
 `;
