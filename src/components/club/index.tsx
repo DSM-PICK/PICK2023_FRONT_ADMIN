@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import DropDown from "../common/dropDown";
 import { useState } from "react";
 import { ItemType } from "../../models/common/index";
-import { layerDropDownItem, classDropDownItem } from "./DropDwonItem";
+import { layerDropDownItem, classDropDownItem } from "./DropDownItem";
 import Member from "./member";
 
 const ClubPerson = () => {
