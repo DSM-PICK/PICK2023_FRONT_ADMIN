@@ -54,7 +54,7 @@ const ClubPerson = () => {
       </Header>
       <Container>
         {memberList.map((list) => (
-          <Member data={list} />
+          <Member {...list} />
         ))}
       </Container>
     </Wrapper>

@@ -5,15 +5,12 @@ import { MoreIcon, Leader } from "@/assets/club";
 import Menu from "./menu";
 
 interface MemberProps {
-  data: {
-    num: string;
-    name: string;
-    isLeader: boolean;
-  };
+  num: string;
+  name: string;
+  isLeader: boolean;
 }
 
-const Member = ({ data }: MemberProps) => {
-  const { num, name, isLeader } = data;
+const Member = ({ num, name, isLeader }: MemberProps) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   const setLeader = () => {
@@ -53,7 +50,7 @@ const Member = ({ data }: MemberProps) => {
 const Container = styled.div`
   width: 100%;
   height: 45px;
-  background-color: ${({theme})=>theme.colors.white};
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 8px;
   display: flex;
   align-items: center;
