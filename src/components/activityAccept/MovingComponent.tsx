@@ -30,14 +30,14 @@ const MovingComponent = ({ data }: MovingProps) => {
 const Container = styled.div`
   display: flex;
   gap: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
 `;
 const User = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
   width: 132px;
-  height: 48px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
@@ -46,7 +46,7 @@ const User = styled.div`
 const Class = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
   width: 234px;
-  height: 48px;
+  height: 40px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
