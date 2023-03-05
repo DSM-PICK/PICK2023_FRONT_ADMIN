@@ -20,9 +20,7 @@ interface headBarProps {
 const HeadBar = ({ title, children }: headBarProps) => {
   return (
     <HeaderContainer>
-      <Text color="#1f1e21" size="16px" weight="500" height="28px">
-        {title}
-      </Text>
+      <HeaderText>{title}</HeaderText>
       {children}
     </HeaderContainer>
   );
@@ -258,16 +256,11 @@ const ActivityWrapper = styled.div<{ width: string }>`
   gap: 24px;
 `;
 
-const Text = styled.p<{
-  [index: string]: string;
-}>`
-  ${({ color, size, weight, height }) =>
-    css`
-      font-size: ${size};
-      font-weight: ${weight};
-      line-height: ${height};
-      color: ${color};
-    `}
+const HeaderText = styled.p`
+  color: ${({ theme }) => theme.colors.gray900};
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
 `;
 const OutingBox = styled.div`
   display: flex;
