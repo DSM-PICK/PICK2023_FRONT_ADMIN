@@ -12,7 +12,7 @@ const Date = ({ date, name, floor }: Props) => {
       <DateText>{date}</DateText>
       <TeacherBox>
         <p>{name}선생님은&nbsp;</p>
-        {floor.length > 0 ? (
+        {floor?.length > 0 ? (
           <div>
             {floor.map((item, i) => (
               <p className="floor" key={i}>

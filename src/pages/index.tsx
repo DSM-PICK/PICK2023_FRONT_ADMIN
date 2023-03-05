@@ -3,20 +3,28 @@ import Card from "@/components/main/Card";
 import Date from "@/components/main/Date";
 import TodayTeacher from "@/components/main/TodayTeacher";
 import styled from "@emotion/styled";
+import { useQuery } from "react-query";
+import {
+  getTodaySelfStudyTeacher,
+  getTodaySelfStudyTeacherWhether,
+  getMainpageStudnetCount,
+} from "@/utils/api/selfStudy/index";
 
-interface Props {
-  picnic: number;
-  application: number;
-  classroom_movement: number;
-}
+const Home = () => {
+  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher());
+  const { data: state } = useQuery("state", () =>
+    getTodaySelfStudyTeacherWhether()
+  );
+  const { data: students } = useQuery("students", () =>
+    getMainpageStudnetCount()
+  );
 
-const Home = ({ picnic, application, classroom_movement }: Props) => {
   const OutingText = () => {
     return (
       <>
         <p>현재 외출 신청 학생은</p>
         <p>
-          총 <i>{picnic}명</i>입니다.
+          총 <i>{students?.data.picnic}명</i>입니다.
         </p>
       </>
     );
@@ -27,7 +35,7 @@ const Home = ({ picnic, application, classroom_movement }: Props) => {
       <>
         <p>현재 2층에서 이동한</p>
         <p>
-          학생 수는 <i>{application}명</i>입니다.
+          학생 수는 <i>{students?.data.application}명</i>입니다.
         </p>
       </>
     );
@@ -38,7 +46,7 @@ const Home = ({ picnic, application, classroom_movement }: Props) => {
       <>
         <p> 현재 외출 중인 학생은</p>
         <p>
-          총 <i>{classroom_movement}명</i>입니다.
+          총 <i>{students?.data.classroom_movement}명</i>입니다.
         </p>
       </>
     );
@@ -46,11 +54,15 @@ const Home = ({ picnic, application, classroom_movement }: Props) => {
 
   return (
     <MainPageContainer>
-      <Date date="2023-02-20" name="정대현" floor={[2, 3]} />
+      <Date
+        date={state?.data.date!}
+        name={state?.data.name!}
+        floor={state?.data.floor!}
+      />
       <TodayTeacher
-        second_floor="추혜연"
-        third_floor="신희원"
-        fourth_floor="정대현"
+        second_floor={data?.data.second_floor!}
+        third_floor={data?.data.third_floor!}
+        fourth_floor={data?.data.fourth_floor!}
       />
       <CardContainer>
         <Card
