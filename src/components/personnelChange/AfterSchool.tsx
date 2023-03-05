@@ -14,14 +14,14 @@ const AfterSchool = () => {
   const StudentAdd = css`
     margin-top: 122px;
     font-weight: 400px;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
-    margin-left: 725px;
+    margin-left: 442px;
     color: #dbd7e0;
-    :hover{
-    color: #9650FA;
-    border: 1px solid #9650FA;
-    background-color:#FFFFFF;
+    :hover {
+      color: #9650fa;
+      border: 1px solid #9650fa;
+      background-color: #ffffff;
     }
   `;
 
@@ -41,7 +41,7 @@ const AfterSchool = () => {
           <LayerText>2층 창조실</LayerText>
           <ButtonComponent
             fill="ghost"
-            size={["147px;", "48px"]}
+            size={["137px;", "30px"]}
             customStyle={StudentAdd}
             onClick={() => setOpenModal(true)}
           >
@@ -83,9 +83,8 @@ const ListBox = ({student_number,student_name}: List) => {
   const StudentDelete = css`
     margin-top: 12px;
     font-weight: 500px;
-    font-size: 16px;
+    font-size: 10px;
     line-height: 24px;
-    margin-left: 138px;
     color: #FFFFFF;
   `
 
@@ -101,7 +100,7 @@ const ListBox = ({student_number,student_name}: List) => {
           onClick={() => setOpenModal(true)}
           customStyle={StudentDelete}
           fill="purple"
-          size={["72px", "36px"]}
+          size={["70px", "30px"]}
         >
           삭제
         </ButtonComponent>
@@ -128,7 +127,6 @@ const InputWrapper = styled.div`
 const Input = styled.input`
   width: 400px;
   height: 48px;
-
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray50};
   border-color: ${({ theme }) => theme.colors.gray300};
@@ -136,7 +134,7 @@ const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   padding: 12px 0 12px 32px;
   :focus {
-    outline: 1px solid #9650fa;
+    outline: 1px solid ${({ theme }) => theme.colors.purple400};
   }
   ::placeholder {
     color: ${({ theme }) => theme.colors.gray300};
@@ -146,13 +144,13 @@ const Input = styled.input`
 `;
 
 const Wrapper = styled.div`
-  padding-left: 150px;
+ padding-left: 120px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   align-items: end;
-  gap: 24px;
+  height: 100px;
 `;
 
 const Title = styled.div`
@@ -164,34 +162,42 @@ const LayerText = styled.div`
   font-size: 24px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.gray600};
+  margin-left: 20px;
 `;
 
 const ListContainer = styled.div`
-  width: 1220px;
-  height: 780px;
+   width: 900px;
+  height: 550px;
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 44px 38px;
+  padding: 44px 24px;
   box-sizing: border-box;
   margin-top: 20px;
-  row-gap: 32px;
-  column-gap: 28px;
   display: grid;
-  grid-template-columns: repeat(3, 360px);
+  > div {
+    height: 100%;
+    overflow-y: scroll;
+    display: grid;
+    gap: 16px 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: repeat(auto-fill, 60px);
+  }
 `;
 const BoxWrapper = styled.div`
-  width: 360px;
-  height: 60px;
-  background: #ffffff;
+   width: 260px;
+  height: 50px;
+  background: ${({ theme }) => theme.colors.white};
   border-radius: 12px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
 `;
 const Student = styled.div`
   font-weight: 500;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 28px;
-  margin-left: 24px;
-  margin-top: 16px;
+  margin-left: 3px;
 `;
 
 export default AfterSchool;
