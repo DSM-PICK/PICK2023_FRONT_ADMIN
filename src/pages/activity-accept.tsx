@@ -27,12 +27,12 @@ interface ActivityBtnProps {
 }
 
 const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
-  const headerBarBtnStyle = {
-    "font-size": "14px",
-    "font-weight": "400",
-    "line-height": "20px",
-    padding: "0 2vh",
-  };
+  const headerBarBtnStyle = css`
+    font-size: 14px;;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 0 2vh;
+  `
   return (
     <ButtonComponent
       onClick={onClick}
