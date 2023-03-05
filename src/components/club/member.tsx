@@ -2,8 +2,12 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { useState } from "react";
 import { MoreIcon, Leader } from "@/assets/club";
-import Menu from "./menu";
 import Modal from "../common/modal";
+import DropDown from "../common/dropDown";
+import Menu from "./menu";
+import { ItemType } from "@/models/common";
+import { layerDropDownItem, classDropDownItem } from "./DropDownItem";
+import ClubDropDown from "./clubDropDown";
 
 interface MemberProps {
   num: string;
@@ -13,13 +17,24 @@ interface MemberProps {
 
 const Member = ({ num, name, isLeader }: MemberProps) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const [openMadal, setOpenModal] = useState<boolean>(false);
+  const [openModalLeader, setOpenModalLeader] = useState<boolean>(false);
+  const [openModalChangeClub, setOpenModalChangeClub] =
+    useState<boolean>(false);
+  const [layerResult, setLayerResult] = useState<ItemType>({
+    option: "layer",
+    id: "Title",
+  });
+  const [classResult, setClassResult] = useState<ItemType>({
+    option: "class",
+    id: "Title",
+  });
 
   const setLeader = () => {
-    setOpenModal(true);
+    setOpenModalLeader(true);
     onClick();
   };
   const changeClub = () => {
+    setOpenModalChangeClub(true);
     onClick();
   };
 
@@ -48,9 +63,9 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
           />
         )}
       </Container>
-      {openMadal && (
+      {openModalLeader && (
         <Modal
-          setOpenModal={setOpenModal}
+          setOpenModal={setOpenModalLeader}
           isDanger={false}
           btnText="변경하기"
           callBack={() => {}}
@@ -61,6 +76,22 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
             num + " " + name
           }(으)로 바꾸시겠습니까?`}
         />
+      )}
+      {openModalChangeClub && (
+        <Modal
+          mainText={`${num + " " + name}의\n 변경 이후 동아리를 선택해주세요.`}
+          isDanger={false}
+          btnText="변경하기"
+          callBack={() => {}}
+          setOpenModal={setOpenModalChangeClub}
+        >
+          <DropDownBox>
+            <ClubDropDown
+              setLayerResult={setLayerResult}
+              setClassResult={setClassResult}
+            />
+          </DropDownBox>
+        </Modal>
       )}
     </>
   );
@@ -97,6 +128,10 @@ const MoreBtn = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const DropDownBox = styled.div`
+  margin-bottom: 48px;
 `;
 
 export default Member;
