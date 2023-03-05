@@ -6,8 +6,8 @@ import { css } from "@emotion/react";
 import List from "./List";
 
 interface List {
-  학번: string;
-  이름: string;
+   student_number: string;
+  student_name: string;
 }
 
 const AfterSchool = () => {
@@ -30,8 +30,7 @@ const AfterSchool = () => {
     font-size: 20px;
     line-height: 24px;
     color: #dbd7e0;
-  `;
-
+  ` 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   return (
@@ -52,7 +51,7 @@ const AfterSchool = () => {
         <ListContainer>
           <div>
             {List.map((props) => (
-              <ListBox 학번={props.학번} 이름={props.이름} />
+              <ListBox  student_number={props. student_number} student_name={props.student_name} />
             ))}
           </div>
         </ListContainer>
@@ -80,7 +79,7 @@ const AfterSchool = () => {
   );
 };
 
-const ListBox = ({ 학번, 이름 }: List) => {
+const ListBox = ({student_number,student_name}: List) => {
   const StudentDelete = css`
     font-weight: 500px;
     font-size: 10px;
@@ -94,7 +93,7 @@ const ListBox = ({ 학번, 이름 }: List) => {
     <>
       <BoxWrapper>
         <Student>
-          {학번} {이름}
+          {student_number} {student_name}
         </Student>
         <ButtonComponent
           onClick={() => setOpenModal(true)}
@@ -110,7 +109,7 @@ const ListBox = ({ 학번, 이름 }: List) => {
           setOpenModal={setOpenModal}
           isDanger={true}
           btnText="삭제하기"
-          mainText={`${학번} ${이름} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
+          mainText={`${ student_number} ${student_name} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
           subText={
             "삭제하기 선택 이후에는 취소할 수 없습니다.\n다시 한번 확인해주세요."
           }

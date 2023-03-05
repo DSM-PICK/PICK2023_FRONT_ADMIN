@@ -1,96 +1,93 @@
 const List = [
-    {
-      학번: "2120",
-      이름: "추혜연",
-    },
-    {
-      학번: "2419",
-      이름: "하혜령",
-    },
-    {
-      학번: "2106",
-      이름: "김의찬",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: " 2218",
-      이름: "정대현",
-    },
-    {
-      학번: " 2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-    {
-      학번: "2218",
-      이름: "정대현",
-    },
-  ];
+  {
+    student_number: "2120",
+    student_name: "추혜연",
+  },
+  {
+    student_number: "2419",
+    student_name: "하혜령",
+  },
+  {
+    student_number: "2106",
+    student_name: "김의찬",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  { student_number: "2218", student_name: "정대현" },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: " 2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: " 2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+  {
+    student_number: "2218",
+    student_name: "정대현",
+  },
+];
 
-  export default List
+export default List;
