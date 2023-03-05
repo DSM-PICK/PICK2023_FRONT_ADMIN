@@ -1,4 +1,4 @@
-import Outing from "@/components/outlist/outing";
+import Outing from "@/components/outList/outing";
 import { todayDate } from "@/utils/todayDate";
 import styled from "@emotion/styled";
 
@@ -30,6 +30,7 @@ const OutListPage = () => {
               />
             );
           })} */}
+
         <div>
           <Outing
             student_id="UUID"
