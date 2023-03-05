@@ -1,5 +1,5 @@
-import Outing from "@/components/outlist/outing";
-import { todayDate } from "@/utils/todayDate";
+import Outing from "@/components/outList/outing";
+import { todayDate } from "@/utils/functions/todayDate";
 import styled from "@emotion/styled";
 
 interface Props {
@@ -30,6 +30,7 @@ const OutListPage = () => {
               />
             );
           })} */}
+
         <div>
           <Outing
             student_id="UUID"

@@ -9,10 +9,12 @@ const DropDown = ({
   title,
   dropDownItem,
   setResult,
+  className,
 }: {
   title: string;
   dropDownItem: ItemType[];
   setResult: React.Dispatch<React.SetStateAction<ItemType>>;
+  className?: string;
 }) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [value, setValue] = useState<string>(title);
@@ -55,7 +57,7 @@ const DropDown = ({
   }, [value]);
 
   return (
-    <SelectBoxContainer>
+    <SelectBoxContainer className={className}>
       <SelectButton
         fontColor={fontColor}
         borderColor={borderColor}
@@ -126,6 +128,7 @@ const SelectList = styled.div`
   padding: 12px 16px;
   color: ${({ theme }) => theme.colors.gray900};
   position: absolute;
+  z-index: 1;
   top: 56px;
 `;
 

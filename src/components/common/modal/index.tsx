@@ -38,8 +38,8 @@ const Modal = ({
   return (
     <ModalWrapper ref={modalRef} onClick={(e) => clickModalOutside(e)}>
       <ModalBox>
-        <h1>{mainText}</h1>
-        <p>{subText}</p>
+        {mainText && <h1>{mainText}</h1>}
+        {subText && <p>{subText}</p>}
         {children}
         <div>
           <ButtonComponent
