@@ -30,6 +30,13 @@ export interface AfterSchoolUserDelete {
   student_id: string;
 }
 
+export interface MoveStudentRequest {
+  grade: number;
+  classNum: number;
+  floor: number;
+  date: string;
+}
+
 export interface SelfStudyTeacherPatch {
   teacher_id: string;
   floor: number;
@@ -53,4 +60,9 @@ export interface ClubkingPatch {
 export interface ClubChange {
   club_id: string;
   student_id: string;
+}
+
+export interface AttendanceListRequest {
+  classroom_id: string;
+  date: string;
 }

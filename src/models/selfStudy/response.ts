@@ -49,11 +49,27 @@ export interface MainPageStudentNumber {
   classroom_movement: number;
 }
 
-export interface MoveStudentDto {
+interface MoveStudentDto {
   student_number: string;
   student_name: string;
   before: string;
   after: string;
+}
+
+export interface MoveSudentList {
+  move_list: MoveStudentDto[];
+}
+
+interface AttendanceStudentListDto {
+  student_id: string;
+  student_number: string;
+  student_name: string;
+  type_list: string[];
+}
+
+export interface AttendanceCheckStudentList {
+  classroom: string;
+  student_list: AttendanceStudentListDto[];
 }
 
 export interface FloorClassRoomDto {
@@ -84,8 +100,18 @@ export interface ClubMemberDto {
 }
 
 export interface ClubMemberList {
+  club_id: string;
   teacher_name: string;
   classroom_name: string;
   club_name: string;
   club_student_list: ClubMemberDto[];
+}
+
+interface SchoolTeacherDto {
+  id: string;
+  name: string;
+}
+
+export interface SchoolTeacherList {
+  teachers: SchoolTeacherDto[];
 }
