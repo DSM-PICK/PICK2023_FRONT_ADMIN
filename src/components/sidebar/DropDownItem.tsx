@@ -15,9 +15,9 @@ interface ItemProps {
 
 // link에 해당 url 넣기
 const DropDownValue = [
-  { link: "a", value: "동아리" },
-  { link: "b", value: "반" },
-  { link: "c", value: "방과후" },
+  { plusLink: "/change-person/club", value: "동아리" },
+  { plusLink: "/change-person/class", value: "반" },
+  { plusLink: "c", value: "방과후" },
 ];
 
 const DropDownItem = ({
@@ -43,8 +43,11 @@ const DropDownItem = ({
         {isState && (
           <ListWrapper>
             {DropDownValue.map((item) => (
-              <Link style={{ textDecoration: "none" }} href={`/${link}`}>
-                <ListOptionBox key={item.link}>
+              <Link
+                style={{ textDecoration: "none" }}
+                href={`${link + item.plusLink}`}
+              >
+                <ListOptionBox key={item.plusLink}>
                   <p>{item.value}</p>
                 </ListOptionBox>
               </Link>

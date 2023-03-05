@@ -15,7 +15,7 @@ const Date = ({ date, name, floor }: Props) => {
         {floor.length > 0 ? (
           <div>
             {floor.map((item, i) => (
-              <p className="floor">
+              <p className="floor" key={i}>
                 {item}
                 {i < floor.length - 1 && ","}
               </p>
