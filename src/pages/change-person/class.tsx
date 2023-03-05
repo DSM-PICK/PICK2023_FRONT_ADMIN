@@ -3,7 +3,7 @@ import StudentList from "@/components/changePersonClass/StudentList";
 import DropDown from "@/components/common/dropDown";
 import ModalPage from "@/components/common/modal";
 import { ItemType } from "@/models/common";
-import { media } from "@/utils/media";
+import { media } from "@/utils/functions/media";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";

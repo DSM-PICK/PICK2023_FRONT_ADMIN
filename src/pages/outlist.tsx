@@ -1,5 +1,5 @@
 import Outing from "@/components/outList/outing";
-import { todayDate } from "@/utils/todayDate";
+import { todayDate } from "@/utils/functions/todayDate";
 import styled from "@emotion/styled";
 
 interface Props {
