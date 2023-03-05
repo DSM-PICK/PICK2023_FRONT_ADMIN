@@ -4,6 +4,8 @@ import Image from "next/image";
 import Logo from "../../assets/Logo.svg";
 import { useRouter } from "next/router";
 import Item from "./Item";
+import { useQuery } from "react-query";
+import { getTodaySelfStudyTeacherWhether } from "@/utils/api/selfStudy/index";
 import {
   check,
   list,
@@ -49,6 +51,10 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
   const router = useRouter();
 
+  const { data: state } = useQuery("state", () =>
+    getTodaySelfStudyTeacherWhether()
+  );
+
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
   };
@@ -63,7 +69,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
       <SidebarWrapper>
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
-          <h1>OOO 선생님</h1>
+          <h1>{state?.data.name} 선생님</h1>
         </TitleContainer>
         <ItemContainer>
           {nameToInfo.map((item, idx) => {

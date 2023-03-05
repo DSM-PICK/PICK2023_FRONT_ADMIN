@@ -4,8 +4,23 @@ import { SDSThemeProvider } from "@semicolondsm/react-emotion-theme";
 import { Global } from "@emotion/react";
 import { globalStyles } from "../styles/globalStyle";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
+import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps<{ dehydratedState: DehydratedState }>) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: 0,
+        staleTime: 1000,
+        refetchInterval: 0,
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
   return (
     <>
       <Head>
@@ -24,12 +39,14 @@ export default function App({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
       </Head>
-      <SDSThemeProvider mode="light-only">
-        <Global styles={globalStyles} />
-        <SidebarLayout>
-          <Component {...pageProps} />
-        </SidebarLayout>
-      </SDSThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <SDSThemeProvider mode="light-only">
+          <Global styles={globalStyles} />
+          <SidebarLayout>
+            <Component {...pageProps} />
+          </SidebarLayout>
+        </SDSThemeProvider>
+      </QueryClientProvider>
     </>
   );
 }

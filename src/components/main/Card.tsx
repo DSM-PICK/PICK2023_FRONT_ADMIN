@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 import ButtonComponent from "../common/button/ButtonComponent";
+import { css } from "@emotion/react";
 
 interface Props {
   img: string;
@@ -11,11 +12,12 @@ interface Props {
 }
 
 const Card = ({ img, btnText, link, text }: Props) => {
-  const BtnsStyles = {
-    "font-weight": "500",
-    "font-size": "20px",
-    "line-height": "28px",
-  };
+  const BtnsStyles = css`
+    font-weight: "500";
+    font-size: "20px";
+    line-height: "28px";
+  `;
+
   return (
     <BtnContainer>
       <MainBtns>
