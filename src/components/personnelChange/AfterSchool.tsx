@@ -6,22 +6,22 @@ import { css } from "@emotion/react";
 import List from "./List";
 
 interface List {
-  학번: string;
-  이름: string;
+   student_number: string;
+  student_name: string;
 }
 
 const AfterSchool = () => {
   const StudentAdd = css`
     margin-top: 122px;
     font-weight: 400px;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
-    margin-left: 507px;
+    margin-left: 725px;
     color: #dbd7e0;
-    :hover {
-      color: #9650fa;
-      border: 1px solid #9650fa;
-      background-color: #ffffff;
+    :hover{
+    color: #9650FA;
+    border: 1px solid #9650FA;
+    background-color:#FFFFFF;
     }
   `;
 
@@ -30,8 +30,7 @@ const AfterSchool = () => {
     font-size: 20px;
     line-height: 24px;
     color: #dbd7e0;
-  `;
-
+  ` 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   return (
@@ -42,7 +41,7 @@ const AfterSchool = () => {
           <LayerText>2층 창조실</LayerText>
           <ButtonComponent
             fill="ghost"
-            size={["137px;", "30px"]}
+            size={["147px;", "48px"]}
             customStyle={StudentAdd}
             onClick={() => setOpenModal(true)}
           >
@@ -52,7 +51,7 @@ const AfterSchool = () => {
         <ListContainer>
           <div>
             {List.map((props) => (
-              <ListBox 학번={props.학번} 이름={props.이름} />
+              <ListBox  student_number={props. student_number} student_name={props.student_name} />
             ))}
           </div>
         </ListContainer>
@@ -80,13 +79,15 @@ const AfterSchool = () => {
   );
 };
 
-const ListBox = ({ 학번, 이름 }: List) => {
+const ListBox = ({student_number,student_name}: List) => {
   const StudentDelete = css`
+    margin-top: 12px;
     font-weight: 500px;
-    font-size: 10px;
+    font-size: 16px;
     line-height: 24px;
-    color: #ffffff;
-  `;
+    margin-left: 138px;
+    color: #FFFFFF;
+  `
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
@@ -94,13 +95,13 @@ const ListBox = ({ 학번, 이름 }: List) => {
     <>
       <BoxWrapper>
         <Student>
-          {학번} {이름}
+          {student_number} {student_name}
         </Student>
         <ButtonComponent
           onClick={() => setOpenModal(true)}
           customStyle={StudentDelete}
           fill="purple"
-          size={["70px", "30px"]}
+          size={["72px", "36px"]}
         >
           삭제
         </ButtonComponent>
@@ -110,7 +111,7 @@ const ListBox = ({ 학번, 이름 }: List) => {
           setOpenModal={setOpenModal}
           isDanger={true}
           btnText="삭제하기"
-          mainText={`${학번} ${이름} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
+          mainText={`${ student_number} ${student_name} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
           subText={
             "삭제하기 선택 이후에는 취소할 수 없습니다.\n다시 한번 확인해주세요."
           }
@@ -127,6 +128,7 @@ const InputWrapper = styled.div`
 const Input = styled.input`
   width: 400px;
   height: 48px;
+
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray50};
   border-color: ${({ theme }) => theme.colors.gray300};
@@ -134,7 +136,7 @@ const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   padding: 12px 0 12px 32px;
   :focus {
-    outline: 1px solid ${({ theme }) => theme.colors.purple400};
+    outline: 1px solid #9650fa;
   }
   ::placeholder {
     color: ${({ theme }) => theme.colors.gray300};
@@ -144,61 +146,52 @@ const Input = styled.input`
 `;
 
 const Wrapper = styled.div`
-  padding-left: 120px;
+  padding-left: 150px;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   align-items: end;
-  height: 100px;
+  gap: 24px;
 `;
 
 const Title = styled.div`
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 700;
 `;
 
 const LayerText = styled.div`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.gray600};
-  margin-left: 20px;
 `;
 
 const ListContainer = styled.div`
-  width: 900px;
-  height: 550px;
+  width: 1220px;
+  height: 780px;
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 44px 24px;
+  padding: 44px 38px;
   box-sizing: border-box;
   margin-top: 20px;
+  row-gap: 32px;
+  column-gap: 28px;
   display: grid;
-  > div {
-    height: 100%;
-    overflow-y: scroll;
-    display: grid;
-    gap: 16px 20px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 60px);
-  }
+  grid-template-columns: repeat(3, 360px);
 `;
 const BoxWrapper = styled.div`
-  width: 260px;
-  height: 50px;
-  background: ${({ theme }) => theme.colors.white};
+  width: 360px;
+  height: 60px;
+  background: #ffffff;
   border-radius: 12px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
 `;
-
 const Student = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 28px;
-  margin-left: 3px;
+  margin-left: 24px;
+  margin-top: 16px;
 `;
 
 export default AfterSchool;
