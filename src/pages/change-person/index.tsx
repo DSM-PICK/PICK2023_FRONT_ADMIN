@@ -1,4 +1,4 @@
-import AfterSchool from "@/components/personnelCange/AfterSchool";
+import AfterSchool from "@/components/personnelChange/AfterSchool";
 
 const changePerson = () => {
   return <AfterSchool />;
