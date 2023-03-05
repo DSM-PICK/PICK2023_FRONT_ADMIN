@@ -3,9 +3,9 @@ import Link from "next/link";
 import DropDownItem from "./DropDownItem";
 import Image from "next/image";
 interface ItemProps {
-  link: string;
   Icon: JSX.Element;
   name: string;
+  link: string;
   dropdown: boolean;
   isState: boolean;
   onMouseEnter: () => void;

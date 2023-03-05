@@ -33,13 +33,13 @@ const nameToInfo = [
   },
   {
     name: "인원 변경",
-    link: "change-person",
+    link: "",
     Icon: people,
     dropdown: true,
   },
   {
     name: "자습 감독 선생님 변경",
-    link: "change-teacher",
+    link: "ChangeTeacher",
     Icon: teacher,
     dropdown: false,
   },
@@ -47,7 +47,6 @@ const nameToInfo = [
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
-  const [iconState, setIconState] = useState<boolean>();
   const router = useRouter();
 
   const onClickItem = (idx: number) => {
