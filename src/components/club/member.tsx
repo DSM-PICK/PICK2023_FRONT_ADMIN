@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { MoreIcon, Leader } from "@/assets/club";
 import Menu from "./menu";
+import Modal from "../common/modal";
 
 interface MemberProps {
   num: string;
@@ -12,8 +13,10 @@ interface MemberProps {
 
 const Member = ({ num, name, isLeader }: MemberProps) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [openMadal, setOpenModal] = useState<boolean>(false);
 
   const setLeader = () => {
+    setOpenModal(true);
     onClick();
   };
   const changeClub = () => {
@@ -25,25 +28,41 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
   };
 
   return (
-    <Container>
-      <User>
-        <p>
-          {num} {name}
-        </p>
-        {isLeader && <LeaderImg src={Leader} alt="leader" width={18} />}
-      </User>
-      <MoreBtn onClick={onClick}>
-        <Image src={MoreIcon} alt="more" height={15} width={4} />
-      </MoreBtn>
-      {openMenu && (
-        <Menu
-          clubClick={changeClub}
-          leaderClick={setLeader}
-          setMenu={onClick}
-          isLeader={isLeader}
+    <>
+      <Container>
+        <User>
+          <p>
+            {num} {name}
+          </p>
+          {isLeader && <LeaderImg src={Leader} alt="leader" width={18} />}
+        </User>
+        <MoreBtn onClick={onClick}>
+          <Image src={MoreIcon} alt="more" height={15} width={4} />
+        </MoreBtn>
+        {openMenu && (
+          <Menu
+            clubClick={changeClub}
+            leaderClick={setLeader}
+            setMenu={onClick}
+            isLeader={isLeader}
+          />
+        )}
+      </Container>
+      {openMadal && (
+        <Modal
+          setOpenModal={setOpenModal}
+          isDanger={false}
+          btnText="변경하기"
+          callBack={() => {}}
+          subText={`변경하기를 선택하면 정의 동아리장이\n${"2106 김의찬"}에서 ${
+            num + " " + name
+          }(으)로 변경됩니다.`}
+          mainText={`${"정"}의 동아리장을\n${
+            num + " " + name
+          }(으)로 바꾸시겠습니까?`}
         />
       )}
-    </Container>
+    </>
   );
 };
 
