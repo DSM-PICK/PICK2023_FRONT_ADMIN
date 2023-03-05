@@ -5,6 +5,13 @@ import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
+import DropDown from "@/components/common/dropDown";
+import { ItemType } from "@/models/common";
+import {
+  gradeDropDownItem,
+  classDropDownItem,
+} from "@/components/activityAccept/DropDownItem";
+import { todayDate } from "@/utils/todayDate";
 
 interface headBarProps {
   title: string;
@@ -13,7 +20,7 @@ interface headBarProps {
 const HeadBar = ({ title, children }: headBarProps) => {
   return (
     <HeaderContainer>
-      <Text color="#1f1e21" size="20px" weight="500" height="28px">
+      <Text color="#1f1e21" size="16px" weight="500" height="28px">
         {title}
       </Text>
       {children}
@@ -28,15 +35,15 @@ interface ActivityBtnProps {
 
 const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
   const headerBarBtnStyle = {
-    "font-size": "14px",
-    "font-weight": "400",
+    "font-size": "12px",
+    "font-weight": "300",
     "line-height": "20px",
     padding: "0 2vh",
   };
   return (
     <ButtonComponent
       onClick={onClick}
-      size={["", "4vh"]}
+      size={["", "32px"]}
       customStyle={headerBarBtnStyle}
       fill="purple"
     >
@@ -78,46 +85,6 @@ const data = [
     reason:
       "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
   },
-  {
-    key: 5,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 6,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 7,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 8,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 9,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
 ];
 const even = data.filter((number) => number.key % 2 === 0);
 const odd = data.filter((number) => number.key % 2 === 1);
@@ -135,38 +102,32 @@ const move_list = [
     before: "2 - 2",
     after: "세미나실 2-1",
   },
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
 ];
 
 const ActivityAccept = () => {
-  const today = new Date();
-  const YYYY = today.getFullYear();
-  const MM = ("0" + (today.getMonth() + 1)).slice(-2);
-  const DD = ("0" + today.getDate()).slice(-2);
-
   const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
+  const [gradeResult, setGradeResult] = useState<ItemType>({
+    option: "grade",
+    id: "title",
+  });
+  const [classResult, setClassResult] = useState<ItemType>({
+    option: "class",
+    id: "title",
+  });
+
+  const acceptBtnStyle = {
+    "font-size": "13px",
+    "font-weight": "300",
+  };
 
   return (
     <Wrapper>
       <Header>
-        <Title>
-          <MainTitle>외출/이동 수락</MainTitle>
-          <SubTitle>
-            {YYYY}-{MM}-{DD}
-          </SubTitle>
-        </Title>
-        <Filter>
+        <div>
+          <Title>외출/이동 수락</Title>
+          <SubTitle>{todayDate()}</SubTitle>
+        </div>
+        <div>
           <LayerToggle
             action={isLayerToggle}
             leftClick={() => {
@@ -176,10 +137,20 @@ const ActivityAccept = () => {
               setIsLayerToggle(true);
             }}
           />
-        </Filter>
+          <DropDown
+            setResult={setGradeResult}
+            dropDownItem={gradeDropDownItem}
+            title="lyaer"
+          />
+          <DropDown
+            setResult={setClassResult}
+            dropDownItem={classDropDownItem}
+            title="class"
+          />
+        </div>
       </Header>
       <Container>
-        <ActivityWrapper width={"55%"}>
+        <ActivityWrapper width="480px">
           <HeadBar title="외출 신청 목록">
             <ActivityBtn>새로운 외출증 발급</ActivityBtn>
           </HeadBar>
@@ -196,15 +167,25 @@ const ActivityAccept = () => {
             </OutingList>
           </OutingBox>
           <AcceptBtns>
-            <ButtonComponent size={[131, 48]} fill="ghost" onClick={() => {}}>
+            <ButtonComponent
+              customStyle={acceptBtnStyle}
+              size={[95, 40]}
+              fill="ghost"
+              onClick={() => {}}
+            >
               거절하기
             </ButtonComponent>
-            <ButtonComponent size={[131, 48]} fill="purple" onClick={() => {}}>
+            <ButtonComponent
+              customStyle={acceptBtnStyle}
+              size={[95, 40]}
+              fill="purple"
+              onClick={() => {}}
+            >
               수락하기
             </ButtonComponent>
           </AcceptBtns>
         </ActivityWrapper>
-        <ActivityWrapper width={"35%"}>
+        <ActivityWrapper width="340px">
           <HeadBar title="이동한 학생">
             <ActivityBtn>이동 제한</ActivityBtn>
           </HeadBar>
@@ -221,66 +202,60 @@ const ActivityAccept = () => {
 
 const HeaderContainer = styled.div`
   width: 100%;
-  height: 6vh;
+  height: 50px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 0 2vh;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 const Wrapper = styled.div`
-  height: 80vh;
-  width: 65vw;
-  margin: auto auto;
+  width: 900px;
+  height: 600px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 `;
 const Header = styled.header`
-  padding-top: 20px;
+  width: 100%;
   display: flex;
-  align-items: end;
   justify-content: space-between;
+  margin-bottom: 20px;
+  > div {
+    display: flex;
+    align-items: end;
+    gap: 16px;
+  }
 `;
-const Title = styled.div`
-  display: flex;
-  align-items: end;
-  gap: 24px;
-`;
-const MainTitle = styled.p`
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 40px;
+const Title = styled.p`
+  font-size: 32px;
   color: ${({ theme }) => theme.colors.gray900};
+  font-weight: 700;
 `;
 const SubTitle = styled.p`
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
   color: ${({ theme }) => theme.colors.gray600};
 `;
-const Filter = styled.div`
-  display: flex;
-  gap: 24px;
-`;
 const Container = styled.main`
+  flex: 1;
   background-color: ${({ theme }) => theme.colors.gray50};
   border-radius: 16px;
-  flex: 1;
   display: flex;
-  gap: 36px;
+  justify-content: space-between;
   align-items: center;
-  padding: 40px;
+  padding: 28px;
 `;
 const ActivityWrapper = styled.div<{ width: string }>`
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px;
   height: 100%;
   width: ${({ width }) => width};
-  padding: 24px 32px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 24px;
 `;
 
 const Text = styled.p<{
@@ -297,13 +272,13 @@ const Text = styled.p<{
 const OutingBox = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 545px;
+  flex: 1;
   overflow-y: scroll;
 `;
 const OutingList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   overflow-x: scroll;
 `;
 const AcceptBtns = styled.div`
