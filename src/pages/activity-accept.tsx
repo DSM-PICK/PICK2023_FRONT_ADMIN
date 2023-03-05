@@ -11,7 +11,7 @@ import {
   gradeDropDownItem,
   classDropDownItem,
 } from "@/components/activityAccept/DropDownItem";
-import { todayDate } from "@/utils/todayDate";
+import { todayDate } from "@/utils/functions/todayDate";
 
 interface headBarProps {
   title: string;
@@ -32,21 +32,12 @@ interface ActivityBtnProps {
 }
 
 const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
-<<<<<<< HEAD
-  const headerBarBtnStyle = {
-    "font-size": "12px",
-    "font-weight": "300",
-    "line-height": "20px",
-    padding: "0 2vh",
-  };
-=======
   const headerBarBtnStyle = css`
-    font-size: 14px;;
+    font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     padding: 0 2vh;
-  `
->>>>>>> main
+  `;
   return (
     <ButtonComponent
       onClick={onClick}
@@ -122,10 +113,10 @@ const ActivityAccept = () => {
     id: "title",
   });
 
-  const acceptBtnStyle = {
-    "font-size": "13px",
-    "font-weight": "300",
-  };
+  const acceptBtnStyle = css`
+    font-size: 13px;
+    font-weight: 300;
+  `;
 
   return (
     <Wrapper>
