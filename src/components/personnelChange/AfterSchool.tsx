@@ -6,7 +6,7 @@ import { css } from "@emotion/react";
 import List from "./List";
 
 interface List {
-   student_number: string;
+  student_number: string;
   student_name: string;
 }
 
@@ -30,7 +30,7 @@ const AfterSchool = () => {
     font-size: 20px;
     line-height: 24px;
     color: #dbd7e0;
-  ` 
+  `;
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   return (
@@ -51,7 +51,10 @@ const AfterSchool = () => {
         <ListContainer>
           <div>
             {List.map((props) => (
-              <ListBox  student_number={props. student_number} student_name={props.student_name} />
+              <ListBox
+                student_number={props.student_number}
+                student_name={props.student_name}
+              />
             ))}
           </div>
         </ListContainer>
@@ -79,14 +82,13 @@ const AfterSchool = () => {
   );
 };
 
-const ListBox = ({student_number,student_name}: List) => {
+const ListBox = ({ student_number, student_name }: List) => {
   const StudentDelete = css`
-    margin-top: 12px;
     font-weight: 500px;
     font-size: 10px;
     line-height: 24px;
-    color: #FFFFFF;
-  `
+    color: #ffffff;
+  `;
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
@@ -110,7 +112,7 @@ const ListBox = ({student_number,student_name}: List) => {
           setOpenModal={setOpenModal}
           isDanger={true}
           btnText="삭제하기"
-          mainText={`${ student_number} ${student_name} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
+          mainText={`${student_number} ${student_name} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
           subText={
             "삭제하기 선택 이후에는 취소할 수 없습니다.\n다시 한번 확인해주세요."
           }
@@ -144,7 +146,7 @@ const Input = styled.input`
 `;
 
 const Wrapper = styled.div`
- padding-left: 120px;
+  padding-left: 120px;
 `;
 
 const TitleContainer = styled.div`
@@ -166,7 +168,7 @@ const LayerText = styled.div`
 `;
 
 const ListContainer = styled.div`
-   width: 900px;
+  width: 900px;
   height: 550px;
   border-radius: 16px;
   background-color: ${({ theme }) => theme.colors.gray50};
@@ -184,7 +186,7 @@ const ListContainer = styled.div`
   }
 `;
 const BoxWrapper = styled.div`
-   width: 260px;
+  width: 260px;
   height: 50px;
   background: ${({ theme }) => theme.colors.white};
   border-radius: 12px;
