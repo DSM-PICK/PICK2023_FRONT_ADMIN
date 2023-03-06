@@ -10,11 +10,13 @@ const DropDown = ({
   dropDownItem,
   setResult,
   isSelfStudy,
+  className,
 }: {
   title: string;
   dropDownItem: ItemType[];
   setResult: React.Dispatch<React.SetStateAction<ItemType>>;
   isSelfStudy?: boolean;
+  className?: string;
 }) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [value, setValue] = useState<string>(title);
@@ -62,7 +64,7 @@ const DropDown = ({
   }, [value]);
 
   return (
-    <SelectBoxContainer>
+    <SelectBoxContainer className={className}>
       <SelectButton
         fontColor={fontColor}
         borderColor={borderColor}
@@ -138,6 +140,7 @@ const SelectList = styled.div<{ isSelfStudy?: boolean }>`
   padding: 12px 16px;
   color: ${({ theme }) => theme.colors.gray900};
   position: absolute;
+  z-index: 1;
   top: 56px;
   z-index: 99;
 `;
