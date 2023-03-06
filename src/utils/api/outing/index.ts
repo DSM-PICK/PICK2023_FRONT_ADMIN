@@ -9,14 +9,14 @@ export const getOutingApplyList = async (
   request: GetOutingApplyListRequestType
 ) => {
   const outingRequestList = await instance.get<OutingApplyList>(
-    `/teachers/?grade=${request.grade}&classNum=${request.classNum}&floor=&type=${request.type}`
+    `/pick/teachers/?grade=${request.grade}&classNum=${request.classNum}&floor=&type=${request.type}`
   );
   return outingRequestList.data;
 };
 
 export const getOutingStudentList = async () => {
   const outingStudentList = await instance.get<OutingStudentList>(
-    `/applications`
+    `/pick/applications`
   );
   return outingStudentList;
 };
@@ -36,7 +36,7 @@ export const patchOutingRejectAccept = async (
   type: string,
   user_id_list: string[]
 ) => {
-  const outingRejectAccept = await instance.patch("/teachers/status", {
+  const outingRejectAccept = await instance.patch("/pick/teachers/status", {
     type,
     user_id_list,
   });
