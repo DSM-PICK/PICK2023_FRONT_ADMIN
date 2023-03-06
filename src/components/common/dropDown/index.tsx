@@ -9,10 +9,12 @@ const DropDown = ({
   title,
   dropDownItem,
   setResult,
+  isSelfStudy,
 }: {
   title: string;
   dropDownItem: ItemType[];
   setResult: React.Dispatch<React.SetStateAction<ItemType>>;
+  isSelfStudy?: boolean;
 }) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [value, setValue] = useState<string>(title);
@@ -20,6 +22,7 @@ const DropDown = ({
   const theme = useTheme();
   const [fontColor, setFontColor] = useState<string>(theme.colors.gray800);
   const [borderColor, setBorderColor] = useState<string>(theme.colors.gray300);
+  const [isActivate, setIsActivate] = useState<boolean>(true);
 
   const onChange = (item: ItemType) => {
     setValue(item.option);
@@ -51,6 +54,10 @@ const DropDown = ({
       case "출석":
         changeStates(theme.colors.gray800, theme.colors.gray300, true);
         break;
+      case "현체":
+        changeStates(theme.colors.gray600, theme.colors.gray300, true);
+        setIsActivate(false);
+        break;
     }
   }, [value]);
 
@@ -62,12 +69,16 @@ const DropDown = ({
         isAttendance={isAttendance}
         isClick={isClick}
         onClick={() => setIsClick(!isClick)}
+        isSelfStudy={isSelfStudy}
+        disabled={!isActivate}
       >
         <span>{value}</span>
-        <Image width={12} height={6} src={DropDownIcon} alt="" />
+        {isActivate && (
+          <Image width={12} height={6} src={DropDownIcon} alt="" />
+        )}
       </SelectButton>
       {isClick && (
-        <SelectList>
+        <SelectList isSelfStudy={isSelfStudy}>
           {dropDownItem.map((item) => (
             <span key={item.id} onClick={() => onChange(item)}>
               {item.option}
@@ -88,8 +99,9 @@ const SelectButton = styled.button<{
   borderColor: string;
   isAttendance: boolean;
   isClick: boolean;
+  isSelfStudy?: boolean;
 }>`
-  width: 147px;
+  width: ${(props) => (props.isSelfStudy ? "260px" : "147px")};
   height: 48px;
   background-color: white;
   border: 1px solid
@@ -111,8 +123,8 @@ const SelectButton = styled.button<{
       : props.fontColor};
 `;
 
-const SelectList = styled.div`
-  width: 147px;
+const SelectList = styled.div<{ isSelfStudy?: boolean }>`
+  width: ${(props) => (props.isSelfStudy ? "260px" : "147px")};
   background: white;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
@@ -127,6 +139,7 @@ const SelectList = styled.div`
   color: ${({ theme }) => theme.colors.gray900};
   position: absolute;
   top: 56px;
+  z-index: 99;
 `;
 
 export default DropDown;
