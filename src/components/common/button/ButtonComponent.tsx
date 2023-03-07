@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { buttonStyleMap } from "../../../constants/buttonStyleMap";
+import { SerializedStyles } from "@emotion/react";
 
 interface BtnProps {
   children: string;
   fill?: "default" | "purple" | "red" | "ghost";
   disabled?: boolean;
   onClick?: () => void;
-  customStyle?: {
-    [index: string]: string;
-  };
+  customStyle?: SerializedStyles;
   size?: [number, number] | [string, string];
 }
 
@@ -63,10 +62,11 @@ const ButtonComponent = ({
   return (
     <DefaultBtn
       btnStyle={btnStyle}
-      style={customStyle}
+      customStyle={customStyle}
       disabled={disabled}
       onClick={onClick}
       size={btnSize}
+      
     >
       {children}
     </DefaultBtn>
@@ -76,6 +76,7 @@ const ButtonComponent = ({
 const DefaultBtn = styled.button<{
   btnStyle: BtnStyle;
   size: string[];
+  customStyle?: SerializedStyles;
 }>`
   border-radius: 8px;
   padding: 0 21px;
@@ -102,6 +103,7 @@ const DefaultBtn = styled.button<{
         ${btnStyle.disabled}
       }
     `}
+    ${({ customStyle }) => customStyle && customStyle}
 `;
 
 export default ButtonComponent;

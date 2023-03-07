@@ -31,39 +31,39 @@ const OutingComponent = (props: OutingProps) => {
   );
 };
 const Container = styled.div<{ isReason: boolean }>`
-  width: 300px;
-  min-height: 48px;
+  width: 215px;
+  min-height: 42px;
   ${({ theme, isReason }) =>
     css`
       background-color: ${isReason
         ? theme.colors.purple50
         : theme.colors.gray50};
-      height: ${isReason ? "auto" : "48px"};
+      height: ${isReason ? "auto" : "40px"};
     `}
   border-radius: 12px;
-  padding: 12px 24px;
+  padding: 10px 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(auto-fill, minmax(24px, auto));
+  grid-template-rows: repeat(auto-fill, minmax(20px, auto));
   row-gap: 8px;
 `;
 const NameText = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   color: ${({ theme }) => theme.colors.gray900};
 `;
 const TimeText = styled.p`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   color: ${({ theme }) => theme.colors.gray600};
   text-align: end;
 `;
 const ReasonText = styled.p<{ isReason: boolean }>`
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 18px;
   color: ${({ theme }) => theme.colors.black};
   display: ${({ isReason }) => (isReason ? "block" : "none")};
   grid-column: 1 / 3;

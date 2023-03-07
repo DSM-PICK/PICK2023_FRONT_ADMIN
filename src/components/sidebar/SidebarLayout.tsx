@@ -4,6 +4,8 @@ import Image from "next/image";
 import Logo from "../../assets/Logo.svg";
 import { useRouter } from "next/router";
 import Item from "./Item";
+import { useQuery } from "react-query";
+import { getTodaySelfStudyTeacherWhether } from "@/utils/api/selfStudy/index";
 import {
   check,
   list,
@@ -33,13 +35,13 @@ const nameToInfo = [
   },
   {
     name: "인원 변경",
-    link: "change-person",
+    link: "",
     Icon: people,
     dropdown: true,
   },
   {
     name: "자습 감독 선생님 변경",
-    link: "change-teacher",
+    link: "ChangeTeacher",
     Icon: teacher,
     dropdown: false,
   },
@@ -47,24 +49,27 @@ const nameToInfo = [
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
-  const [iconState, setIconState] = useState<boolean>();
   const router = useRouter();
+
+  const { data: state } = useQuery("state", () =>
+    getTodaySelfStudyTeacherWhether()
+  );
 
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
   };
 
   const onClickLogo = () => {
-    router.push("/");
+    router.push("/main");
     setActiveItem(0);
   };
 
   return (
     <LayoutWrapper>
-      <SidebarWrapper>
+      <SidebarWrapper id="sidebar">
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
-          <h1>OOO 선생님</h1>
+          <h1>{state?.data.name} 선생님</h1>
         </TitleContainer>
         <ItemContainer>
           {nameToInfo.map((item, idx) => {
@@ -85,7 +90,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
           })}
         </ItemContainer>
       </SidebarWrapper>
-      <Spacer />
+      <Spacer id="space" />
       {children}
     </LayoutWrapper>
   );
