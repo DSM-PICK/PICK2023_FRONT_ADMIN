@@ -2,15 +2,11 @@ import styled from "@emotion/styled";
 import DropDown from "@/components/common/dropDown";
 import { useState } from "react";
 import { ItemType } from "../../models/common/index";
-import {
-  layerDropDownItem,
-  classDropDownItem,
-} from "../../components/club/DropDownItem";
 import Member from "@/components/club/member";
+import ClubDropDown from "@/components/club/clubDropDown";
 
 const ClubPerson = () => {
   const name = "세미나실 4-1";
-
   const [layerResult, setLayerResult] = useState<ItemType>({
     option: "layer",
     id: "Title",
@@ -43,19 +39,13 @@ const ClubPerson = () => {
       <Header>
         <div>
           {/*  */}
-          <Title>{classResult.id}</Title>
+          <Title>{"정"}</Title>
           <SubTitle>{name}(장연순선생님 담당)</SubTitle>
         </div>
         <div>
-          <DropDown
-            title="layer"
-            dropDownItem={layerDropDownItem}
-            setResult={setLayerResult}
-          />
-          <DropDown
-            title="class"
-            dropDownItem={classDropDownItem}
-            setResult={setClassResult}
+          <ClubDropDown
+            setLayerResult={setLayerResult}
+            setClassResult={setClassResult}
           />
         </div>
       </Header>
