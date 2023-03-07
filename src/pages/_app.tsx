@@ -9,6 +9,8 @@ import { globalStyles } from "../styles/globalStyle";
 import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
 import { store } from "@/store/store";
+import dynamic from "next/dynamic";
+import { Toaster } from "react-hot-toast";
 
 export default function App({
   Component,
@@ -24,6 +26,13 @@ export default function App({
       },
     },
   });
+
+  const Toaster = dynamic(
+    () => import("react-hot-toast").then((c) => c.Toaster),
+    {
+      ssr: false,
+    }
+  );
 
   return (
     <Provider store={store}>
@@ -45,6 +54,7 @@ export default function App({
           />
         </Head>
         <QueryClientProvider client={queryClient}>
+          <Toaster />
           <SDSThemeProvider mode="light-only">
             <Global styles={globalStyles} />
             <SidebarLayout>
