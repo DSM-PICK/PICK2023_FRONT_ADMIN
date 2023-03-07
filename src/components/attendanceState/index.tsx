@@ -16,7 +16,7 @@ import moment from "moment";
 
 const AttendanceState = () => {
   const [className, setClassName] = useState<string>("");
-  const [isSelfStudy, setIsSelfStudy] = useState<boolean>(true);
+  const [isSelfStudy, setIsSelfStudy] = useState<boolean>(false);
   const [studentAttendanceState, setStudentAttendanceState] = useState({
     period: 0,
     user_id: "UUID",
@@ -29,7 +29,7 @@ const AttendanceState = () => {
         <Title>출결상태</Title>
         <DropDowns setClassName={setClassName} />
       </Header>
-      <StudentListContainer>
+      <StudentListContainer width={isSelfStudy ? "1130px" : "1159px"}>
         <StudentListHeader isSelfStudy={isSelfStudy} className={className} />
         <StudentWrapper>
           {studentInfo.map((data, idx) => (
@@ -163,7 +163,7 @@ const StudentListHeader = ({
 
   return (
     <StudentListHeaderContainer>
-      <ClassName>{className}</ClassName>
+      <ClassName width={isSelfStudy ? "136px" : "140px"}>{className}</ClassName>
       {period.map((period, idx) => (
         <PeriodBox key={idx} width={isSelfStudy ? "260px" : "148px"}>
           {period}
@@ -264,7 +264,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   justify-content: center;
-  padding-left: 150px;
+  padding-left: 30px;
 `;
 
 const Header = styled.div`
@@ -275,7 +275,7 @@ const Header = styled.div`
 const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gray900};
   font-weight: 700;
-  font-size: 40px;
+  font-size: 35px;
   line-height: 60px;
 `;
 
@@ -317,14 +317,14 @@ const DateInput = styled.div`
   align-items: center;
 `;
 
-const StudentListContainer = styled.div`
-  width: 100%;
-  height: 780px;
+const StudentListContainer = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
+  height: 600px;
   background: ${({ theme }) => theme.colors.gray50};
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  padding: 54px 66px 68px 40px;
+  padding: 54px 66px 60px 40px;
   gap: 28px;
 `;
 
@@ -341,11 +341,11 @@ const StudentListHeaderContainer = styled.div`
   gap: 36px;
 `;
 
-const ClassName = styled.h2`
+const ClassName = styled.h2<{ width: string }>`
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;
-  width: 190px;
+  width: ${(props) => props.width};
   color: ${({ theme }) => theme.colors.gray900};
   display: flex;
   justify-content: center;
