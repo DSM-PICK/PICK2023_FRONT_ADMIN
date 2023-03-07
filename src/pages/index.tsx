@@ -6,6 +6,7 @@ import { Button } from "@semicolondsm/ui";
 import Image from "next/image";
 import { useState, useLayoutEffect } from "react";
 import { NextPage } from "next";
+import { userLogin } from "@/utils/api/login";
 
 const Home: NextPage = () => {
   useLayoutEffect(() => {
@@ -19,10 +20,17 @@ const Home: NextPage = () => {
     };
   }, []);
 
+  const { mutate: loginMutate, isLoading } = userLogin();
+
   const [loginData, setLoginData] = useState({
     account_id: "",
     password: "",
   });
+
+  const onClickLogin = () => {
+    loginMutate(loginData);
+    setLoginData({ account_id: "", password: "" });
+  };
 
   return (
     <LoginContainer>
@@ -56,7 +64,12 @@ const Home: NextPage = () => {
             }
           />
         </InputContainer>
-        <LoginButton fullWidth fill="purple">
+        <LoginButton
+          loading={isLoading}
+          fullWidth
+          fill="purple"
+          onClick={onClickLogin}
+        >
           로그인
         </LoginButton>
       </LoginWrapper>
