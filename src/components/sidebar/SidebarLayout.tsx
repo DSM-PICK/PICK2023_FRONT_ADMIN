@@ -60,13 +60,13 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const onClickLogo = () => {
-    router.push("/");
+    router.push("/main");
     setActiveItem(0);
   };
 
   return (
     <LayoutWrapper>
-      <SidebarWrapper>
+      <SidebarWrapper id="sidebar">
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
           <h1>{state?.data.name} 선생님</h1>
@@ -90,7 +90,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
           })}
         </ItemContainer>
       </SidebarWrapper>
-      <Spacer />
+      <Spacer id="space" />
       {children}
     </LayoutWrapper>
   );
