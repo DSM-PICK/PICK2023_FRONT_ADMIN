@@ -4,6 +4,8 @@ import { useState } from "react";
 import ModalPage from "../common/modal";
 import { css } from "@emotion/react";
 import List from "./List";
+import Image from "next/image";
+import { Delete } from "../../assets/AfterSchool/index";
 
 interface List {
   student_number: string;
@@ -33,6 +35,23 @@ const AfterSchool = () => {
   `;
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
+  const [input, setInput] = useState("");
+  const [studentName, setStudentName] = useState([
+    "2120 추혜연",
+    "2306 김한비",
+  ]);
+
+  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
+  const handleUpload=()=>{
+    setStudentName((prevState)=>{
+      return[input, ...prevState];
+    });
+  }
+
+  console.log(input);
   return (
     <>
       <Wrapper>
@@ -66,16 +85,29 @@ const AfterSchool = () => {
           btnText="추가하기"
           callBack={() => {}}
         >
-          <InputWrapper>
-            <Input placeholder="이름 초성을 입력해주세요."></Input>
-            <ButtonComponent
-              customStyle={AddBtn}
-              size={["93px", "48px"]}
-              fill={"ghost"}
-            >
-              추가
-            </ButtonComponent>
-          </InputWrapper>
+          <>
+            <InputWrapper>
+              <Input
+                value={input}
+                onChange={handleInputChange}
+                placeholder="이름 초성을 입력해주세요."
+              ></Input>
+              <ButtonComponent
+                customStyle={AddBtn}
+                size={["93px", "48px"]}
+                fill={"ghost"}
+                onClick={handleUpload}
+              >
+                추가
+              </ButtonComponent>
+            </InputWrapper>
+            {studentName.map((user_id_list) => {
+              <Container>
+                <AddStudent>{user_id_list}</AddStudent>
+                <Image src={Delete} alt="삭제"></Image>
+              </Container>;
+            })}
+          </>
         </ModalPage>
       )}
     </>
@@ -123,6 +155,7 @@ const ListBox = ({ student_number, student_name }: List) => {
   );
 };
 
+const DeleteBtn = styled.button``;
 const InputWrapper = styled.div`
   display: flex;
 `;
@@ -200,6 +233,19 @@ const Student = styled.div`
   font-size: 16px;
   line-height: 28px;
   margin-left: 3px;
+`;
+
+const Container = styled.div`
+  width: 127px;
+  height: 36px;
+  text-align: center;
+  border-radius: 16px;
+  border-color: ${({ theme }) => theme.colors.gray400};
+`;
+const AddStudent = styled.div`
+  font-weight: 400;
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.gray600};
 `;
 
 export default AfterSchool;
