@@ -1,13 +1,17 @@
+import { usePeriod } from "@/hooks/usePeriod";
+import { patchOutingStudentState } from "@/utils/api/outing";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import ModalPage from "../common/modal";
 
 interface Props {
   student_id: string;
-  student_number: string;
+  student_number: number;
   student_name: string;
   end_time: string;
+  refetch: () => void;
 }
 
 const Outing = ({
@@ -15,8 +19,26 @@ const Outing = ({
   student_number,
   student_name,
   end_time,
+  refetch,
 }: Props) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [period, setPeriod] = useState<number>(0);
+
+  const { mutate, isSuccess } = useMutation(
+    "confirm-return-outing",
+    () => patchOutingStudentState(student_id, period),
+    {
+      onSuccess: () => {
+        refetch();
+      },
+    }
+  );
+
+  useEffect(() => {
+    setPeriod(0);
+    const { getPeriod } = usePeriod();
+    setPeriod(getPeriod());
+  }, [isOpenModal]);
 
   return (
     <>
@@ -44,7 +66,10 @@ const Outing = ({
           subText={
             "확인하기를 선택하면 다시 상태를 변경할 수 없습니다.\n 학생이 학교로 복귀했는지 다시 한번 확인해주세요."
           }
-          callBack={() => {}}
+          callBack={() => {
+            mutate();
+            refetch();
+          }}
         />
       )}
     </>
