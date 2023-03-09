@@ -3,16 +3,58 @@ import StudentList from "@/components/changePersonClass/StudentList";
 import DropDown from "@/components/common/dropDown";
 import ModalPage from "@/components/common/modal";
 import { ItemType } from "@/models/common";
+import {
+  getClassPersonStatus,
+  patchClassPersonStatus,
+} from "@/utils/api/changePerson";
 import { media } from "@/utils/functions/media";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "react-query";
+
+interface SelectedProps {
+  grade: number;
+  class: number;
+}
+
+interface StudentType {
+  student_id: string;
+  student_number: number;
+  student_name: string;
+  status: string;
+}
+
+interface ChangeStudentType {
+  user_id: string;
+  status: string;
+}
 
 const ChangeClass = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [selectedStates, setSelectedStates] = useState<SelectedProps>({
+    grade: 3,
+    class: 2,
+  });
+  const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
+  const { data, isSuccess, refetch } = useQuery("get-student-in-class", () =>
+    getClassPersonStatus(selectedStates.grade, selectedStates.class)
+  );
+  const { mutate } = useMutation(
+    "patch-student-in-class",
+    (user_list: ChangeStudentType[]) => patchClassPersonStatus(user_list),
+    { onSuccess: () => refetch() }
+  );
+  useEffect(() => {
+    refetch();
+  }, [selectedStates]);
+
+  if (!isSuccess) return <></>;
+
+  const studentList = data.student_list;
   const theme = useTheme();
-  const teacher = "신요셉";
+  const teacher = data.teacher_name;
   const grades: ItemType[] = [
     { id: 0, option: "1학년" },
     { id: 1, option: "2학년" },
@@ -34,11 +76,49 @@ const ChangeClass = () => {
     text: theme.colors.purple500,
   };
 
+  const onChange = (changedValue: string, value: StudentType) => {
+    const student = studentList.find(
+      //해당 학생 객체
+      (x) => x.student_id == value.student_id
+    );
+    if (changedValue != student?.status) {
+      //해당 학생의 상태가 변경 전과 다른가? 그럼 저장해.
+      const newValue: ChangeStudentType[] = [
+        ...changedState.filter((x) => x.user_id != value.student_id),
+        {
+          user_id: value.student_id,
+          status: changedValue,
+        },
+      ];
+      setChangedState(newValue);
+    } //아니면 없애
+    else {
+      const newValue: ChangeStudentType[] = [
+        ...changedState.filter((x) => x.user_id != value.student_id),
+      ];
+      setChangedState(newValue);
+    }
+  };
+
+  const firstStudent = changedState.length
+    ? studentList.find((x) => x.student_id == changedState[0].user_id)
+    : null;
+
   return (
     <>
-      {openModal && (
+      {openModal && firstStudent && (
         <ModalPage
-          mainText={"" + "의\n변경된 상태를 저장하시겠습니까?"}
+          mainText={
+            firstStudent.student_number +
+            " " +
+            firstStudent.student_name +
+            `${
+              changedState.length > 1
+                ? " 외 " + (changedState.length - 1) + "명"
+                : ""
+            }` +
+            "의\n변경된 상태를 저장하시겠습니까?"
+          }
           subText={
             "학생의 상태를 자퇴로 변경했을 때에는\n학생 목록에서 삭제됩니다. 다시 한 번 확인해주세요."
           }
@@ -46,6 +126,7 @@ const ChangeClass = () => {
           isDanger={false}
           callBack={() => {
             setIsEditing(false);
+            mutate(changedState);
           }}
           setOpenModal={setOpenModal}
         />
@@ -54,7 +135,7 @@ const ChangeClass = () => {
         <Header>
           <Title>
             <MainTitle>
-              {2}학년 {2}반
+              {selectedStates.grade}학년 {selectedStates.class}반
             </MainTitle>
             <SubTitle>담임 {teacher} 선생님</SubTitle>
           </Title>
@@ -64,7 +145,7 @@ const ChangeClass = () => {
               defaultColor={buttonColor}
               hoverColor={buttonHoverColor}
               onClick={() => {
-                if (isEditing) {
+                if (isEditing && changedState.length) {
                   setOpenModal(true);
                 } else {
                   setIsEditing(!isEditing);
@@ -75,58 +156,40 @@ const ChangeClass = () => {
             <StyledDropDown
               title="학년"
               dropDownItem={grades}
-              setResult={() => {}}
+              setResult={(item) => {
+                const tempItem = item as ItemType;
+                setSelectedStates({
+                  ...selectedStates,
+                  grade: Number(tempItem.id) + 1,
+                });
+              }}
             />
             <StyledDropDown
               title="반"
               dropDownItem={classes}
-              setResult={() => {}}
+              setResult={(item) => {
+                const tempItem = item as ItemType;
+                setSelectedStates({
+                  ...selectedStates,
+                  class: Number(tempItem.id) + 1,
+                });
+              }}
             />
           </Filter>
         </Header>
         <Container>
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
-          <StudentList
-            status="귀가"
-            isEditing
-            onChange={() => {}}
-            text="1234 이경수"
-          />
+          {isSuccess &&
+            studentList.map((value) => {
+              return (
+                <StudentList
+                  studentID={value.student_id}
+                  status="ATTENDANCE"
+                  isEditing={isEditing}
+                  onChange={(changedValue) => onChange(changedValue, value)}
+                  text={`${value.student_number} ${value.student_name}`}
+                />
+              );
+            })}
         </Container>
       </Wrapper>
     </>

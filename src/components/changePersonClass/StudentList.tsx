@@ -1,17 +1,17 @@
 import StudentListArrow from "@/assets/studentList/arrow";
+import { transStatus } from "@/utils/constant/statusMap";
 import { keyframes, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import OutSideClickHandler from "../common/outSideClickHandler";
 
 interface Props {
+  studentID: string;
   text: string;
-  status: Status;
+  status: string;
   isEditing: boolean;
-  onChange: (value: Status) => void;
+  onChange: (value: string) => void;
 }
-
-type Status = "출석" | "현체" | "귀가" | "자퇴";
 
 interface CaseType {
   textColor: string;
@@ -21,15 +21,21 @@ interface CaseType {
 const StudentList = (props: Props) => {
   const {
     text,
-    status = "출석",
+    status = "ATTENDANCE",
     isEditing,
     onChange = () => {},
     ...otherProps
   } = props;
   const theme = useTheme();
-  const [userStatus, setStatus] = useState<Status>(status);
+  const [userStatus, setStatus] = useState<string>(transStatus(status));
   const [toggle, setToggle] = useState<boolean>(false);
-  const contents: Status[] = ["출석", "현체", "귀가", "자퇴"];
+  const contents: string[] = [
+    "ATTENDANCE",
+    "FIELD_TRIP",
+    "HOME",
+    "EMPLOYMENT",
+    "DROPOUT",
+  ];
   const Case = new Map<string, CaseType>([
     [
       "출석",
@@ -37,6 +43,10 @@ const StudentList = (props: Props) => {
     ],
     [
       "현체",
+      { textColor: theme.colors.white, buttonColor: theme.colors.purple400 },
+    ],
+    [
+      "취업",
       { textColor: theme.colors.white, buttonColor: theme.colors.purple400 },
     ],
     [
@@ -48,15 +58,14 @@ const StudentList = (props: Props) => {
       { textColor: theme.colors.white, buttonColor: theme.colors.red400 },
     ],
   ]);
-
   const curCase = Case.get(userStatus);
   if (typeof curCase === "undefined") return null;
 
   const backgroundColor = curCase.buttonColor;
   const textColor = curCase.textColor;
 
-  const changeState = (value: Status) => {
-    setStatus(value);
+  const changeState = (value: string) => {
+    setStatus(transStatus(value));
     onChange(value);
     setToggle(false);
   };
@@ -87,17 +96,15 @@ const StudentList = (props: Props) => {
           {toggle && (
             <DropDownItemsWrapper>
               <DropDownItems>
-                {contents
-                  .filter((value) => value !== userStatus)
-                  .map((value, index) => (
-                    <p
-                      key={index}
-                      onClick={() => changeState(value)}
-                      id={value === "자퇴" ? "dropout" : ""}
-                    >
-                      {value}
-                    </p>
-                  ))}
+                {contents.map((value, index) => (
+                  <p
+                    key={index}
+                    onClick={() => changeState(value)}
+                    id={value === "DROPOUT" ? "dropout" : ""}
+                  >
+                    {transStatus(value)}
+                  </p>
+                ))}
               </DropDownItems>
             </DropDownItemsWrapper>
           )}
