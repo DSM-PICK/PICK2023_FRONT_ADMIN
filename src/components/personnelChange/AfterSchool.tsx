@@ -32,26 +32,36 @@ const AfterSchool = () => {
     font-size: 20px;
     line-height: 24px;
     color: #dbd7e0;
+    :hover {
+      color: #9650fa;
+      border: 1px solid #9650fa;
+      background-color: #ffffff;
+    }
   `;
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
+  const [studentInfo, setStudentInfo] = useState<string[]>([]);
 
-  const [input, setInput] = useState("");
-  const [studentName, setStudentName] = useState([
-    "2120 추혜연",
-    "2306 김한비",
-  ]);
-
-  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
 
-  const handleUpload=()=>{
-    setStudentName((prevState)=>{
-      return[input, ...prevState];
-    });
-  }
+  const handleUpload = () => {
+    setStudentInfo([...studentInfo, input]);
+    console.log(studentInfo);
+    setInput("");
+  };
 
-  console.log(input);
+  const onClickStudentListDelete = (user_id: string) => {
+    const isIncludes = studentInfo.includes(user_id);
+
+    if (isIncludes) {
+      setStudentInfo(studentInfo.filter((id: string) => id !== user_id));
+    } else {
+      setStudentInfo([...studentInfo, user_id]);
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -71,6 +81,7 @@ const AfterSchool = () => {
           <div>
             {List.map((props) => (
               <ListBox
+                key={props.student_number}
                 student_number={props.student_number}
                 student_name={props.student_name}
               />
@@ -91,7 +102,7 @@ const AfterSchool = () => {
                 value={input}
                 onChange={handleInputChange}
                 placeholder="이름 초성을 입력해주세요."
-              ></Input>
+              />
               <ButtonComponent
                 customStyle={AddBtn}
                 size={["93px", "48px"]}
@@ -101,12 +112,20 @@ const AfterSchool = () => {
                 추가
               </ButtonComponent>
             </InputWrapper>
-            {studentName.map((user_id_list) => {
-              <Container>
-                <AddStudent>{user_id_list}</AddStudent>
-                <Image src={Delete} alt="삭제"></Image>
-              </Container>;
-            })}
+            <AddStudentList>
+              {studentInfo.map((user_id_list) => {
+                return (
+                  <Container key={user_id_list}>
+                    <AddStudent>{user_id_list}</AddStudent>
+                    <Image
+                      src={Delete}
+                      onClick={() => onClickStudentListDelete(user_id_list)}
+                      alt="삭제"
+                    />
+                  </Container>
+                );
+              })}
+            </AddStudentList>
           </>
         </ModalPage>
       )}
@@ -155,7 +174,6 @@ const ListBox = ({ student_number, student_name }: List) => {
   );
 };
 
-const DeleteBtn = styled.button``;
 const InputWrapper = styled.div`
   display: flex;
 `;
@@ -165,7 +183,7 @@ const Input = styled.input`
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.gray50};
   border-color: ${({ theme }) => theme.colors.gray300};
-  margin-bottom: 190px;
+  margin-bottom: 16px;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   padding: 12px 0 12px 32px;
   :focus {
@@ -235,12 +253,29 @@ const Student = styled.div`
   margin-left: 3px;
 `;
 
+const AddStudentList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 80px;
+`;
+
 const Container = styled.div`
-  width: 127px;
+  border: 1px solid ${({ theme }) => theme.colors.gray400};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px 8px 10px;
+  width: 130px;
   height: 36px;
   text-align: center;
-  border-radius: 16px;
-  border-color: ${({ theme }) => theme.colors.gray400};
+  border-radius: 8px;
+
+  > img {
+    cursor: pointer;
+  }
 `;
 const AddStudent = styled.div`
   font-weight: 400;
