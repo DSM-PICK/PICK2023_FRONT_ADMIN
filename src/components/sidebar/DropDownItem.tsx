@@ -17,7 +17,7 @@ interface ItemProps {
 const DropDownValue = [
   { plusLink: "/change-person/club", value: "동아리" },
   { plusLink: "/change-person/class", value: "반" },
-  { plusLink: "c", value: "방과후" },
+  { plusLink: "/change-person/afterSchool", value: "방과후" },
 ];
 
 const DropDownItem = ({

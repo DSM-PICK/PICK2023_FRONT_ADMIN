@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useState, useLayoutEffect } from "react";
 import { NextPage } from "next";
 import { userLogin } from "@/utils/api/login";
+import cookies from "react-cookies";
 
 const Home: NextPage = () => {
   useLayoutEffect(() => {
@@ -28,6 +29,8 @@ const Home: NextPage = () => {
   });
 
   const onClickLogin = () => {
+    cookies.remove("accessToken");
+    cookies.remove("refreshToken");
     loginMutate(loginData);
     setLoginData({ account_id: "", password: "" });
   };
