@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import instance from "@/utils/axios";
 import { setToken } from "@/utils/functions/tokenManager";
-import cookies from "react-cookies";
 import { useApiError } from "@/hooks/useApiError";
 
 interface UserLogin {
