@@ -21,7 +21,7 @@ export const userLogin = () => {
 
   return useMutation(
     async (param: UserLogin) =>
-      instance.post<UserToken>("https://stag-api.xquare.app/users/login", {
+      instance.post<UserToken>("/users/login", {
         ...param,
         device_token: "web_pick_admin",
       }),
