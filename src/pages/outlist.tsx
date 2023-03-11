@@ -1,6 +1,8 @@
-import Outing from "@/components/outList/outing";
+import Outing from "@/components/OutList/outing";
+import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
 import styled from "@emotion/styled";
+import { useQuery } from "react-query";
 
 interface Props {
   outing: {
@@ -12,6 +14,10 @@ interface Props {
 }
 
 const OutListPage = () => {
+  const { data, isSuccess,refetch } = useQuery("outing-students-list", () =>
+    getOutingStudentList()
+  );
+
   return (
     <OutListContainer>
       <TitleBox>
@@ -19,49 +25,19 @@ const OutListPage = () => {
         <p>{todayDate()}</p>
       </TitleBox>
       <ListBox>
-        {/* TODO. API 연결 후 주석 제거 */}
-        {/* {outing.map((item) => {
-            return (
-              <Outing
-                student_id={item.student_id}
-                student_name={item.student_name}
-                student_number={item.student_number}
-                end_time={item.end_time}
-              />
-            );
-          })} */}
-
         <div>
-          <Outing
-            student_id="UUID"
-            student_name="추혜연"
-            student_number="1111"
-            end_time="10:30:00"
-          />
-          <Outing
-            student_id="UUID"
-            student_name="추혜연"
-            student_number="1111"
-            end_time="10:30:00"
-          />
-          <Outing
-            student_id="UUID"
-            student_name="추혜연"
-            student_number="1111"
-            end_time="10:30:00"
-          />
-          <Outing
-            student_id="UUID"
-            student_name="추혜연"
-            student_number="1111"
-            end_time="10:30:00"
-          />
-          <Outing
-            student_id="UUID"
-            student_name="추혜연"
-            student_number="1111"
-            end_time="10:30:00"
-          />
+          {isSuccess &&
+            data.data.outing.map((item) => {
+              return (
+                <Outing
+                  student_id={item.student_id}
+                  student_name={item.student_name}
+                  student_number={item.student_number}
+                  end_time={item.end_time}
+                  refetch={refetch}
+                />
+              );
+            })}
         </div>
       </ListBox>
     </OutListContainer>
