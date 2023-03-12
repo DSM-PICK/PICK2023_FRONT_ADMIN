@@ -44,10 +44,11 @@ const DropDownItem = ({
           <ListWrapper>
             {DropDownValue.map((item) => (
               <Link
+                key={item.plusLink}
                 style={{ textDecoration: "none" }}
                 href={`${link + item.plusLink}`}
               >
-                <ListOptionBox key={item.plusLink}>
+                <ListOptionBox>
                   <p>{item.value}</p>
                 </ListOptionBox>
               </Link>

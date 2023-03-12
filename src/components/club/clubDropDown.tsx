@@ -1,7 +1,10 @@
 import { useState } from "react";
 import DropDown from "../common/dropDown";
 import { ItemType } from "@/models/common";
-import { layerDropDownItem, classDropDownItem } from "./DropDownItem";
+import {
+  layerDropDownItem,
+  classDropDownItem,
+} from "../../constants/DropDownItem";
 
 const ClubDropDown = ({
   setLayerResult,
