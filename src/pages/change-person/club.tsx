@@ -74,7 +74,6 @@ const ClubPerson = () => {
       <Container>
         {clubList?.data.student_list?.map((list) => (
           <Member
-            change_club={classResult.id as string}
             key={list.student_id}
             head_club_id={clubList.data.club_id}
             club_name={clubList.data.club_name}

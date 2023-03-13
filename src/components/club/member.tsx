@@ -18,7 +18,6 @@ import { todayDate } from "@/utils/functions/todayDate";
 import { useApiError } from "@/hooks/useApiError";
 
 interface Props {
-  change_club: string;
   head_club_id: string;
   club_name: string;
   student_id: string;
@@ -35,7 +34,6 @@ const Member = ({
   student_number,
   head_status,
   club_name,
-  change_club,
   refetch,
 }: Props) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -72,9 +70,10 @@ const Member = ({
   });
 
   const queryClient = useQueryClient();
+  let change_club_id = classResult.id as string;
   const { mutate: changeClubStudent } = useMutation(
     "changeClub",
-    () => clubChangePatch(change_club, student_id),
+    () => clubChangePatch(change_club_id, student_id),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("clubList");
