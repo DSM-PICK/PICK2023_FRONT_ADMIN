@@ -73,7 +73,7 @@ export interface AttendanceCheckStudentList {
 }
 
 export interface FloorClassRoomDto {
-  id: string;
+  classroom_id: string;
   type_id: string;
   name: string;
   description: string;

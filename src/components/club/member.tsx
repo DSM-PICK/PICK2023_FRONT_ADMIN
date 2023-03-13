@@ -7,7 +7,7 @@ import DropDown from "../common/dropDown";
 import Menu from "./menu";
 import { ItemType } from "@/models/common";
 import { layerDropDownItem } from "@/constants/DropDownItem";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   getLayerClassList,
   clubChangePatch,
@@ -18,6 +18,7 @@ import { todayDate } from "@/utils/functions/todayDate";
 import { useApiError } from "@/hooks/useApiError";
 
 interface Props {
+  change_club: string;
   head_club_id: string;
   club_name: string;
   student_id: string;
@@ -34,6 +35,7 @@ const Member = ({
   student_number,
   head_status,
   club_name,
+  change_club,
   refetch,
 }: Props) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -69,13 +71,14 @@ const Member = ({
     return { option: item.description, id: item.type_id };
   });
 
-  let change_club_id = classResult.id as string;
-
+  const queryClient = useQueryClient();
   const { mutate: changeClubStudent } = useMutation(
     "changeClub",
-    () => clubChangePatch(change_club_id, student_id),
+    () => clubChangePatch(change_club, student_id),
     {
-      onSuccess: () => refetch(),
+      onSuccess: () => {
+        queryClient.invalidateQueries("clubList");
+      },
     }
   );
 
@@ -144,9 +147,7 @@ const Member = ({
           }의\n 변경 이후 동아리를 선택해주세요.`}
           isDanger={false}
           btnText="변경하기"
-          callBack={() => {
-            changeClubStudent();
-          }}
+          callBack={changeClubStudent}
           setOpenModal={setOpenModalChangeClub}
         >
           <DropDownBox>
