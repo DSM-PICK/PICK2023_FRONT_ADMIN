@@ -1,57 +1,85 @@
 import styled from "@emotion/styled";
-import DropDown from "@/components/common/dropDown";
 import { useState } from "react";
 import { ItemType } from "../../models/common/index";
 import Member from "@/components/club/member";
-import ClubDropDown from "@/components/club/clubDropDown";
+import DropDown from "@/components/common/dropDown";
+import { useApiError } from "@/hooks/useApiError";
+import { getDateType } from "@/utils/api/common/index";
+import { getLayerClassList, getClubMemberList } from "@/utils/api/selfStudy";
+import { useQuery } from "react-query";
+import { todayDate } from "@/utils/functions/todayDate";
+import { layerDropDownItem } from "../../constants/DropDownItem";
 
 const ClubPerson = () => {
-  const name = "세미나실 4-1";
   const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "layer",
-    id: "Title",
+    option: "2층",
+    id: 2,
   });
   const [classResult, setClassResult] = useState<ItemType>({
-    option: "class",
-    id: "Title",
+    option: "반",
+    id: "",
   });
 
-  const memberList = [
+  const date = todayDate();
+  const { handleError } = useApiError();
+
+  const { data: dayType } = useQuery("toDayType", () => getDateType(date), {
+    onError: handleError,
+  });
+
+  let layerData = Number(layerResult.id);
+  const { data: classList } = useQuery(
+    ["classList", layerData],
+    () => getLayerClassList(layerData, dayType?.data.type!),
     {
-      num: "1115",
-      name: "이정호",
-      isLeader: true,
-    },
+      enabled: !!dayType?.data.type,
+    }
+  );
+
+  const classObj = classList?.data.classroom_list.map((item) => {
+    return { option: item.description, id: item.type_id };
+  });
+
+  const { data: clubList, refetch } = useQuery(
+    ["clubList", classResult.id],
+    () => getClubMemberList(classResult.id as string),
     {
-      num: "1115",
-      name: "이정호",
-      isLeader: false,
-    },
-    {
-      num: "1115",
-      name: "이정호",
-      isLeader: false,
-    },
-  ];
+      enabled: classResult.id !== "",
+    }
+  );
 
   return (
     <Wrapper>
       <Header>
         <div>
-          {/*  */}
-          <Title>{"정"}</Title>
-          <SubTitle>{name}(장연순선생님 담당)</SubTitle>
+          <Title>{clubList?.data.club_name}</Title>
+          <SubTitle>
+            {clubList?.data.classroom_name}({clubList?.data.teacher_name}
+            선생님 담당)
+          </SubTitle>
         </div>
         <div>
-          <ClubDropDown
-            setLayerResult={setLayerResult}
-            setClassResult={setClassResult}
+          <DropDown
+            title="2층"
+            dropDownItem={layerDropDownItem}
+            setResult={setLayerResult}
+          />
+          <DropDown
+            title="반"
+            dropDownItem={classObj!}
+            setResult={setClassResult}
           />
         </div>
       </Header>
       <Container>
-        {memberList.map((list) => (
-          <Member {...list} />
+        {clubList?.data.student_list?.map((list) => (
+          <Member
+            key={list.student_id}
+            head_club_id={clubList.data.club_id}
+            club_name={clubList.data.club_name}
+            refetch={refetch}
+            {...list}
+          />
         ))}
       </Container>
     </Wrapper>
@@ -97,6 +125,7 @@ const SubTitle = styled.p`
   font-weight: 500;
   margin-bottom: 5px;
 `;
+
 const Container = styled.main`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.gray50};

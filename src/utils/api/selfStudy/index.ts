@@ -10,6 +10,7 @@ import {
   AfterSchoolUserList,
   ClubMemberList,
   SchoolTeacherList,
+  FloorClassRoomList,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
@@ -20,8 +21,6 @@ import {
   AfterSchoolUserDelete,
   SelfStudyTeacherPatch,
   ClassRoomStudentStatusPatch,
-  ClubkingPatch,
-  ClubChange,
 } from "@/models/selfStudy/request";
 
 export const getTodaySelfStudyTeacherWhether = async () => {
@@ -91,7 +90,7 @@ export const getAfterSchoolMemberList = async (after_school_id: string) => {
 
 export const getClubMemberList = async (club_id: string) => {
   const clubMemberList = await instance.get<ClubMemberList>(
-    `/pick/admin/club/student?club_id=${club_id}`
+    `/pick/admin/club/${club_id}`
   );
   return clubMemberList;
 };
@@ -126,13 +125,19 @@ export const classStudentStatePatch = async (
   return classStudentState;
 };
 
-export const clubKingPatch = async (request: ClubkingPatch) => {
-  const clubKing = await instance.patch("/pick/admin/head", { request });
+export const clubKingPatch = async (club_id: string, student_id: string) => {
+  const clubKing = await instance.patch("/pick/admin/head", {
+    club_id,
+    student_id,
+  });
   return clubKing;
 };
 
-export const clubChangePatch = async (request: ClubChange) => {
-  const clubChange = await instance.patch("/pick/admin/club", { request });
+export const clubChangePatch = async (club_id: string, student_id: string) => {
+  const clubChange = await instance.patch("/pick/admin/club", {
+    club_id,
+    student_id,
+  });
   return clubChange;
 };
 
@@ -146,4 +151,11 @@ export const getSchoolTeacherList = async () => {
     "/pick/users/teachers"
   );
   return schoolTeacherList;
+};
+
+export const getLayerClassList = async (floor: number, type: string) => {
+  const layerClassList = await instance.get<FloorClassRoomList>(
+    `/pick/class-room/?floor=${floor}&type=${type}`
+  );
+  return layerClassList;
 };
