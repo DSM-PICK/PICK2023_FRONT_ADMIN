@@ -3,16 +3,23 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 
 interface OutingProps {
-  data: {
-    num: number;
-    name: string;
-    time: string;
-    reason: string;
-  };
+  student_id: string;
+  student_number: string;
+  student_name: string;
+  start_time: string;
+  end_time: string;
+  reason: string;
 }
 
 const OutingComponent = (props: OutingProps) => {
-  const { num, name, time, reason } = props.data;
+  const {
+    reason,
+    end_time,
+    start_time,
+    student_id,
+    student_name,
+    student_number,
+  } = props;
   const [isReason, setIsReason] = useState<boolean>(false);
 
   return (
@@ -23,9 +30,11 @@ const OutingComponent = (props: OutingProps) => {
       isReason={isReason}
     >
       <NameText>
-        {num} {name}
+        {student_number} {student_name}
       </NameText>
-      <TimeText>{time}</TimeText>
+      <TimeText>
+        {start_time}~{end_time}
+      </TimeText>
       <ReasonText isReason={isReason}>{reason}</ReasonText>
     </Container>
   );

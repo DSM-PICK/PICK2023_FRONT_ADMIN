@@ -3,6 +3,7 @@ import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
 import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
+import { useQuery } from "react-query";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
 import DropDown from "@/components/common/dropDown";
@@ -10,8 +11,12 @@ import { ItemType } from "@/models/common";
 import {
   gradeDropDownItem,
   classDropDownItem,
+  layerDropDownItem,
 } from "@/components/activityAccept/DropDownItem";
+import { useApiError } from "@/hooks/useApiError";
 import { todayDate } from "@/utils/functions/todayDate";
+import { getOutingApplyList } from "@/utils/api/outing";
+import { getDateType } from "@/utils/api/common/index";
 
 interface headBarProps {
   title: string;
@@ -50,68 +55,45 @@ const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
   );
 };
 
-const data = [
-  {
-    key: 1,
-    num: 2302,
-    name: "강용수",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 2,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 3,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 4,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-];
-const even = data.filter((number) => number.key % 2 === 0);
-const odd = data.filter((number) => number.key % 2 === 1);
-
-const move_list = [
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
-];
-
 const ActivityAccept = () => {
   const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
   const [gradeResult, setGradeResult] = useState<ItemType>({
     option: "grade",
-    id: "title",
+    id: "",
   });
   const [classResult, setClassResult] = useState<ItemType>({
     option: "class",
-    id: "title",
+    id: "",
   });
+  const [layerResult, setLayerResult] = useState<ItemType>({
+    option: "2층",
+    id: 2,
+  });
+
+  let grade_id = gradeResult.id as number;
+  let class_id = classResult.id as number;
+  let layer_id = layerResult.id as number;
+
+  const { handleError } = useApiError();
+
+  const { data: todayType } = useQuery(
+    "todayType",
+    () => getDateType(todayDate()),
+    {
+      onError: handleError,
+    }
+  );
+
+  const { data: applyList } = useQuery(
+    ["applyList", gradeResult.id, classResult.id, layerResult.id],
+    () =>
+      getOutingApplyList({
+        grade: grade_id,
+        classNum: class_id,
+        floor: layer_id,
+        type: (todayType?.data.type as string) || "SELF_STUDY",
+      })
+  );
 
   const acceptBtnStyle = css`
     font-size: 13px;
@@ -135,16 +117,26 @@ const ActivityAccept = () => {
               setIsLayerToggle(true);
             }}
           />
-          <DropDown
-            setResult={setGradeResult}
-            dropDownItem={gradeDropDownItem}
-            title="lyaer"
-          />
-          <DropDown
-            setResult={setClassResult}
-            dropDownItem={classDropDownItem}
-            title="class"
-          />
+          {isLayerToggle ? (
+            <>
+              <DropDown
+                setResult={setGradeResult}
+                dropDownItem={gradeDropDownItem}
+                title="grade"
+              />
+              <DropDown
+                setResult={setClassResult}
+                dropDownItem={classDropDownItem}
+                title="class"
+              />
+            </>
+          ) : (
+            <DropDown
+              setResult={setLayerResult}
+              dropDownItem={layerDropDownItem}
+              title="lyaer"
+            />
+          )}
         </div>
       </Header>
       <Container>
@@ -153,16 +145,17 @@ const ActivityAccept = () => {
             <ActivityBtn>새로운 외출증 발급</ActivityBtn>
           </HeadBar>
           <OutingBox>
-            <OutingList>
-              {odd.map((data) => (
-                <OutingComponent data={data} />
-              ))}
-            </OutingList>
-            <OutingList>
-              {even.map((data) => (
-                <OutingComponent data={data} />
-              ))}
-            </OutingList>
+            {applyList?.outing.map((data) => (
+              <OutingComponent
+                key={data.student_id}
+                student_id={data.student_id}
+                student_number={data.student_number}
+                student_name={data.student_name}
+                start_time={data.start_time}
+                end_time={data.end_time}
+                reason={data.reason}
+              />
+            ))}
           </OutingBox>
           <AcceptBtns>
             <ButtonComponent
@@ -188,9 +181,9 @@ const ActivityAccept = () => {
             <ActivityBtn>이동 제한</ActivityBtn>
           </HeadBar>
           <MovingBox>
-            {move_list.map((data) => (
+            {/*move_list.map((data) => (
               <MovingComponent data={data} />
-            ))}
+            ))*/}
           </MovingBox>
         </ActivityWrapper>
       </Container>
@@ -246,6 +239,7 @@ const Container = styled.main`
   padding: 28px;
 `;
 const ActivityWrapper = styled.div<{ width: string }>`
+  position: relative;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px;
   height: 100%;
@@ -264,17 +258,15 @@ const HeaderText = styled.p`
 `;
 const OutingBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  flex: 1;
+  flex-wrap: wrap;
+  gap: 8px;
   overflow-y: scroll;
 `;
-const OutingList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-x: scroll;
-`;
+
 const AcceptBtns = styled.div`
+  position: fixed;
+  bottom: 180px;
+  left: 742px;
   display: flex;
   gap: 12px;
   justify-content: end;

@@ -9,7 +9,7 @@ export const getOutingApplyList = async (
   request: GetOutingApplyListRequestType
 ) => {
   const outingRequestList = await instance.get<OutingApplyList>(
-    `/pick/teachers/?grade=${request.grade}&classNum=${request.classNum}&floor=&type=${request.type}`
+    `/pick/teachers/?grade=${request.grade}&classNum=${request.classNum}&floor=${request.floor}&type=${request.type}`
   );
   return outingRequestList.data;
 };
