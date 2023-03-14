@@ -9,17 +9,17 @@ const DropDown = ({
   title,
   dropDownItem,
   setResult,
-  isSelfStudy,
+  isFriday,
   className,
 }: {
-  title: string;
+  title: string | undefined;
   dropDownItem: ItemType[];
   setResult: React.Dispatch<React.SetStateAction<ItemType>>;
-  isSelfStudy?: boolean;
+  isFriday?: boolean | undefined;
   className?: string;
 }) => {
   const [isClick, setIsClick] = useState<boolean>(false);
-  const [value, setValue] = useState<string>(title);
+  const [value, setValue] = useState<string | undefined>(title);
   const [isAttendance, setIsAttendance] = useState<boolean>(false);
   const theme = useTheme();
   const [fontColor, setFontColor] = useState<string>(theme.colors.gray800);
@@ -43,6 +43,8 @@ const DropDown = ({
   };
 
   useEffect(() => {
+    console.log(value);
+
     switch (value) {
       case "이동":
         changeStates(theme.colors.purple300, theme.colors.purple100, true);
@@ -63,6 +65,10 @@ const DropDown = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    setValue(title);
+  }, [title]);
+
   return (
     <SelectBoxContainer className={className}>
       <SelectButton
@@ -71,7 +77,7 @@ const DropDown = ({
         isAttendance={isAttendance}
         isClick={isClick}
         onClick={() => setIsClick(!isClick)}
-        isSelfStudy={isSelfStudy}
+        isFriday={isFriday}
         disabled={!isActivate}
       >
         <span>{value}</span>
@@ -80,7 +86,7 @@ const DropDown = ({
         )}
       </SelectButton>
       {isClick && (
-        <SelectList isSelfStudy={isSelfStudy}>
+        <SelectList isFriday={isFriday}>
           {dropDownItem.map((item) => (
             <span key={item.id} onClick={() => onChange(item)}>
               {item.option}
@@ -94,6 +100,7 @@ const DropDown = ({
 
 const SelectBoxContainer = styled.div`
   position: relative;
+  position: 98;
 `;
 
 const SelectButton = styled.button<{
@@ -101,9 +108,14 @@ const SelectButton = styled.button<{
   borderColor: string;
   isAttendance: boolean;
   isClick: boolean;
-  isSelfStudy?: boolean;
+  isFriday?: boolean;
 }>`
-  width: ${(props) => (props.isSelfStudy ? "260px" : "147px")};
+  width: ${(props) =>
+    props.isFriday
+      ? "147px"
+      : props.isFriday === undefined
+      ? "147px"
+      : "260px"};
   height: 48px;
   background-color: white;
   border: 1px solid
@@ -125,8 +137,13 @@ const SelectButton = styled.button<{
       : props.fontColor};
 `;
 
-const SelectList = styled.div<{ isSelfStudy?: boolean }>`
-  width: ${(props) => (props.isSelfStudy ? "260px" : "147px")};
+const SelectList = styled.div<{ isFriday?: boolean }>`
+  width: ${(props) =>
+    props.isFriday
+      ? "147px"
+      : props.isFriday === undefined
+      ? "147px"
+      : "260px"};
   background: white;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
