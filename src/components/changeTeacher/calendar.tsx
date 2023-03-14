@@ -11,7 +11,7 @@ const months = [
   },
   {
     name: "February",
-    days: 28,
+    days: new Date().getFullYear() % 4 === 0 ? 29 : 28,
   },
   {
     name: "March",
