@@ -105,21 +105,45 @@ const ChangeTeacherPage = () => {
   );
 };
 
+export default ChangeTeacherPage;
+
 const Wrapper = styled.div`
+  width: calc(85% - 300px);
+  min-height: 680px;
+  max-height: 1000px;
+  height: 90vh;
   margin: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 16px;
+`;
 
+const Header = styled.header`
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+`;
+const Title = styled.div`
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  color: ${({ theme }) => theme.colors.gray900};
+`;
+
+const DateDial = styled.div`
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 40px;
+  gap: 20px;
   > p {
-    font-size: 20px;
-    margin-top: 40px;
+    width: 130px;
+    text-align: center;
   }
 `;
 
-const Title = styled.h1`
-  font-size: 80px;
+const CalendarWrapper = styled.main`
+  width: 100%;
+  height: calc(100% - 54px);
 `;
-
-export default ChangeTeacherPage;
