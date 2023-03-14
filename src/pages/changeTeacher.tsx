@@ -18,7 +18,11 @@ export interface DataType {
 
 const ChangeTeacherPage = () => {
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
-  const [dataMap, setDataMap] = useState<DataType | null>(null);
+  const [dataMap, setDataMap] = useState<DataType>({
+    future: new Map(),
+    past: new Map(),
+    present: new Map(),
+  });
   const data = useQueries([
     {
       queryKey: [month, "past"],

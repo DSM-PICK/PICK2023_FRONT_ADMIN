@@ -31,6 +31,7 @@ interface ChangeStudentType {
 }
 
 const ChangeClass = () => {
+  const theme = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
@@ -50,7 +51,6 @@ const ChangeClass = () => {
   if (!isSuccess) return <></>;
 
   const studentList = data.student_list;
-  const theme = useTheme();
   const teacher = data.teacher_name;
   const grades: ItemType[] = [
     { id: 0, option: "1학년" },
@@ -78,7 +78,7 @@ const ChangeClass = () => {
       //해당 학생 객체
       (x) => x.student_id == value.student_id
     );
-    
+
     if (changedValue != student?.status) {
       //해당 학생의 상태가 변경 전과 다른가? 그럼 저장해.
       const newValue: ChangeStudentType[] = [

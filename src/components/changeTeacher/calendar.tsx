@@ -59,7 +59,7 @@ const Days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
 interface Props {
   monthIndex: number;
-  data: DataType | null;
+  data: DataType;
   refetch: () => void;
 }
 
@@ -76,7 +76,6 @@ interface MonthType {
 }
 
 const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
-  if (!data) return null;
   const month = monthIndex - 1;
   const [currentMonth, setCurrentMonth] = useState<MonthType>(months[month]);
   const [prevMonth, setPrevMonth] = useState<MonthType>(
