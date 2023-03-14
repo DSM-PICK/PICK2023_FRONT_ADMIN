@@ -31,6 +31,7 @@ interface ChangeStudentType {
 }
 
 const ChangeClass = () => {
+  const theme = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
@@ -38,22 +39,18 @@ const ChangeClass = () => {
     class: 2,
   });
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
-  const { data, isSuccess, refetch } = useQuery("get-student-in-class", () =>
-    getClassPersonStatus(selectedStates.grade, selectedStates.class)
-  );
-  const { mutate } = useMutation(
+  const { mutate, data: patchData } = useMutation(
     "patch-student-in-class",
-    (user_list: ChangeStudentType[]) => patchClassPersonStatus(user_list),
-    { onSuccess: () => refetch() }
+    (user_list: ChangeStudentType[]) => patchClassPersonStatus(user_list)
   );
-  useEffect(() => {
-    refetch();
-  }, [selectedStates]);
+  const { data, isSuccess } = useQuery(
+    ["get-student-in-class", selectedStates, patchData],
+    () => getClassPersonStatus(selectedStates.grade, selectedStates.class)
+  );
 
   if (!isSuccess) return <></>;
 
   const studentList = data.student_list;
-  const theme = useTheme();
   const teacher = data.teacher_name;
   const grades: ItemType[] = [
     { id: 0, option: "1학년" },
@@ -81,6 +78,7 @@ const ChangeClass = () => {
       //해당 학생 객체
       (x) => x.student_id == value.student_id
     );
+
     if (changedValue != student?.status) {
       //해당 학생의 상태가 변경 전과 다른가? 그럼 저장해.
       const newValue: ChangeStudentType[] = [
