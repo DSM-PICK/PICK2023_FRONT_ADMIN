@@ -52,16 +52,6 @@ export interface ClassRoomStudentStatusPatch {
   user_list: ClassRoomStudentInfo[];
 }
 
-export interface ClubkingPatch {
-  club_id: string;
-  student_id: string;
-}
-
-export interface ClubChange {
-  club_id: string;
-  student_id: string;
-}
-
 export interface AttendanceListRequest {
   classroom_id: string;
   date: string;

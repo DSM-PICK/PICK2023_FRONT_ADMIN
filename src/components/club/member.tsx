@@ -6,28 +6,88 @@ import Modal from "../common/modal";
 import DropDown from "../common/dropDown";
 import Menu from "./menu";
 import { ItemType } from "@/models/common";
-import { layerDropDownItem, classDropDownItem } from "./DropDownItem";
-import ClubDropDown from "./clubDropDown";
+import { layerDropDownItem } from "@/constants/DropDownItem";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import {
+  getLayerClassList,
+  clubChangePatch,
+  clubKingPatch,
+} from "@/utils/api/selfStudy";
+import { getDateType } from "@/utils/api/common";
+import { todayDate } from "@/utils/functions/todayDate";
+import { useApiError } from "@/hooks/useApiError";
 
-interface MemberProps {
-  num: string;
-  name: string;
-  isLeader: boolean;
+interface Props {
+  head_club_id: string;
+  club_name: string;
+  student_id: string;
+  head_status: boolean;
+  student_number: string;
+  student_name: string;
+  refetch: () => void;
 }
 
-const Member = ({ num, name, isLeader }: MemberProps) => {
+const Member = ({
+  student_id,
+  head_club_id,
+  student_name,
+  student_number,
+  head_status,
+  club_name,
+  refetch,
+}: Props) => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [openModalLeader, setOpenModalLeader] = useState<boolean>(false);
   const [openModalChangeClub, setOpenModalChangeClub] =
     useState<boolean>(false);
   const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "layer",
-    id: "Title",
+    option: "2층",
+    id: 2,
   });
   const [classResult, setClassResult] = useState<ItemType>({
-    option: "class",
-    id: "Title",
+    option: "반",
+    id: "",
   });
+
+  const date = todayDate();
+  const { handleError } = useApiError();
+
+  const { data: dayType } = useQuery("toDayType", () => getDateType(date), {
+    onError: handleError,
+  });
+
+  let layerData = Number(layerResult.id);
+  const { data: classList } = useQuery(
+    ["classList", layerData],
+    () => getLayerClassList(layerData, dayType?.data.type!),
+    {
+      enabled: !!dayType?.data.type,
+    }
+  );
+
+  const classObj = classList?.data.classroom_list.map((item) => {
+    return { option: item.description, id: item.type_id };
+  });
+
+  const queryClient = useQueryClient();
+  let change_club_id = classResult.id as string;
+  const { mutate: changeClubStudent } = useMutation(
+    "changeClub",
+    () => clubChangePatch(change_club_id, student_id),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("clubList");
+      },
+    }
+  );
+
+  const { mutate: clubHeadPatch } = useMutation(
+    "kingChange",
+    () => clubKingPatch(head_club_id, student_id),
+    {
+      onSuccess: () => refetch(),
+    }
+  );
 
   const setLeader = () => {
     setOpenModalLeader(true);
@@ -47,9 +107,9 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
       <Container>
         <User>
           <p>
-            {num} {name}
+            {student_number} {student_name}
           </p>
-          {isLeader && <LeaderImg src={Leader} alt="leader" width={18} />}
+          {head_status && <LeaderImg src={Leader} alt="leader" width={18} />}
         </User>
         <MoreBtn onClick={onClick}>
           <Image src={MoreIcon} alt="more" height={15} width={4} />
@@ -59,7 +119,7 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
             clubClick={changeClub}
             leaderClick={setLeader}
             setMenu={onClick}
-            isLeader={isLeader}
+            isLeader={head_status}
           />
         )}
       </Container>
@@ -68,27 +128,37 @@ const Member = ({ num, name, isLeader }: MemberProps) => {
           setOpenModal={setOpenModalLeader}
           isDanger={false}
           btnText="변경하기"
-          callBack={() => {}}
-          subText={`변경하기를 선택하면 정의 동아리장이\n${"2106 김의찬"}에서 ${
-            num + " " + name
+          callBack={() => {
+            clubHeadPatch();
+          }}
+          subText={`변경하기를 선택하면 ${club_name}의 동아리장이\n ${
+            student_number + " " + student_name
           }(으)로 변경됩니다.`}
-          mainText={`${"정"}의 동아리장을\n${
-            num + " " + name
+          mainText={`${club_name}의 동아리장을\n${
+            student_number + " " + student_name
           }(으)로 바꾸시겠습니까?`}
         />
       )}
       {openModalChangeClub && (
         <Modal
-          mainText={`${num + " " + name}의\n 변경 이후 동아리를 선택해주세요.`}
+          mainText={`${
+            student_number + " " + student_name
+          }의\n 변경 이후 동아리를 선택해주세요.`}
           isDanger={false}
           btnText="변경하기"
-          callBack={() => {}}
+          callBack={changeClubStudent}
           setOpenModal={setOpenModalChangeClub}
         >
           <DropDownBox>
-            <ClubDropDown
-              setLayerResult={setLayerResult}
-              setClassResult={setClassResult}
+            <DropDown
+              title="2층"
+              dropDownItem={layerDropDownItem}
+              setResult={setLayerResult}
+            />
+            <DropDown
+              title="반"
+              dropDownItem={classObj!}
+              setResult={setClassResult}
             />
           </DropDownBox>
         </Modal>

@@ -73,7 +73,8 @@ export interface AttendanceCheckStudentList {
 }
 
 export interface FloorClassRoomDto {
-  id: string;
+  classroom_id: string;
+  type_id: string;
   name: string;
   description: string;
 }
@@ -95,6 +96,7 @@ export interface AfterSchoolUserList {
 
 export interface ClubMemberDto {
   student_id: string;
+  head_status: boolean;
   student_number: string;
   student_name: string;
 }
@@ -104,7 +106,7 @@ export interface ClubMemberList {
   teacher_name: string;
   classroom_name: string;
   club_name: string;
-  club_student_list: ClubMemberDto[];
+  student_list: ClubMemberDto[];
 }
 
 interface SchoolTeacherDto {
