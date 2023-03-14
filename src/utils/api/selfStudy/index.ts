@@ -11,6 +11,8 @@ import {
   ClubMemberList,
   SchoolTeacherList,
   FloorClassRoomDto,
+  FloorClassRoomList,
+  SelfStudyTeacher,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
@@ -21,8 +23,6 @@ import {
   AfterSchoolUserDelete,
   SelfStudyTeacherPatch,
   ClassRoomStudentStatusPatch,
-  ClubkingPatch,
-  ClubChange,
 } from "@/models/selfStudy/request";
 
 export const getTodaySelfStudyTeacherWhether = async () => {
@@ -92,7 +92,7 @@ export const getAfterSchoolMemberList = async (after_school_id: string) => {
 
 export const getClubMemberList = async (club_id: string) => {
   const clubMemberList = await instance.get<ClubMemberList>(
-    `/pick/admin/club/student?club_id=${club_id}`
+    `/pick/admin/club/${club_id}`
   );
   return clubMemberList;
 };
@@ -111,10 +111,26 @@ export const deleteAfterSchoolMember = async (
   return deleteAfterMember;
 };
 
+export type SelfStudyTeacherType = {
+  past: SelfStudyTeacher | undefined;
+  present: SelfStudyTeacher;
+  future: SelfStudyTeacher | undefined;
+};
+
+export const getSelfStudyTeacherList = async (month: number) => {
+  if (month < 1 || month > 12) return null;
+  const response = await instance.get<SelfStudyTeacher>(
+    `/pick/admin/director?month=${month}`
+  );
+
+  return response.data;
+};
+
 export const patchSelfStudyTeacher = async (request: SelfStudyTeacherPatch) => {
-  const patchSelfStudyTeacher = await instance.patch("/pick/admin/teacher", {
-    request,
-  });
+  const patchSelfStudyTeacher = await instance.patch(
+    "/pick/admin/teacher",
+    request
+  );
   return patchSelfStudyTeacher;
 };
 
@@ -127,13 +143,19 @@ export const classStudentStatePatch = async (
   return classStudentState;
 };
 
-export const clubKingPatch = async (request: ClubkingPatch) => {
-  const clubKing = await instance.patch("/pick/admin/head", { request });
+export const clubKingPatch = async (club_id: string, student_id: string) => {
+  const clubKing = await instance.patch("/pick/admin/head", {
+    club_id,
+    student_id,
+  });
   return clubKing;
 };
 
-export const clubChangePatch = async (request: ClubChange) => {
-  const clubChange = await instance.patch("/pick/admin/club", { request });
+export const clubChangePatch = async (club_id: string, student_id: string) => {
+  const clubChange = await instance.patch("/pick/admin/club", {
+    club_id,
+    student_id,
+  });
   return clubChange;
 };
 

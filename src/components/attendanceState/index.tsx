@@ -1,41 +1,64 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDown from "../common/dropDown";
 import { ItemType } from "@/models/common";
 import {
   attendanceDropDownItem,
-  classDropDownItem,
   floorDropDownItem,
   studentInfo,
+  classDropDownItem,
 } from "./constants";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { CalendarIcon } from "@/assets/attendanceState";
 import Image from "next/image";
 import moment from "moment";
+import ClassDropDown from "./dropDown";
+import { getDateType } from "@/utils/api/common";
+import { useQuery, useMutation } from "react-query";
+import {
+  getLayerClassList,
+  getAttendanceCheckList,
+  attandanceStatusChange,
+} from "@/utils/api/selfStudy";
 
 const AttendanceState = () => {
   const [className, setClassName] = useState<string>("");
-  const [isSelfStudy, setIsSelfStudy] = useState<boolean>(true);
-  const [studentAttendanceState, setStudentAttendanceState] = useState({
-    period: 0,
-    user_id: "UUID",
-    status: "PICNIC",
-  });
+  const [classroomId, setClassroomId] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const isFriday = new Date(date).getDay() === 5;
+
+  const getAttendanceCheckListReq = {
+    classroom_id: classroomId,
+    date: date,
+  };
+
+  const { data: attendanceCheckList } = useQuery(
+    [className, classroomId],
+    () => {
+      const res = getAttendanceCheckList(getAttendanceCheckListReq);
+      console.log(res.then((res) => res.data));
+      return res;
+    }
+  );
 
   return (
     <Wrapper>
       <Header>
         <Title>출결상태</Title>
-        <DropDowns setClassName={setClassName} />
+        <DropDowns
+          setClassroomId={setClassroomId}
+          setDate={setDate}
+          setClassName={setClassName}
+        />
       </Header>
-      <StudentListContainer>
-        <StudentListHeader isSelfStudy={isSelfStudy} className={className} />
+      <StudentListContainer width={isFriday ? "1159px" : "1130px"}>
+        <StudentListHeader isFriday={isFriday} className={className} />
         <StudentWrapper>
-          {studentInfo.map((data, idx) => (
+          {attendanceCheckList?.data.student_list?.map((data, idx) => (
             <Student
               key={idx}
-              isSelfStudy={isSelfStudy}
+              isFriday={isFriday}
               studentName={data.student_name}
               studentNumber={data.student_number}
               attendanceList={data.type_list}
@@ -53,7 +76,7 @@ interface StudentProps {
   studentName: string;
   attendanceList: string[];
   studentId: string;
-  isSelfStudy: boolean;
+  isFriday: boolean;
 }
 
 const Student = ({
@@ -61,41 +84,42 @@ const Student = ({
   studentName,
   attendanceList,
   studentId,
-  isSelfStudy,
+  isFriday,
 }: StudentProps) => {
+  console.log(attendanceList);
   const [sixthAttendanceDropDownResult, setSixthAttendanceDropDownResult] =
     useState<ItemType>({
-      option: "출석",
+      option: "제목",
       id: "TITLE",
     });
   const [seventhAttendanceDropDownResult, setSeventhAttendanceDropDownResult] =
     useState<ItemType>({
-      option: "출석",
+      option: "제목",
       id: "TITLE",
     });
   const [eighthAttendanceDropDownResult, setEighthAttendanceDropDownResult] =
     useState<ItemType>({
-      option: "출석",
+      option: "제목",
       id: "TITLE",
     });
   const [ninethAttendanceDropDownResult, setNinethAttendanceDropDownResult] =
     useState<ItemType>({
-      option: "출석",
+      option: "제목",
       id: "TITLE",
     });
   const [tenthAttendanceDropDownResult, setTenthAttendanceDropDownResult] =
     useState<ItemType>({
-      option: "출석",
+      option: "제목",
       id: "TITLE",
     });
 
-  const selfStudyDropDownArr = [
+  const weekdayArr = [
     setEighthAttendanceDropDownResult,
     setNinethAttendanceDropDownResult,
     setTenthAttendanceDropDownResult,
   ];
 
-  const afterSchoolDropDownArr = [
+  const fridayArr = [
     setSixthAttendanceDropDownResult,
     setSeventhAttendanceDropDownResult,
     setEighthAttendanceDropDownResult,
@@ -103,9 +127,7 @@ const Student = ({
     setTenthAttendanceDropDownResult,
   ];
 
-  const dropDownArr = isSelfStudy
-    ? selfStudyDropDownArr
-    : afterSchoolDropDownArr;
+  const dropDownArr = isFriday ? fridayArr : weekdayArr;
 
   const convertAttendanceType = (type: string) => {
     switch (type) {
@@ -121,51 +143,78 @@ const Student = ({
         return "외출";
       case "MOVEMENT":
         return "이동";
-      default:
+      case "ATTENDANCE":
         return "출석";
     }
   };
+
+  const { mutate, isLoading, isError, error, isSuccess } = useMutation(
+    attandanceStatusChange
+  );
+
+  function updateAttendance(
+    period: number,
+    status: string | number,
+    studentId: string
+  ) {
+    if (status === "TITLE") return;
+    mutate({
+      period: period,
+      user_id: studentId,
+      status: status,
+    });
+  }
+
+  useEffect(() => {
+    updateAttendance(8, eighthAttendanceDropDownResult.id, studentId);
+  }, [eighthAttendanceDropDownResult]);
+
+  useEffect(() => {
+    updateAttendance(9, ninethAttendanceDropDownResult.id, studentId);
+  }, [ninethAttendanceDropDownResult]);
+
+  useEffect(() => {
+    updateAttendance(10, tenthAttendanceDropDownResult.id, studentId);
+  }, [tenthAttendanceDropDownResult]);
 
   return (
     <StudentContainer>
       <StudentBox>
         {studentNumber} {studentName}
       </StudentBox>
-      {dropDownArr.map((result, idx) => (
-        <DropDown
-          key={idx}
-          title={convertAttendanceType(attendanceList[idx])}
-          dropDownItem={attendanceDropDownItem}
-          setResult={result}
-          isSelfStudy={isSelfStudy}
-        />
-      ))}
+      {dropDownArr.map((result, idx) => {
+        const status = convertAttendanceType(attendanceList[idx]);
+        return (
+          <React.Fragment key={idx}>
+            <DropDown
+              title={status}
+              dropDownItem={attendanceDropDownItem}
+              setResult={result}
+              isFriday={isFriday}
+            />
+            <>{status}</>
+          </React.Fragment>
+        );
+      })}
     </StudentContainer>
   );
 };
 
-const StudentListHeader = ({
-  className,
-  isSelfStudy,
-}: {
+interface StudentListHeaderProps {
   className: string;
-  isSelfStudy: boolean;
-}) => {
-  const afterSchoolPeriod: string[] = [
-    "6교시",
-    "7교시",
-    "8교시",
-    "9교시",
-    "10교시",
-  ];
-  const selfStudyPeriod: string[] = ["8교시", "9교시", "10교시"];
-  const period: string[] = isSelfStudy ? selfStudyPeriod : afterSchoolPeriod;
+  isFriday: boolean;
+}
+
+const StudentListHeader = ({ className, isFriday }: StudentListHeaderProps) => {
+  const fridayPeriod: string[] = ["6교시", "7교시", "8교시", "9교시", "10교시"];
+  const weekdayPeriod: string[] = ["8교시", "9교시", "10교시"];
+  const period: string[] = isFriday ? fridayPeriod : weekdayPeriod;
 
   return (
     <StudentListHeaderContainer>
-      <ClassName>{className}</ClassName>
+      <ClassName width={isFriday ? "140px" : "136px"}>{className}</ClassName>
       {period.map((period, idx) => (
-        <PeriodBox key={idx} width={isSelfStudy ? "260px" : "148px"}>
+        <PeriodBox key={idx} width={isFriday ? "148px" : "260px"}>
           {period}
         </PeriodBox>
       ))}
@@ -175,71 +224,91 @@ const StudentListHeader = ({
 
 interface DropDownsProps {
   setClassName: React.Dispatch<React.SetStateAction<string>>;
+  setDate: React.Dispatch<React.SetStateAction<string>>;
+  setClassroomId: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const DropDowns = ({ setClassName }: DropDownsProps) => {
+const DropDowns = ({
+  setClassName,
+  setDate,
+  setClassroomId,
+}: DropDownsProps) => {
   const [floorDropDownResult, setFloorDropDownResult] = useState<ItemType>({
-    option: "층",
-    id: "TITLE",
-  });
-  const [classDropDownResult, setClassDropDownResult] = useState<ItemType>({
-    option: "교실",
-    id: "TITLE",
+    option: "2층",
+    id: 2,
   });
   const [isCalendarActive, setIsCalendarActive] = useState<boolean>(false);
-  const [date, setDate] = useState<Date>(new Date());
-
-  useEffect(() => {
-    setClassName(classDropDownResult.option);
-  }, [classDropDownResult]);
+  const [calendarDate, setCalendarDate] = useState<Date>(new Date());
 
   useEffect(() => {
     setIsCalendarActive(false);
-  }, [date]);
+    setDate(parsedDate);
+  }, [calendarDate]);
 
-  let year: number | string = date.getFullYear();
-  let month: number | string = date.getMonth();
-  month += 1;
-  if (month <= 9) {
-    month = "0" + month;
-  }
-  let day: number | string = date.getDate();
-  if (day <= 9) {
-    day = "0" + day;
-  }
+  const changeDate = () => {
+    let year: number | string = calendarDate.getFullYear();
+    let month: number | string = calendarDate.getMonth();
+    month += 1;
+    if (month <= 9) {
+      month = "0" + month;
+    }
+    let day: number | string = calendarDate.getDate();
+    if (day <= 9) {
+      day = "0" + day;
+    }
 
-  const parsedDate: string = year + "-" + month + "-" + day;
+    return year + "-" + month + "-" + day;
+  };
+
+  const parsedDate: string = changeDate();
+
+  const { data: dateType } = useQuery(parsedDate, () =>
+    getDateType(parsedDate)
+  );
+  const { data: classList } = useQuery(
+    ["classList", parsedDate, floorDropDownResult],
+    () => getLayerClassList(floorDropDownResult.id, dateType?.data.type),
+    {
+      enabled: !!dateType?.data.type,
+    }
+  );
 
   return (
     <BtnsContainer>
       <ExcelPrintBtn>엑셀 출력하기</ExcelPrintBtn>
       <DropDown
-        title="층"
+        title="2층"
         dropDownItem={floorDropDownItem}
         setResult={setFloorDropDownResult}
       />
-      <DropDown
-        title="교실"
-        dropDownItem={classDropDownItem}
-        setResult={setClassDropDownResult}
+      <ClassDropDown
+        setClassName={setClassName}
+        setClassroomId={setClassroomId}
+        classList={classList?.data.classroom_list}
       />
-      <DateInput onClick={() => setIsCalendarActive(true)}>
+      <DateInput onClick={() => setIsCalendarActive(!isCalendarActive)}>
         {parsedDate} <Image src={CalendarIcon} alt="" />
       </DateInput>
-      {isCalendarActive && <ReactCalender setDate={setDate} dateState={date} />}
+      {isCalendarActive && (
+        <ReactCalender
+          setCalendarDate={setCalendarDate}
+          dateState={calendarDate}
+        />
+      )}
     </BtnsContainer>
   );
 };
 
 interface ReactCalendarProps {
-  setDate: React.Dispatch<React.SetStateAction<Date>>;
+  setCalendarDate: React.Dispatch<React.SetStateAction<Date>>;
   dateState: Date;
 }
 
-const ReactCalender = ({ setDate, dateState }: ReactCalendarProps) => {
+const ReactCalender = ({ setCalendarDate, dateState }: ReactCalendarProps) => {
   const [value, onChange] = useState<Date>(dateState);
+
   useEffect(() => {
-    setDate(value);
+    setCalendarDate(value);
   }, [value]);
 
   return (
@@ -264,7 +333,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   justify-content: center;
-  padding-left: 150px;
+  padding-left: 30px;
 `;
 
 const Header = styled.div`
@@ -275,7 +344,7 @@ const Header = styled.div`
 const Title = styled.h1`
   color: ${({ theme }) => theme.colors.gray900};
   font-weight: 700;
-  font-size: 40px;
+  font-size: 35px;
   line-height: 60px;
 `;
 
@@ -317,14 +386,14 @@ const DateInput = styled.div`
   align-items: center;
 `;
 
-const StudentListContainer = styled.div`
-  width: 100%;
-  height: 780px;
+const StudentListContainer = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
+  height: 600px;
   background: ${({ theme }) => theme.colors.gray50};
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  padding: 54px 66px 68px 40px;
+  padding: 54px 66px 60px 40px;
   gap: 28px;
 `;
 
@@ -341,11 +410,11 @@ const StudentListHeaderContainer = styled.div`
   gap: 36px;
 `;
 
-const ClassName = styled.h2`
+const ClassName = styled.h2<{ width: string }>`
   font-weight: 500;
-  font-size: 24px;
+  font-size: 23px;
   line-height: 36px;
-  width: 190px;
+  width: ${(props) => props.width};
   color: ${({ theme }) => theme.colors.gray900};
   display: flex;
   justify-content: center;
