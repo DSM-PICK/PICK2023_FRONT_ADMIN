@@ -11,6 +11,7 @@ import {
   ClubMemberList,
   SchoolTeacherList,
   FloorClassRoomList,
+  SelfStudyTeacher,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
@@ -109,10 +110,26 @@ export const deleteAfterSchoolMember = async (
   return deleteAfterMember;
 };
 
+export type SelfStudyTeacherType = {
+  past: SelfStudyTeacher | undefined;
+  present: SelfStudyTeacher;
+  future: SelfStudyTeacher | undefined;
+};
+
+export const getSelfStudyTeacherList = async (month: number) => {
+  if (month < 1 || month > 12) return null;
+  const response = await instance.get<SelfStudyTeacher>(
+    `/pick/admin/director?month=${month}`
+  );
+
+  return response.data;
+};
+
 export const patchSelfStudyTeacher = async (request: SelfStudyTeacherPatch) => {
-  const patchSelfStudyTeacher = await instance.patch("/pick/admin/teacher", {
-    request,
-  });
+  const patchSelfStudyTeacher = await instance.patch(
+    "/pick/admin/teacher",
+    request
+  );
   return patchSelfStudyTeacher;
 };
 
