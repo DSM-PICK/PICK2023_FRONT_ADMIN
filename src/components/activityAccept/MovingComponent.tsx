@@ -3,15 +3,13 @@ import { arrow } from "@/assets/ActivityAccept";
 import Image from "next/image";
 
 interface MovingProps {
-  data: {
-    student_number: number;
-    student_name: string;
-    before: string;
-    after: string;
-  };
+  student_number: string;
+  student_name: string;
+  before: string;
+  after: string;
 }
 
-const MovingComponent = ({ data }: MovingProps) => {
+const MovingComponent = (data: MovingProps) => {
   const { student_number, student_name, before, after } = data;
   return (
     <Container>

@@ -48,7 +48,6 @@ const AfterSchool = () => {
 
   const handleUpload = () => {
     setStudentInfo([...studentInfo, input]);
-    console.log(studentInfo);
     setInput("");
   };
 

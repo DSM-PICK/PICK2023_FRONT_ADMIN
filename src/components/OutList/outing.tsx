@@ -3,7 +3,7 @@ import { patchOutingStudentState } from "@/utils/api/outing";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import ModalPage from "../common/modal";
 
 interface Props {

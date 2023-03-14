@@ -68,7 +68,7 @@ export const getMainpageStudnetCount = async () => {
 
 export const getMoveStudentList = async (request: MoveStudentRequest) => {
   const moveStudentList = await instance.get<MoveSudentList>(
-    `/pick/admin/movement?grade=${request.grade}&classNum=${request.classNum}&floor=${request.floor}&date=${request.date}`
+    `/pick/admin/movement?grade=${request.grade}&classNum=${request.classNum}&floor=${request.floor}`
   );
   return moveStudentList;
 };

@@ -3,7 +3,7 @@ import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
 import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
 import DropDown from "@/components/common/dropDown";
@@ -16,6 +16,7 @@ import {
 import { useApiError } from "@/hooks/useApiError";
 import { todayDate } from "@/utils/functions/todayDate";
 import { getOutingApplyList } from "@/utils/api/outing";
+import { getMoveStudentList } from "@/utils/api/selfStudy";
 import { getDateType } from "@/utils/api/common/index";
 
 interface headBarProps {
@@ -59,15 +60,15 @@ const ActivityAccept = () => {
   const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
   const [gradeResult, setGradeResult] = useState<ItemType>({
     option: "grade",
-    id: "",
+    id: 0,
   });
   const [classResult, setClassResult] = useState<ItemType>({
     option: "class",
-    id: "",
+    id: 0,
   });
   const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "2층",
-    id: 2,
+    option: "layer",
+    id: 0,
   });
 
   let grade_id = gradeResult.id as number;
@@ -84,7 +85,7 @@ const ActivityAccept = () => {
     }
   );
 
-  const { data: applyList } = useQuery(
+  const { data: applyList, refetch } = useQuery(
     ["applyList", gradeResult.id, classResult.id, layerResult.id],
     () =>
       getOutingApplyList({
@@ -92,6 +93,16 @@ const ActivityAccept = () => {
         classNum: class_id,
         floor: layer_id,
         type: (todayType?.data.type as string) || "SELF_STUDY",
+      })
+  );
+
+  const { data: moveList } = useQuery(
+    ["moveList", gradeResult.id, classResult.id, layerResult.id],
+    () =>
+      getMoveStudentList({
+        grade: grade_id,
+        classNum: class_id,
+        floor: layer_id,
       })
   );
 
@@ -111,9 +122,15 @@ const ActivityAccept = () => {
           <LayerToggle
             action={isLayerToggle}
             leftClick={() => {
+              setGradeResult({ ...gradeResult, id: 0 });
+              setClassResult({ ...classResult, id: 0 });
+              setLayerResult({ ...layerResult, id: 0 });
               setIsLayerToggle(false);
             }}
             rightClick={() => {
+              setGradeResult({ ...gradeResult, id: 0 });
+              setClassResult({ ...classResult, id: 0 });
+              setLayerResult({ ...layerResult, id: 0 });
               setIsLayerToggle(true);
             }}
           />
@@ -145,7 +162,7 @@ const ActivityAccept = () => {
             <ActivityBtn>새로운 외출증 발급</ActivityBtn>
           </HeadBar>
           <OutingBox>
-            {applyList?.outing.map((data) => (
+            {applyList?.outing.map((data, idx) => (
               <OutingComponent
                 key={data.student_id}
                 student_id={data.student_id}
@@ -181,9 +198,15 @@ const ActivityAccept = () => {
             <ActivityBtn>이동 제한</ActivityBtn>
           </HeadBar>
           <MovingBox>
-            {/*move_list.map((data) => (
-              <MovingComponent data={data} />
-            ))*/}
+            {moveList?.data.move_list.map((data) => (
+              <MovingComponent
+                key={data.student_number}
+                student_number={data.student_number}
+                student_name={data.student_name}
+                after={data.after}
+                before={data.before}
+              />
+            ))}
           </MovingBox>
         </ActivityWrapper>
       </Container>

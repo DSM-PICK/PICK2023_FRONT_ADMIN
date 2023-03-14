@@ -22,21 +22,26 @@ const OutingComponent = (props: OutingProps) => {
   } = props;
   const [isReason, setIsReason] = useState<boolean>(false);
 
+  let start = start_time.slice(0, 5);
+  let end = end_time.slice(0, 5);
+
   return (
-    <Container
-      onClick={() => {
-        setIsReason(!isReason);
-      }}
-      isReason={isReason}
-    >
-      <NameText>
-        {student_number} {student_name}
-      </NameText>
-      <TimeText>
-        {start_time}~{end_time}
-      </TimeText>
-      <ReasonText isReason={isReason}>{reason}</ReasonText>
-    </Container>
+    <>
+      <Container
+        onClick={() => {
+          setIsReason(!isReason);
+        }}
+        isReason={isReason}
+      >
+        <NameText>
+          {student_number} {student_name}
+        </NameText>
+        <TimeText>
+          {start}~{end}
+        </TimeText>
+        <ReasonText isReason={isReason}>{reason}</ReasonText>
+      </Container>
+    </>
   );
 };
 const Container = styled.div<{ isReason: boolean }>`
