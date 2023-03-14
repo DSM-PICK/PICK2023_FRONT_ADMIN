@@ -2,12 +2,7 @@ import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
 import DropDown from "../common/dropDown";
 import { ItemType } from "@/models/common";
-import {
-  attendanceDropDownItem,
-  floorDropDownItem,
-  studentInfo,
-  classDropDownItem,
-} from "./constants";
+import { attendanceDropDownItem, floorDropDownItem } from "./constants";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { CalendarIcon } from "@/assets/attendanceState";
@@ -33,13 +28,8 @@ const AttendanceState = () => {
     date: date,
   };
 
-  const { data: attendanceCheckList } = useQuery(
-    [className, classroomId],
-    () => {
-      const res = getAttendanceCheckList(getAttendanceCheckListReq);
-      console.log(res.then((res) => res.data));
-      return res;
-    }
+  const { data: attendanceCheckList } = useQuery(className, () =>
+    getAttendanceCheckList(getAttendanceCheckListReq)
   );
 
   return (
@@ -86,7 +76,6 @@ const Student = ({
   studentId,
   isFriday,
 }: StudentProps) => {
-  console.log(attendanceList);
   const [sixthAttendanceDropDownResult, setSixthAttendanceDropDownResult] =
     useState<ItemType>({
       option: "제목",
@@ -166,6 +155,14 @@ const Student = ({
   }
 
   useEffect(() => {
+    updateAttendance(6, sixthAttendanceDropDownResult.id, studentId);
+  }, [sixthAttendanceDropDownResult]);
+
+  useEffect(() => {
+    updateAttendance(7, seventhAttendanceDropDownResult.id, studentId);
+  }, [seventhAttendanceDropDownResult]);
+
+  useEffect(() => {
     updateAttendance(8, eighthAttendanceDropDownResult.id, studentId);
   }, [eighthAttendanceDropDownResult]);
 
@@ -185,15 +182,13 @@ const Student = ({
       {dropDownArr.map((result, idx) => {
         const status = convertAttendanceType(attendanceList[idx]);
         return (
-          <React.Fragment key={idx}>
-            <DropDown
-              title={status}
-              dropDownItem={attendanceDropDownItem}
-              setResult={result}
-              isFriday={isFriday}
-            />
-            <>{status}</>
-          </React.Fragment>
+          <DropDown
+            key={idx}
+            title={status}
+            dropDownItem={attendanceDropDownItem}
+            setResult={result}
+            isFriday={isFriday}
+          />
         );
       })}
     </StudentContainer>
