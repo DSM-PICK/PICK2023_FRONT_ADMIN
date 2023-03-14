@@ -41,7 +41,7 @@ const nameToInfo = [
   },
   {
     name: "자습 감독 선생님 변경",
-    link: "ChangeTeacher",
+    link: "changeTeacher",
     Icon: teacher,
     dropdown: false,
   },
