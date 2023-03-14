@@ -398,6 +398,7 @@ const StudentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 28px;
+  padding-bottom: 100px;
 `;
 
 const StudentListHeaderContainer = styled.div`
