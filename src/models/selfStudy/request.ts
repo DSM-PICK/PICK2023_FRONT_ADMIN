@@ -11,7 +11,7 @@ export interface GetAttendanceStatusRequestDto {
 export interface AttandanceStatusChangeRequestDto {
   period: number;
   user_id: string;
-  status: string;
+  status: string | number;
 }
 
 export interface IssuanceOuting {
