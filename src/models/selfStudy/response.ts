@@ -115,3 +115,14 @@ interface SchoolTeacherDto {
 export interface SchoolTeacherList {
   teachers: SchoolTeacherDto[];
 }
+
+export interface FloorClassRoomDto {
+  classroom_id: string;
+  type_id: string;
+  name: string;
+  description: string;
+}
+
+export interface FloorClassRoomList {
+  classroom_list: FloorClassRoomDto[];
+}

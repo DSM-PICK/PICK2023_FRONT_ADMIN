@@ -10,6 +10,7 @@ import {
   AfterSchoolUserList,
   ClubMemberList,
   SchoolTeacherList,
+  FloorClassRoomDto,
 } from "@/models/selfStudy/response";
 import {
   GetAttendanceStatusRequestDto,
@@ -146,4 +147,11 @@ export const getSchoolTeacherList = async () => {
     "/pick/users/teachers"
   );
   return schoolTeacherList;
+};
+
+export const getLayerClassList = async (floor: number, type: string) => {
+  const layerClassList = await instance.get<{
+    classroom_list: FloorClassRoomDto[];
+  }>(`/pick/class-room/?floor=${floor}&type=${type}`);
+  return layerClassList.data;
 };
