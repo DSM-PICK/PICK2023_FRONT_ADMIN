@@ -10,6 +10,7 @@ import {
   AfterSchoolUserList,
   ClubMemberList,
   SchoolTeacherList,
+  FloorClassRoomDto,
   FloorClassRoomList,
   SelfStudyTeacher,
 } from "@/models/selfStudy/response";
@@ -170,12 +171,9 @@ export const getSchoolTeacherList = async () => {
   return schoolTeacherList;
 };
 
-export const getLayerClassList = async (
-  floor: number | string,
-  type: string | undefined
-) => {
-  const layerClassList = await instance.get<FloorClassRoomList>(
-    `/pick/class-room/?floor=${floor}&type=${type}`
-  );
-  return layerClassList;
+export const getLayerClassList = async (floor: number, type: string) => {
+  const layerClassList = await instance.get<{
+    classroom_list: FloorClassRoomDto[];
+  }>(`/pick/class-room/?floor=${floor}&type=${type}`);
+  return layerClassList.data;
 };
