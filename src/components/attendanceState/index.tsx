@@ -28,8 +28,12 @@ const AttendanceState = () => {
     date: date,
   };
 
-  const { data: attendanceCheckList } = useQuery(className, () =>
-    getAttendanceCheckList(getAttendanceCheckListReq)
+  const { data: attendanceCheckList } = useQuery(
+    [className, classroomId],
+    () => {
+      const res = getAttendanceCheckList(getAttendanceCheckListReq);
+      return res;
+    }
   );
 
   return (
