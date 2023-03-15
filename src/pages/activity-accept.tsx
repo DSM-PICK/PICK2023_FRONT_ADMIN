@@ -106,11 +106,6 @@ const ActivityAccept = () => {
       })
   );
 
-  const acceptBtnStyle = css`
-    font-size: 13px;
-    font-weight: 300;
-  `;
-
   return (
     <Wrapper>
       <Header>
@@ -159,39 +154,12 @@ const ActivityAccept = () => {
       <Container>
         <ActivityWrapper width="480px">
           <HeadBar title="외출 신청 목록">
-            <ActivityBtn>새로운 외출증 발급</ActivityBtn>
+            <div className="임시방편" />
+            {/*<ActivityBtn>새로운 외출증 발급</ActivityBtn>*/}
           </HeadBar>
           <OutingBox>
-            {applyList?.outing.map((data, idx) => (
-              <OutingComponent
-                key={data.student_id}
-                student_id={data.student_id}
-                student_number={data.student_number}
-                student_name={data.student_name}
-                start_time={data.start_time}
-                end_time={data.end_time}
-                reason={data.reason}
-              />
-            ))}
+            <OutingComponent outing={applyList?.outing || []} />
           </OutingBox>
-          <AcceptBtns>
-            <ButtonComponent
-              customStyle={acceptBtnStyle}
-              size={[95, 40]}
-              fill="ghost"
-              onClick={() => {}}
-            >
-              거절하기
-            </ButtonComponent>
-            <ButtonComponent
-              customStyle={acceptBtnStyle}
-              size={[95, 40]}
-              fill="purple"
-              onClick={() => {}}
-            >
-              수락하기
-            </ButtonComponent>
-          </AcceptBtns>
         </ActivityWrapper>
         <ActivityWrapper width="340px">
           <HeadBar title="이동한 학생">
@@ -286,14 +254,6 @@ const OutingBox = styled.div`
   overflow-y: scroll;
 `;
 
-const AcceptBtns = styled.div`
-  position: fixed;
-  bottom: 180px;
-  left: 742px;
-  display: flex;
-  gap: 12px;
-  justify-content: end;
-`;
 const MovingBox = styled.div`
   display: flex;
   flex-direction: column;

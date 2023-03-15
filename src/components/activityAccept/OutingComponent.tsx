@@ -1,46 +1,110 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { OutingApplyListType } from "@/models/outing/response";
+import ButtonComponent from "../common/button/ButtonComponent";
+import { useMutation, useQueryClient } from "react-query";
+import { patchOutingRejectAccept } from "@/utils/api/outing";
 
 interface OutingProps {
-  student_id: string;
-  student_number: string;
-  student_name: string;
-  start_time: string;
-  end_time: string;
-  reason: string;
+  outing: OutingApplyListType[];
 }
 
 const OutingComponent = (props: OutingProps) => {
-  const {
-    reason,
-    end_time,
-    start_time,
-    student_id,
-    student_name,
-    student_number,
-  } = props;
-  const [isReason, setIsReason] = useState<boolean>(false);
+  const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
 
-  let start = start_time.slice(0, 5);
-  let end = end_time.slice(0, 5);
+  let isClick = outingSelectList.length > 0;
+
+  const acceptBtnStyle = css`
+    font-size: 13px;
+    font-weight: 300;
+  `;
+
+  const studentClick = (studentIdx: number, student_id: string) => {
+    const isIncludes = outingSelectList.includes(studentIdx);
+
+    if (isIncludes) {
+      setOutingSelectList(
+        outingSelectList.filter((id: number) => id !== studentIdx)
+      );
+      setOutingStudentId(
+        outingStudentId.filter((id: string) => id !== student_id)
+      );
+    } else {
+      setOutingSelectList([...outingSelectList, studentIdx]);
+      setOutingStudentId([...outingStudentId, student_id]);
+    }
+  };
+
+  const queryClient = useQueryClient();
+  const { mutate: patchOutingRejectList } = useMutation(
+    () => patchOutingRejectAccept("PICNIC_REJECT", outingStudentId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("applyList");
+      },
+    }
+  );
+
+  const { mutate: patchOutingApplyList } = useMutation(
+    () => patchOutingRejectAccept("PICNIC", outingStudentId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("applyList");
+      },
+    }
+  );
 
   return (
     <>
-      <Container
-        onClick={() => {
-          setIsReason(!isReason);
-        }}
-        isReason={isReason}
-      >
-        <NameText>
-          {student_number} {student_name}
-        </NameText>
-        <TimeText>
-          {start}~{end}
-        </TimeText>
-        <ReasonText isReason={isReason}>{reason}</ReasonText>
-      </Container>
+      {props.outing.map((item, idx) => {
+        let start = item.start_time.slice(0, 5);
+        let end = item.end_time.slice(0, 5);
+        return (
+          <Container
+            key={item.student_id}
+            onClick={() => {
+              studentClick(idx, item.student_id);
+            }}
+            isReason={outingSelectList.includes(idx)}
+          >
+            <NameText>
+              {item.student_number} {item.student_name}
+            </NameText>
+            <TimeText>
+              {start}~{end}
+            </TimeText>
+            <ReasonText isReason={outingSelectList.includes(idx)}>
+              {item.reason}
+            </ReasonText>
+          </Container>
+        );
+      })}
+      <AcceptBtns>
+        <ButtonComponent
+          disabled={!isClick}
+          customStyle={acceptBtnStyle}
+          size={[95, 40]}
+          fill="ghost"
+          onClick={() => {
+            patchOutingRejectList();
+          }}
+        >
+          거절하기
+        </ButtonComponent>
+        <ButtonComponent
+          disabled={!isClick}
+          customStyle={acceptBtnStyle}
+          size={[95, 40]}
+          fill="purple"
+          onClick={() => {
+            patchOutingApplyList();
+          }}
+        >
+          수락하기
+        </ButtonComponent>
+      </AcceptBtns>
     </>
   );
 };
@@ -82,6 +146,15 @@ const ReasonText = styled.p<{ isReason: boolean }>`
   display: ${({ isReason }) => (isReason ? "block" : "none")};
   grid-column: 1 / 3;
   grid-row: auto;
+`;
+
+const AcceptBtns = styled.div`
+  position: fixed;
+  bottom: 180px;
+  left: 742px;
+  display: flex;
+  gap: 12px;
+  justify-content: end;
 `;
 
 export default OutingComponent;

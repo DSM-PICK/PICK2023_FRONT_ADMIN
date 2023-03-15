@@ -37,7 +37,6 @@ const AttendanceState = () => {
     [className, classroomId],
     () => {
       const res = getAttendanceCheckList(getAttendanceCheckListReq);
-      console.log(res.then((res) => res.data));
       return res;
     }
   );
@@ -86,7 +85,6 @@ const Student = ({
   studentId,
   isFriday,
 }: StudentProps) => {
-  console.log(attendanceList);
   const [sixthAttendanceDropDownResult, setSixthAttendanceDropDownResult] =
     useState<ItemType>({
       option: "제목",

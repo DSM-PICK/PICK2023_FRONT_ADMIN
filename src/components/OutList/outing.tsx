@@ -8,7 +8,7 @@ import ModalPage from "../common/modal";
 
 interface Props {
   student_id: string;
-  student_number: number;
+  student_number: string;
   student_name: string;
   end_time: string;
   refetch: () => void;
