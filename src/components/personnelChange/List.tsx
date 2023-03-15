@@ -1,16 +1,15 @@
-import { usePeriod } from "@/hooks/usePeriod";
-import { patchOutingStudentState } from "@/utils/api/outing";
+import { deleteAfterSchoolMember } from "@/utils/api/selfStudy";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import ModalPage from "../common/modal";
 
 interface Props {
+  after_school_id: string;
   student_id: string;
   student_number: string;
   student_name: string;
-  end_time: string;
   refetch: () => void;
 }
 
@@ -18,27 +17,19 @@ const Outing = ({
   student_id,
   student_number,
   student_name,
-  end_time,
+  after_school_id,
   refetch,
 }: Props) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [period, setPeriod] = useState<number>(0);
-
-  const { mutate } = useMutation(
-    "confirm-return-outing",
-    () => patchOutingStudentState(student_id, period),
+  const { mutate: deleteMutation } = useMutation(
+    "delete-afterSchool",
+    () => deleteAfterSchoolMember({ after_school_id, student_id }),
     {
       onSuccess: () => {
         refetch();
       },
     }
   );
-
-  useEffect(() => {
-    setPeriod(0);
-    const { getPeriod } = usePeriod();
-    setPeriod(getPeriod());
-  }, [isOpenModal]);
 
   return (
     <>
@@ -47,28 +38,26 @@ const Outing = ({
           <MainText>
             {student_number} {student_name}
           </MainText>
-          <SubText>{end_time.substring(0, 5)} 도착예정</SubText>
         </div>
         <CustomButton
           onClick={() => setOpenModal(true)}
           fill="purple"
           size="sm"
         >
-          복귀
+          삭제
         </CustomButton>
       </Container>
       {isOpenModal && (
         <ModalPage
           setOpenModal={setOpenModal}
-          isDanger={false}
-          btnText="확인하기"
-          mainText={`${student_number} ${student_name} 학생의\n 외출을 끝내시겠습니까?`}
+          isDanger={true}
+          btnText="삭제하기"
+          mainText={`${student_number} ${student_name} 학생을\n방과후 자습에서 삭제하시겠습니까?`}
           subText={
-            "확인하기를 선택하면 다시 상태를 변경할 수 없습니다.\n 학생이 학교로 복귀했는지 다시 한번 확인해주세요."
+            "삭제하기 선택 이후에는 취소할 수 없습니다.\n다시 한번 확인해주세요."
           }
           callBack={() => {
-            mutate();
-            refetch();
+            deleteMutation();
           }}
         />
       )}
@@ -94,11 +83,6 @@ const Container = styled.div`
 const MainText = styled.p`
   font-size: 18px;
   font-weight: 500;
-`;
-
-const SubText = styled.p`
-  font-size: 15px;
-  color: ${({ theme }) => theme.colors.gray600};
 `;
 
 const CustomButton = styled(Button)`
