@@ -149,9 +149,9 @@ const ReasonText = styled.p<{ isReason: boolean }>`
 `;
 
 const AcceptBtns = styled.div`
-  position: fixed;
-  bottom: 180px;
-  left: 742px;
+  position: absolute;
+  bottom: 14px;
+  left: 262px;
   display: flex;
   gap: 12px;
   justify-content: end;
