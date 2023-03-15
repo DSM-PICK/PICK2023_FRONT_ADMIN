@@ -43,8 +43,6 @@ const DropDown = ({
   };
 
   useEffect(() => {
-    console.log(value);
-
     switch (value) {
       case "이동":
         changeStates(theme.colors.purple300, theme.colors.purple100, true);
