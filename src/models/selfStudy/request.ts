@@ -11,7 +11,7 @@ export interface GetAttendanceStatusRequestDto {
 export interface AttandanceStatusChangeRequestDto {
   period: number;
   user_id: string;
-  status: string;
+  status: string | number;
 }
 
 export interface IssuanceOuting {
@@ -49,16 +49,6 @@ interface ClassRoomStudentInfo {
 
 export interface ClassRoomStudentStatusPatch {
   user_list: ClassRoomStudentInfo[];
-}
-
-export interface ClubkingPatch {
-  club_id: string;
-  student_id: string;
-}
-
-export interface ClubChange {
-  club_id: string;
-  student_id: string;
 }
 
 export interface AttendanceListRequest {

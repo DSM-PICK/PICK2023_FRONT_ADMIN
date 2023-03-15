@@ -11,3 +11,15 @@ export const getDateType = async (date: string) => {
   );
   return dateType;
 };
+
+interface GetTeachersListDto {
+  teachers: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export const getTeachersList = async () => {
+  const response = await instance.get<GetTeachersListDto>(`/users/teachers`);
+  return response.data;
+};
