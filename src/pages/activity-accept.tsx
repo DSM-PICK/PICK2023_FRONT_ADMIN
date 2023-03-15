@@ -3,15 +3,27 @@ import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
 import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
+import { useQuery, useMutation } from "react-query";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
+import Modal from "@/components/common/modal";
 import DropDown from "@/components/common/dropDown";
 import { ItemType } from "@/models/common";
 import {
   gradeDropDownItem,
   classDropDownItem,
+  layerDropDownItem,
 } from "@/components/activityAccept/DropDownItem";
+import { useApiError } from "@/hooks/useApiError";
 import { todayDate } from "@/utils/functions/todayDate";
+import { getOutingApplyList } from "@/utils/api/outing";
+import {
+  getMoveStudentList,
+  floorRestrictionPatch,
+} from "@/utils/api/selfStudy";
+import { getDateType } from "@/utils/api/common/index";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface headBarProps {
   title: string;
@@ -28,18 +40,21 @@ const HeadBar = ({ title, children }: headBarProps) => {
 
 interface ActivityBtnProps {
   children: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
+const ActivityBtn = ({ children, onClick, disabled }: ActivityBtnProps) => {
   const headerBarBtnStyle = css`
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     padding: 0 2vh;
+    cursor: pointer;
   `;
   return (
     <ButtonComponent
+      disabled={disabled}
       onClick={onClick}
       size={["", "32px"]}
       customStyle={headerBarBtnStyle}
@@ -50,73 +65,62 @@ const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
   );
 };
 
-const data = [
-  {
-    key: 1,
-    num: 2302,
-    name: "강용수",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 2,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 3,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-  {
-    key: 4,
-    num: 2120,
-    name: "추혜연",
-    time: "16:30~17:30",
-    reason:
-      "아무래도 저 코로나 같아요 ㅜㅜ 빨리 검사하고 오겠습니다 φ(゜▽゜*)♪",
-  },
-];
-const even = data.filter((number) => number.key % 2 === 0);
-const odd = data.filter((number) => number.key % 2 === 1);
-
-const move_list = [
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
-  {
-    student_number: 2218,
-    student_name: "정대현",
-    before: "2 - 2",
-    after: "세미나실 2-1",
-  },
-];
-
 const ActivityAccept = () => {
   const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
   const [gradeResult, setGradeResult] = useState<ItemType>({
     option: "grade",
-    id: "title",
+    id: 0,
   });
   const [classResult, setClassResult] = useState<ItemType>({
     option: "class",
-    id: "title",
+    id: 0,
   });
+  const [layerResult, setLayerResult] = useState<ItemType>({
+    option: "layer",
+    id: 0,
+  });
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-  const acceptBtnStyle = css`
-    font-size: 13px;
-    font-weight: 300;
-  `;
+  let grade_id = gradeResult.id as number;
+  let class_id = classResult.id as number;
+  let layer_id = layerResult.id as number;
+
+  const { handleError } = useApiError();
+
+  const { data: todayType } = useQuery(
+    "todayType",
+    () => getDateType(todayDate()),
+    {
+      onError: handleError,
+    }
+  );
+
+  const { data: applyList } = useQuery(
+    ["applyList", gradeResult.id, classResult.id, layerResult.id],
+    () =>
+      getOutingApplyList({
+        grade: grade_id,
+        classNum: class_id,
+        floor: layer_id,
+        type: (todayType?.data.type as string) || "SELF_STUDY",
+      })
+  );
+
+  const { data: moveList } = useQuery(
+    ["moveList", gradeResult.id, classResult.id, layerResult.id],
+    () =>
+      getMoveStudentList({
+        grade: grade_id,
+        classNum: class_id,
+        floor: layer_id,
+      })
+  );
+
+  const floorState = useSelector(
+    (state: RootState) => state.counter.initalState.setTeacherState
+  );
+
+  const { mutate } = useMutation("floor", () => floorRestrictionPatch());
 
   return (
     <Wrapper>
@@ -129,67 +133,82 @@ const ActivityAccept = () => {
           <LayerToggle
             action={isLayerToggle}
             leftClick={() => {
+              setGradeResult({ ...gradeResult, id: 0 });
+              setClassResult({ ...classResult, id: 0 });
+              setLayerResult({ ...layerResult, id: 0 });
               setIsLayerToggle(false);
             }}
             rightClick={() => {
+              setGradeResult({ ...gradeResult, id: 0 });
+              setClassResult({ ...classResult, id: 0 });
+              setLayerResult({ ...layerResult, id: 0 });
               setIsLayerToggle(true);
             }}
           />
-          <DropDown
-            setResult={setGradeResult}
-            dropDownItem={gradeDropDownItem}
-            title="lyaer"
-          />
-          <DropDown
-            setResult={setClassResult}
-            dropDownItem={classDropDownItem}
-            title="class"
-          />
+          {isLayerToggle ? (
+            <>
+              <DropDown
+                setResult={setGradeResult}
+                dropDownItem={gradeDropDownItem}
+                title="grade"
+              />
+              <DropDown
+                setResult={setClassResult}
+                dropDownItem={classDropDownItem}
+                title="class"
+              />
+            </>
+          ) : (
+            <DropDown
+              setResult={setLayerResult}
+              dropDownItem={layerDropDownItem}
+              title="lyaer"
+            />
+          )}
         </div>
       </Header>
       <Container>
         <ActivityWrapper width="480px">
           <HeadBar title="외출 신청 목록">
-            <ActivityBtn>새로운 외출증 발급</ActivityBtn>
+            <div className="임시방편" />
+            {/*<ActivityBtn>새로운 외출증 발급</ActivityBtn>*/}
           </HeadBar>
           <OutingBox>
-            <OutingList>
-              {odd.map((data) => (
-                <OutingComponent data={data} />
-              ))}
-            </OutingList>
-            <OutingList>
-              {even.map((data) => (
-                <OutingComponent data={data} />
-              ))}
-            </OutingList>
+            <OutingComponent outing={applyList?.outing || []} />
           </OutingBox>
-          <AcceptBtns>
-            <ButtonComponent
-              customStyle={acceptBtnStyle}
-              size={[95, 40]}
-              fill="ghost"
-              onClick={() => {}}
-            >
-              거절하기
-            </ButtonComponent>
-            <ButtonComponent
-              customStyle={acceptBtnStyle}
-              size={[95, 40]}
-              fill="purple"
-              onClick={() => {}}
-            >
-              수락하기
-            </ButtonComponent>
-          </AcceptBtns>
         </ActivityWrapper>
         <ActivityWrapper width="340px">
           <HeadBar title="이동한 학생">
-            <ActivityBtn>이동 제한</ActivityBtn>
+            <ActivityBtn
+              onClick={() => setOpenModal(true)}
+              disabled={floorState ? false : true}
+            >
+              {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
+            </ActivityBtn>
           </HeadBar>
+          {isOpenModal && (
+            <Modal
+              setOpenModal={setOpenModal}
+              isDanger={true}
+              btnText="제안하기"
+              mainText={`오늘 ${floorState}층의 모든 이동을
+              제한하시겠습니까?`}
+              subText={`제한하기를 선택하면 오늘(${todayDate()})
+                  방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
+              callBack={() => {
+                mutate();
+              }}
+            />
+          )}
           <MovingBox>
-            {move_list.map((data) => (
-              <MovingComponent data={data} />
+            {moveList?.data.move_list.map((data) => (
+              <MovingComponent
+                key={data.student_number}
+                student_number={data.student_number}
+                student_name={data.student_name}
+                after={data.after}
+                before={data.before}
+              />
             ))}
           </MovingBox>
         </ActivityWrapper>
@@ -246,6 +265,7 @@ const Container = styled.main`
   padding: 28px;
 `;
 const ActivityWrapper = styled.div<{ width: string }>`
+  position: relative;
   background-color: ${({ theme }) => theme.colors.white};
   border-radius: 16px;
   height: 100%;
@@ -264,21 +284,11 @@ const HeaderText = styled.p`
 `;
 const OutingBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  flex: 1;
+  flex-wrap: wrap;
+  gap: 8px;
   overflow-y: scroll;
 `;
-const OutingList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-x: scroll;
-`;
-const AcceptBtns = styled.div`
-  display: flex;
-  gap: 12px;
-  justify-content: end;
-`;
+
 const MovingBox = styled.div`
   display: flex;
   flex-direction: column;

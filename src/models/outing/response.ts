@@ -1,6 +1,6 @@
 export interface OutingApplyListType {
   student_id: string;
-  student_number: number;
+  student_number: string;
   student_name: string;
   start_time: string;
   end_time: string;

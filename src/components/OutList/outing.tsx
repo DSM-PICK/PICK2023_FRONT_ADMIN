@@ -3,12 +3,12 @@ import { patchOutingStudentState } from "@/utils/api/outing";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import ModalPage from "../common/modal";
 
 interface Props {
   student_id: string;
-  student_number: number;
+  student_number: string;
   student_name: string;
   end_time: string;
   refetch: () => void;
@@ -24,7 +24,7 @@ const Outing = ({
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [period, setPeriod] = useState<number>(0);
 
-  const { mutate, isSuccess } = useMutation(
+  const { mutate } = useMutation(
     "confirm-return-outing",
     () => patchOutingStudentState(student_id, period),
     {

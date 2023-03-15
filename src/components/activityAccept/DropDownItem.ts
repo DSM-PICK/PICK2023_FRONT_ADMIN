@@ -1,46 +1,46 @@
 export const gradeDropDownItem = [
   {
     option: "1학년",
-    id: "1Grade",
+    id: 1,
   },
   {
     option: "2학년",
-    id: "2Grade",
+    id: 2,
   },
   {
     option: "3학년",
-    id: "3Grade",
+    id: 3,
   },
 ];
 export const layerDropDownItem = [
   {
     option: "2층",
-    id: "1Floor",
+    id: 2,
   },
   {
     option: "3층",
-    id: "2Floor",
+    id: 3,
   },
   {
     option: "4층",
-    id: "3Floor",
+    id: 4,
   },
 ];
 export const classDropDownItem = [
   {
     option: "1반",
-    id: "1class",
+    id: 1,
   },
   {
     option: "2반",
-    id: "2class",
+    id: 2,
   },
   {
     option: "3반",
-    id: "3class",
+    id: 3,
   },
   {
     option: "4반",
-    id: "4class",
+    id: 4,
   },
 ];

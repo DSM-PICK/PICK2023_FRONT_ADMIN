@@ -1,20 +1,11 @@
-import Outing from "@/components/OutList/outing";
+import Outing from "@/components/outList/outing";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
 import styled from "@emotion/styled";
 import { useQuery } from "react-query";
 
-interface Props {
-  outing: {
-    student_id: string;
-    student_number: string;
-    student_name: string;
-    end_time: string;
-  }[];
-}
-
 const OutListPage = () => {
-  const { data, isSuccess,refetch } = useQuery("outing-students-list", () =>
+  const { data, isSuccess, refetch } = useQuery("outing-students-list", () =>
     getOutingStudentList()
   );
 

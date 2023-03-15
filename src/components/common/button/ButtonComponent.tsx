@@ -54,7 +54,6 @@ const ButtonComponent = ({
     if (typeof size[0] === "number") {
       size[0] = size[0] + "px";
       size[1] = size[1] + "px";
-      console.log(size[0], size[1]);
     }
     btnSize[0] = String(size[0]);
     btnSize[1] = String(size[1]);
@@ -66,7 +65,6 @@ const ButtonComponent = ({
       disabled={disabled}
       onClick={onClick}
       size={btnSize}
-      
     >
       {children}
     </DefaultBtn>

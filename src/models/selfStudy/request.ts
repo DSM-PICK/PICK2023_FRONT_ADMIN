@@ -34,7 +34,6 @@ export interface MoveStudentRequest {
   grade: number;
   classNum: number;
   floor: number;
-  date: string;
 }
 
 export interface SelfStudyTeacherPatch {
