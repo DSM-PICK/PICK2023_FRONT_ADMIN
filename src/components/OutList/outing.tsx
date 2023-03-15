@@ -24,7 +24,7 @@ const Outing = ({
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [period, setPeriod] = useState<number>(0);
 
-  const { mutate, isSuccess } = useMutation(
+  const { mutate } = useMutation(
     "confirm-return-outing",
     () => patchOutingStudentState(student_id, period),
     {

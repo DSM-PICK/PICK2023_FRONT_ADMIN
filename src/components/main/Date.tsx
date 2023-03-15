@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import { useDispatch } from "react-redux";
+import { setTeacherState } from "@/store/createSlice";
+import { useEffect } from "react";
 
 interface Props {
   date: string;
@@ -7,6 +10,14 @@ interface Props {
 }
 
 const Date = ({ date, name, floor }: Props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const floorData = floor?.map((item) => item);
+    dispatch(setTeacherState({ setSelfStudyState: floorData! }));
+    console.log(floorData);
+  }, [floor, dispatch]);
+
   return (
     <>
       <DateText>{date}</DateText>
@@ -14,12 +25,14 @@ const Date = ({ date, name, floor }: Props) => {
         <p>{name}선생님은&nbsp;</p>
         {floor?.length > 0 ? (
           <div>
-            {floor.map((item, i) => (
-              <p className="floor" key={i}>
-                {item}
-                {i < floor.length - 1 && ","}
-              </p>
-            ))}
+            {floor.map((item, i) => {
+              return (
+                <p className="floor" key={i}>
+                  {item}
+                  {i < floor.length - 1 && ","}
+                </p>
+              );
+            })}
             <p>층 자습감독입니다.</p>
           </div>
         ) : (

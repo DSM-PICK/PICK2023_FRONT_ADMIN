@@ -6,6 +6,7 @@ import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
 import OutingComponent from "../components/activityAccept/OutingComponent";
 import MovingComponent from "../components/activityAccept/MovingComponent";
+import Modal from "@/components/common/modal";
 import DropDown from "@/components/common/dropDown";
 import { ItemType } from "@/models/common";
 import {
@@ -16,8 +17,13 @@ import {
 import { useApiError } from "@/hooks/useApiError";
 import { todayDate } from "@/utils/functions/todayDate";
 import { getOutingApplyList } from "@/utils/api/outing";
-import { getMoveStudentList } from "@/utils/api/selfStudy";
+import {
+  getMoveStudentList,
+  floorRestrictionPatch,
+} from "@/utils/api/selfStudy";
 import { getDateType } from "@/utils/api/common/index";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 interface headBarProps {
   title: string;
@@ -34,18 +40,21 @@ const HeadBar = ({ title, children }: headBarProps) => {
 
 interface ActivityBtnProps {
   children: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const ActivityBtn = ({ children, onClick }: ActivityBtnProps) => {
+const ActivityBtn = ({ children, onClick, disabled }: ActivityBtnProps) => {
   const headerBarBtnStyle = css`
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
     padding: 0 2vh;
+    cursor: pointer;
   `;
   return (
     <ButtonComponent
+      disabled={disabled}
       onClick={onClick}
       size={["", "32px"]}
       customStyle={headerBarBtnStyle}
@@ -70,6 +79,7 @@ const ActivityAccept = () => {
     option: "layer",
     id: 0,
   });
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   let grade_id = gradeResult.id as number;
   let class_id = classResult.id as number;
@@ -85,7 +95,7 @@ const ActivityAccept = () => {
     }
   );
 
-  const { data: applyList, refetch } = useQuery(
+  const { data: applyList } = useQuery(
     ["applyList", gradeResult.id, classResult.id, layerResult.id],
     () =>
       getOutingApplyList({
@@ -105,6 +115,12 @@ const ActivityAccept = () => {
         floor: layer_id,
       })
   );
+
+  const floorState = useSelector(
+    (state: RootState) => state.counter.initalState.setTeacherState
+  );
+
+  const { mutate } = useMutation("floor", () => floorRestrictionPatch());
 
   return (
     <Wrapper>
@@ -163,8 +179,27 @@ const ActivityAccept = () => {
         </ActivityWrapper>
         <ActivityWrapper width="340px">
           <HeadBar title="이동한 학생">
-            <ActivityBtn>이동 제한</ActivityBtn>
+            <ActivityBtn
+              onClick={() => setOpenModal(true)}
+              disabled={floorState ? false : true}
+            >
+              {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
+            </ActivityBtn>
           </HeadBar>
+          {isOpenModal && (
+            <Modal
+              setOpenModal={setOpenModal}
+              isDanger={true}
+              btnText="제안하기"
+              mainText={`오늘 ${floorState}층의 모든 이동을
+              제한하시겠습니까?`}
+              subText={`제한하기를 선택하면 오늘(${todayDate()})
+                  방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
+              callBack={() => {
+                mutate();
+              }}
+            />
+          )}
           <MovingBox>
             {moveList?.data.move_list.map((data) => (
               <MovingComponent
