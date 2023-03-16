@@ -1,7 +1,6 @@
 import { media } from "@/utils/functions/media";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import Modal from "../common/modal";
 import ChangeTeacherModal from "./modal";
 
 interface Props {

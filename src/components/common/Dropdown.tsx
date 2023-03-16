@@ -5,19 +5,21 @@ import { useEffect, useState } from "react";
 import { ItemType } from "@/models/common";
 import { useTheme } from "@emotion/react";
 
+interface Props {
+  title: string | undefined;
+  dropDownItem: ItemType[];
+  setResult: React.Dispatch<React.SetStateAction<ItemType>>;
+  isFriday?: boolean | undefined;
+  className?: string;
+}
+
 const DropDown = ({
   title,
   dropDownItem,
   setResult,
   isFriday,
   className,
-}: {
-  title: string | undefined;
-  dropDownItem: ItemType[];
-  setResult: React.Dispatch<React.SetStateAction<ItemType>>;
-  isFriday?: boolean | undefined;
-  className?: string;
-}) => {
+}: Props) => {
   const [isClick, setIsClick] = useState<boolean>(false);
   const [value, setValue] = useState<string | undefined>(title);
   const [isAttendance, setIsAttendance] = useState<boolean>(false);
@@ -127,6 +129,7 @@ const SelectButton = styled.button<{
   padding: 16px;
   align-items: center;
   font-weight: 400;
+  cursor: pointer;
   font-size: 16px;
   line-height: 24px;
   color: ${(props) =>
@@ -158,6 +161,9 @@ const SelectList = styled.div<{ isFriday?: boolean }>`
   z-index: 1;
   top: 56px;
   z-index: 99;
+  > span {
+    cursor: pointer;
+  }
 `;
 
 export default DropDown;

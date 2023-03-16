@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { useState } from "react";
 import { useMutation } from "react-query";
-import ModalPage from "../common/modal";
+import Modal from "../common/Modal";
 
 interface Props {
   after_school_id: string;
@@ -48,7 +48,7 @@ const Outing = ({
         </CustomButton>
       </Container>
       {isOpenModal && (
-        <ModalPage
+        <Modal
           setOpenModal={setOpenModal}
           isDanger={true}
           btnText="삭제하기"

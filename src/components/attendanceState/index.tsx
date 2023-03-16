@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import React, { useEffect, useState } from "react";
-import DropDown from "../common/dropDown";
+import DropDown from "../common/Dropdown";
 import { ItemType } from "@/models/common";
 import { attendanceDropDownItem, floorDropDownItem } from "./constants";
 import Calendar from "react-calendar";
@@ -16,6 +16,7 @@ import {
   getAttendanceCheckList,
   attandanceStatusChange,
 } from "@/utils/api/selfStudy";
+import PageContainer from "../common/PageContainer";
 
 const AttendanceState = () => {
   const [className, setClassName] = useState<string>("");
@@ -28,20 +29,20 @@ const AttendanceState = () => {
     date: date,
   };
 
-  const { data: attendanceCheckList } = useQuery(className, () =>
+  const { data: attendanceCheckList } = useQuery([className, date], () =>
     getAttendanceCheckList(getAttendanceCheckListReq)
   );
 
+  const filter: JSX.Element = (
+    <DropDowns
+      setClassroomId={setClassroomId}
+      setDate={setDate}
+      setClassName={setClassName}
+    />
+  );
+
   return (
-    <Wrapper>
-      <Header>
-        <Title>출결상태</Title>
-        <DropDowns
-          setClassroomId={setClassroomId}
-          setDate={setDate}
-          setClassName={setClassName}
-        />
-      </Header>
+    <PageContainer title="출결상태" filter={filter}>
       <StudentListContainer width={isFriday ? "1159px" : "1130px"}>
         <StudentListHeader isFriday={isFriday} className={className} />
         <StudentWrapper>
@@ -57,7 +58,7 @@ const AttendanceState = () => {
           ))}
         </StudentWrapper>
       </StudentListContainer>
-    </Wrapper>
+    </PageContainer>
   );
 };
 
@@ -279,7 +280,7 @@ const DropDowns = ({
       <ClassDropDown
         setClassName={setClassName}
         setClassroomId={setClassroomId}
-        classList={classList?.data.classroom_list}
+        classList={classList?.classroom_list}
       />
       <DateInput onClick={() => setIsCalendarActive(!isCalendarActive)}>
         {parsedDate} <Image src={CalendarIcon} alt="" />
@@ -323,26 +324,6 @@ const ReactCalender = ({ setCalendarDate, dateState }: ReactCalendarProps) => {
   );
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  padding-left: 30px;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.gray900};
-  font-weight: 700;
-  font-size: 35px;
-  line-height: 60px;
-`;
-
 const BtnsContainer = styled.div`
   display: flex;
   gap: 16px;
@@ -359,6 +340,7 @@ const ExcelPrintBtn = styled.button`
   font-size: 16px;
   line-height: 24px;
   background: white;
+  cursor: pointer;
   :hover {
     color: ${({ theme }) => theme.colors.purple400};
     border: 1px solid ${({ theme }) => theme.colors.purple400};
@@ -383,13 +365,6 @@ const DateInput = styled.div`
 
 const StudentListContainer = styled.div<{ width: string }>`
   width: ${(props) => props.width};
-  height: 600px;
-  background: ${({ theme }) => theme.colors.gray50};
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  padding: 54px 66px 60px 40px;
-  gap: 28px;
 `;
 
 const StudentWrapper = styled.div`
@@ -454,7 +429,6 @@ const Wrap = styled.div`
   top: 55px;
   z-index: 99;
   right: 0px;
-
   .react-calendar {
     border: none;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);

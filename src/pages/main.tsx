@@ -90,7 +90,6 @@ const Home = () => {
 
 const MainPageContainer = styled.div`
   width: 70vw;
-  max-width: 1220px;
   margin: auto;
   @media (max-width: 1100px) {
     width: auto;
@@ -98,8 +97,9 @@ const MainPageContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
 
 export default Home;

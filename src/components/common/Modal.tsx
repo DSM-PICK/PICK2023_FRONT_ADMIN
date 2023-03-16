@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import styled from "@emotion/styled";
-import ButtonComponent from "../button/ButtonComponent";
-import { Button } from "@semicolondsm/ui";
+import Button from "./Button";
 
 interface Props {
   mainText?: string;
@@ -42,7 +41,7 @@ const Modal = ({
         {subText && <p>{subText}</p>}
         {children}
         <div>
-          <ButtonComponent
+          <Button
             fill="default"
             size={["240px", "52px"]}
             disabled={false}
@@ -51,15 +50,15 @@ const Modal = ({
             }}
           >
             취소
-          </ButtonComponent>
-          <ButtonComponent
+          </Button>
+          <Button
             fill={isDanger ? "red" : "purple"}
             size={["240px", "52px"]}
             disabled={false}
             onClick={() => clickConfirmButton()}
           >
             {btnText}
-          </ButtonComponent>
+          </Button>
         </div>
       </ModalBox>
     </ModalWrapper>
@@ -110,14 +109,6 @@ const ModalBox = styled.dialog`
     display: flex;
     gap: 24px;
   }
-`;
-
-const CustomButton = styled(Button)`
-  font-size: 20px !important;
-  width: 240px;
-  display: flex;
-  justify-content: center;
-  height: 52px;
 `;
 
 export default Modal;

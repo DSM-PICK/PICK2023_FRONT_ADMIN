@@ -171,7 +171,10 @@ export const getSchoolTeacherList = async () => {
   return schoolTeacherList;
 };
 
-export const getLayerClassList = async (floor: number, type: string) => {
+export const getLayerClassList = async (
+  floor: number | string,
+  type: string | undefined
+) => {
   const layerClassList = await instance.get<{
     classroom_list: FloorClassRoomDto[];
   }>(`/pick/class-room/?floor=${floor}&type=${type}`);

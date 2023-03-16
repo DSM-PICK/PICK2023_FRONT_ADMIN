@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import background from "../assets/login/background.png";
 import logo from "..//assets/login/logo.png";
-import Input from "../components/common/input/index";
+import Input from "../components/common/Input";
 import { Button } from "@semicolondsm/ui";
 import Image from "next/image";
 import { useState, useLayoutEffect } from "react";

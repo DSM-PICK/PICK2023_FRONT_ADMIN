@@ -1,19 +1,11 @@
 import styled from "@emotion/styled";
-import LayerToggle from "../components/activityAccept/ToggleFloor";
 import { useState } from "react";
-import ButtonComponent from "@/components/common/button/ButtonComponent";
 import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
-import OutingComponent from "../components/activityAccept/OutingComponent";
+import OutingList from "../components/activityAccept/OutingList";
 import MovingComponent from "../components/activityAccept/MovingComponent";
-import Modal from "@/components/common/modal";
-import DropDown from "@/components/common/dropDown";
+import Modal from "@/components/common/Modal";
 import { ItemType } from "@/models/common";
-import {
-  gradeDropDownItem,
-  classDropDownItem,
-  layerDropDownItem,
-} from "@/components/activityAccept/DropDownItem";
 import { useApiError } from "@/hooks/useApiError";
 import { todayDate } from "@/utils/functions/todayDate";
 import { getOutingApplyList } from "@/utils/api/outing";
@@ -24,19 +16,11 @@ import {
 import { getDateType } from "@/utils/api/common/index";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-
-interface headBarProps {
-  title: string;
-  children: JSX.Element;
-}
-const HeadBar = ({ title, children }: headBarProps) => {
-  return (
-    <HeaderContainer>
-      <HeaderText>{title}</HeaderText>
-      {children}
-    </HeaderContainer>
-  );
-};
+import Button from "@/components/common/Button";
+import PageContainer from "@/components/common/PageContainer";
+import ButtonBox from "@/components/activityAccept/ButtonBox";
+import HeadBar from "@/components/activityAccept/HeadBar";
+import Filter from "@/components/activityAccept/Filter";
 
 interface ActivityBtnProps {
   children: string;
@@ -46,27 +30,29 @@ interface ActivityBtnProps {
 
 const ActivityBtn = ({ children, onClick, disabled }: ActivityBtnProps) => {
   const headerBarBtnStyle = css`
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
-    line-height: 20px;
-    padding: 0 2vh;
+    padding: 0px 12px;
+    border-radius: 8px;
+    margin: 8px 0;
     cursor: pointer;
   `;
   return (
-    <ButtonComponent
+    <Button
       disabled={disabled}
       onClick={onClick}
-      size={["", "32px"]}
+      size={["", "36px"]}
       customStyle={headerBarBtnStyle}
       fill="purple"
     >
       {children}
-    </ButtonComponent>
+    </Button>
   );
 };
 
 const ActivityAccept = () => {
-  const [isLayerToggle, setIsLayerToggle] = useState<boolean>(true);
+  const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
+  const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
   const [gradeResult, setGradeResult] = useState<ItemType>({
     option: "grade",
     id: 0,
@@ -120,64 +106,44 @@ const ActivityAccept = () => {
     (state: RootState) => state.counter.initalState.setTeacherState
   );
 
+  let isClick = outingSelectList.length > 0;
+
+  const filter: JSX.Element = (
+    <Filter
+      gradeResult={gradeResult}
+      classResult={classResult}
+      layerResult={layerResult}
+      setClassResult={setClassResult}
+      setGradeResult={setGradeResult}
+      setLayerResult={setLayerResult}
+    />
+  );
+
   const { mutate } = useMutation("floor", () => floorRestrictionPatch());
 
   return (
-    <Wrapper>
-      <Header>
-        <div>
-          <Title>외출/이동 수락</Title>
-          <SubTitle>{todayDate()}</SubTitle>
-        </div>
-        <div>
-          <LayerToggle
-            action={isLayerToggle}
-            leftClick={() => {
-              setGradeResult({ ...gradeResult, id: 0 });
-              setClassResult({ ...classResult, id: 0 });
-              setLayerResult({ ...layerResult, id: 0 });
-              setIsLayerToggle(false);
-            }}
-            rightClick={() => {
-              setGradeResult({ ...gradeResult, id: 0 });
-              setClassResult({ ...classResult, id: 0 });
-              setLayerResult({ ...layerResult, id: 0 });
-              setIsLayerToggle(true);
-            }}
-          />
-          {isLayerToggle ? (
-            <>
-              <DropDown
-                setResult={setGradeResult}
-                dropDownItem={gradeDropDownItem}
-                title="grade"
-              />
-              <DropDown
-                setResult={setClassResult}
-                dropDownItem={classDropDownItem}
-                title="class"
-              />
-            </>
-          ) : (
-            <DropDown
-              setResult={setLayerResult}
-              dropDownItem={layerDropDownItem}
-              title="lyaer"
-            />
-          )}
-        </div>
-      </Header>
+    <PageContainer
+      title="외출/이동 수락"
+      subTitle={todayDate()}
+      filter={filter}
+    >
       <Container>
-        <ActivityWrapper width="480px">
+        <div>
           <HeadBar title="외출 신청 목록">
-            <div className="임시방편" />
-            {/*<ActivityBtn>새로운 외출증 발급</ActivityBtn>*/}
+            <ActivityBtn>새로운 외출증 발급</ActivityBtn>
           </HeadBar>
           <OutingBox>
-            <OutingComponent outing={applyList?.outing || []} />
+            <OutingList
+              outing={applyList?.outing || []}
+              outingSelectList={outingSelectList}
+              outingStudentId={outingStudentId}
+              setOutingSelectList={setOutingSelectList}
+              setOutingStudentId={setOutingStudentId}
+            />
           </OutingBox>
-        </ActivityWrapper>
-        <ActivityWrapper width="340px">
+          <ButtonBox isActive={isClick} outingStudentId={outingStudentId} />
+        </div>
+        <div>
           <HeadBar title="이동한 학생">
             <ActivityBtn
               onClick={() => setOpenModal(true)}
@@ -190,7 +156,7 @@ const ActivityAccept = () => {
             <Modal
               setOpenModal={setOpenModal}
               isDanger={true}
-              btnText="제안하기"
+              btnText="제한하기"
               mainText={`오늘 ${floorState}층의 모든 이동을
               제한하시겠습니까?`}
               subText={`제한하기를 선택하면 오늘(${todayDate()})
@@ -211,81 +177,37 @@ const ActivityAccept = () => {
               />
             ))}
           </MovingBox>
-        </ActivityWrapper>
+        </div>
       </Container>
-    </Wrapper>
+    </PageContainer>
   );
 };
 
-const HeaderContainer = styled.div`
-  width: 100%;
-  height: 50px;
-  border-radius: 12px;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  padding: 0 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-const Wrapper = styled.div`
-  width: 900px;
-  height: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-`;
-const Header = styled.header`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+const Container = styled.div`
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1.5fr 1fr;
+  height: 100%;
   > div {
+    height: 68vh !important;
+    width: 100%;
+    position: relative;
+    background-color: ${({ theme }) => theme.colors.white};
+    border-radius: 16px;
+    height: 100%;
+    padding: 16px 20px;
     display: flex;
-    align-items: end;
-    gap: 16px;
+    flex-direction: column;
+    gap: 24px;
+    overflow: hidden;
   }
 `;
-const Title = styled.p`
-  font-size: 32px;
-  color: ${({ theme }) => theme.colors.gray900};
-  font-weight: 700;
-`;
-const SubTitle = styled.p`
-  font-size: 16px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.gray600};
-`;
-const Container = styled.main`
-  flex: 1;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  border-radius: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 28px;
-`;
-const ActivityWrapper = styled.div<{ width: string }>`
-  position: relative;
-  background-color: ${({ theme }) => theme.colors.white};
-  border-radius: 16px;
-  height: 100%;
-  width: ${({ width }) => width};
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
 
-const HeaderText = styled.p`
-  color: ${({ theme }) => theme.colors.gray900};
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 28px;
-`;
 const OutingBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   overflow-y: scroll;
 `;
 
@@ -293,6 +215,7 @@ const MovingBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow-y: scroll;
 `;
 
 export default ActivityAccept;

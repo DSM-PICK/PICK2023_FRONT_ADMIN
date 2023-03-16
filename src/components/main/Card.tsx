@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
-import ButtonComponent from "../common/button/ButtonComponent";
 import { css } from "@emotion/react";
+import Button from "../common/Button";
 
 interface Props {
   img: string;
@@ -16,6 +16,7 @@ const Card = ({ img, btnText, link, text }: Props) => {
     font-weight: "500";
     font-size: "20px";
     line-height: "28px";
+    width: 18vw;
   `;
 
   return (
@@ -25,13 +26,13 @@ const Card = ({ img, btnText, link, text }: Props) => {
           {text()}
           <Image src={img} alt="img" />
           <Link href={`${link}`}>
-            <ButtonComponent
+            <Button
               customStyle={BtnsStyles}
               fill="purple"
               size={["280px", "54px"]}
             >
               {btnText}
-            </ButtonComponent>
+            </Button>
           </Link>
         </>
       </MainBtns>
@@ -51,7 +52,7 @@ const MainBtns = styled.div`
   justify-content: center;
   height: 400px;
   border-radius: 16px;
-  padding: 0 20px;
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.gray50};
   > p {
     font-size: 22px;
