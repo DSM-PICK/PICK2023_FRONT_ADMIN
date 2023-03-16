@@ -2,10 +2,12 @@ import styled from "@emotion/styled";
 import DropDown from "../common/Dropdown";
 import { useState, useEffect } from "react";
 import { ItemType } from "@/models/common";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getTeachersList } from "@/utils/api/common";
 import { patchSelfStudyTeacher } from "@/utils/api/selfStudy";
 import Button from "../common/Button";
+import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface Props {
   floor: number;
@@ -36,6 +38,7 @@ const ChangeTeacherModal = ({
   const { data, isSuccess } = useQuery(["get-teachers-list"], () =>
     getTeachersList()
   );
+  const { handleError } = useApiError();
   const { mutate } = useMutation(
     ["patch-teachers-list", selectedTeacher.id, selectedFloor.id],
     () => {
@@ -51,7 +54,9 @@ const ChangeTeacherModal = ({
     {
       onSuccess: () => {
         refetch();
+        toast.success("자습감독선생님이 변경되었습니다.", { duration: 1000 });
       },
+      onError: handleError,
     }
   );
 

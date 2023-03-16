@@ -1,10 +1,12 @@
 import { ItemType } from "@/models/common";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import DropDown from "../common/Dropdown";
 import { attendanceDropDownItem } from "./constants";
 import { attandanceStatusChange } from "@/utils/api/selfStudy";
+import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface StudentProps {
   studentNumber: string;
@@ -81,11 +83,18 @@ const Student = ({
         return "출석";
     }
   };
+  const { handleError } = useApiError();
+  const queryClient = useQueryClient();
 
-  const { mutate, isLoading, isError, error, isSuccess } = useMutation(
-    attandanceStatusChange
-  );
-
+  const { mutate } = useMutation(attandanceStatusChange, {
+    onError: handleError,
+    onSettled: () => {
+      queryClient.invalidateQueries("attendance");
+    },
+    onSuccess: () => {
+      toast.success("상태가 변경되었습니다.", { duration: 1000 });
+    },
+  });
   function updateAttendance(
     period: number,
     status: string | number,

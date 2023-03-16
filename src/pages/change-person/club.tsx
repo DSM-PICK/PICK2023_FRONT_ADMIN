@@ -41,6 +41,7 @@ const ClubPerson = () => {
     () => getLayerClassList(layerData, dayType?.data.type!),
     {
       enabled: !!dayType?.data.type,
+      onError: handleError,
     }
   );
 
@@ -53,6 +54,8 @@ const ClubPerson = () => {
     () => getClubMemberList(classResult.id as string),
     {
       enabled: classResult.id !== "",
+      onError: handleError,
+      cacheTime: 0,
     }
   );
 

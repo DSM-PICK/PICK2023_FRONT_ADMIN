@@ -2,6 +2,7 @@ import { deleteAfterSchoolMember } from "@/utils/api/selfStudy";
 import styled from "@emotion/styled";
 import { Button } from "@semicolondsm/ui";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useMutation } from "react-query";
 import Modal from "../common/Modal";
 
@@ -27,6 +28,7 @@ const Outing = ({
     {
       onSuccess: () => {
         refetch();
+        toast.success("삭제되었습니다.", { duration: 1000 });
       },
     }
   );

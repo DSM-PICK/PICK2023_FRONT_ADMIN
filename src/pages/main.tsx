@@ -9,14 +9,24 @@ import {
   getTodaySelfStudyTeacherWhether,
   getMainpageStudnetCount,
 } from "@/utils/api/selfStudy/index";
+import { useApiError } from "@/hooks/useApiError";
 
 const Home = () => {
-  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher());
-  const { data: state } = useQuery("state", () =>
-    getTodaySelfStudyTeacherWhether()
+  const { handleError } = useApiError();
+  const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
+    onError: handleError,
+  });
+  const { data: state } = useQuery(
+    "state",
+    () => getTodaySelfStudyTeacherWhether(),
+    {
+      onError: handleError,
+    }
   );
-  const { data: students } = useQuery("students", () =>
-    getMainpageStudnetCount()
+  const { data: students } = useQuery(
+    "students",
+    () => getMainpageStudnetCount(),
+    { onError: handleError, cacheTime: 0 }
   );
 
   const OutingText = () => {

@@ -13,6 +13,7 @@ import {
   teacher,
   out,
 } from "../../assets/navigation/index";
+import { useApiError } from "@/hooks/useApiError";
 
 const nameToInfo = [
   {
@@ -50,9 +51,14 @@ const nameToInfo = [
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const [activeItem, setActiveItem] = useState<number>();
   const router = useRouter();
+  const { handleError } = useApiError();
 
-  const { data: state } = useQuery("state", () =>
-    getTodaySelfStudyTeacherWhether()
+  const { data: state } = useQuery(
+    "state",
+    () => getTodaySelfStudyTeacherWhether(),
+    {
+      onError: handleError,
+    }
   );
 
   const onClickItem = (idx: number) => {

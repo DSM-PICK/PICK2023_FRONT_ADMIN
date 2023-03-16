@@ -1,3 +1,4 @@
+import { useApiError } from "@/hooks/useApiError";
 import { usePeriod } from "@/hooks/usePeriod";
 import { patchOutingStudentState } from "@/utils/api/outing";
 import styled from "@emotion/styled";
@@ -5,6 +6,7 @@ import { Button } from "@semicolondsm/ui";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import Modal from "../common/Modal";
+import { toast } from "react-hot-toast";
 
 interface Props {
   student_id: string;
@@ -23,14 +25,16 @@ const Outing = ({
 }: Props) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [period, setPeriod] = useState<number>(0);
-
+  const { handleError } = useApiError();
   const { mutate } = useMutation(
     "confirm-return-outing",
     () => patchOutingStudentState(student_id, period),
     {
       onSuccess: () => {
         refetch();
+        toast.success("복귀되었습니다.", { duration: 1000 });
       },
+      onError: handleError,
     }
   );
 
