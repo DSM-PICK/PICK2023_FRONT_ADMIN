@@ -18,7 +18,7 @@ export const useApiError = (handlers?: HandlersType) => {
   };
 
   const handle404 = () => {
-    toast.error("값을 다시 확인해주세요.", { duration: 1000 });
+    toast.error("정보가 없습니다.", { duration: 1000 });
   };
 
   const handle500 = () => {

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemType } from "../../models/common/index";
 import Member from "@/components/club/member";
 import DropDown from "@/components/common/Dropdown";
@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
 import PageContainer from "@/components/common/PageContainer";
+import { toast } from "react-hot-toast";
 
 const ClubPerson = () => {
   const [layerResult, setLayerResult] = useState<ItemType>({
@@ -28,6 +29,12 @@ const ClubPerson = () => {
     onError: handleError,
   });
 
+  useEffect(() => {
+    if (dayType?.data.type === "SELF_STUDY") {
+      toast.error("운영진들에게 문의해주세요.");
+    }
+  }, [dayType?.data.type]);
+
   let layerData = Number(layerResult.id);
   const { data: classList } = useQuery(
     ["classList", layerData],
@@ -37,7 +44,7 @@ const ClubPerson = () => {
     }
   );
 
-  const classObj = classList?.data.classroom_list.map((item) => {
+  const classObj = classList?.classroom_list.map((item) => {
     return { option: item.description, id: item.type_id };
   });
 
@@ -66,9 +73,13 @@ const ClubPerson = () => {
 
   return (
     <PageContainer
-      title={`${clubList?.data.club_name}`}
-      subTitle={`${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
-            선생님 담당)`}
+      title={dayType?.data.type === "CLUB" ? `${clubList?.data.club_name}` : ``}
+      subTitle={
+        dayType?.data.type === "CLUB"
+          ? `${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
+            선생님 담당)`
+          : `운영진들에게 문의해주세요..`
+      }
       filter={filter}
     >
       <Container>
