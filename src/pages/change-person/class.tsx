@@ -38,8 +38,8 @@ const ChangeClass = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
-    grade: 3,
-    class: 2,
+    grade: 0,
+    class: 0,
   });
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
   const { mutate, data: patchData } = useMutation(
