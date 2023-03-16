@@ -81,7 +81,7 @@ const Filter = ({
         <DropDown
           setResult={setLayerResult}
           dropDownItem={layerDropDownItem}
-          title="lyaer"
+          title="layer"
         />
       )}
     </>
