@@ -3,6 +3,7 @@ import StudentList from "@/components/changePersonClass/StudentList";
 import DropDown from "@/components/common/Dropdown";
 import Modal from "@/components/common/Modal";
 import PageContainer from "@/components/common/PageContainer";
+import { useApiError } from "@/hooks/useApiError";
 import { ItemType } from "@/models/common";
 import {
   getClassPersonStatus,
@@ -32,12 +33,13 @@ interface ChangeStudentType {
 }
 
 const ChangeClass = () => {
+  const { handleError } = useApiError();
   const theme = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
-    grade: 3,
-    class: 2,
+    grade: 0,
+    class: 0,
   });
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
   const { mutate, data: patchData } = useMutation(
@@ -46,7 +48,11 @@ const ChangeClass = () => {
   );
   const { data, isSuccess } = useQuery(
     ["get-student-in-class", selectedStates, patchData],
-    () => getClassPersonStatus(selectedStates.grade, selectedStates.class)
+    () => getClassPersonStatus(selectedStates.grade, selectedStates.class),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
   );
 
   if (!isSuccess) return <></>;

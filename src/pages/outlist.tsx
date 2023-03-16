@@ -1,13 +1,20 @@
 import PageContainer from "@/components/common/PageContainer";
-import Outing from "@/components/outList/outing";
+import Outing from "@/components/OutList/outing";
+import { useApiError } from "@/hooks/useApiError";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
 import styled from "@emotion/styled";
 import { useQuery } from "react-query";
 
 const OutListPage = () => {
-  const { data, isSuccess, refetch } = useQuery("outing-students-list", () =>
-    getOutingStudentList()
+  const { handleError } = useApiError();
+  const { data, isSuccess, refetch } = useQuery(
+    "outing-students-list",
+    () => getOutingStudentList(),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
   );
 
   return (

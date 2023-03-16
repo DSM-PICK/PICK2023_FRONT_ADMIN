@@ -1,8 +1,10 @@
+import { useApiError } from "@/hooks/useApiError";
 import { patchOutingRejectAccept } from "@/utils/api/outing";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useMutation, useQueryClient } from "react-query";
 import Button from "../common/Button";
+import { toast } from "react-hot-toast";
 
 interface Props {
   isActive: boolean;
@@ -16,12 +18,14 @@ const ButtonBox = ({ isActive, outingStudentId }: Props) => {
   `;
 
   const queryClient = useQueryClient();
-
+  const { handleError } = useApiError();
   const { mutate: patchOutingRejectList } = useMutation(
     () => patchOutingRejectAccept("PICNIC_REJECT", outingStudentId),
     {
+      onError: handleError,
       onSuccess: () => {
         queryClient.invalidateQueries("applyList");
+        toast.success("외출이 거절되었습니다.", { duration: 1000 });
       },
     }
   );
@@ -29,8 +33,10 @@ const ButtonBox = ({ isActive, outingStudentId }: Props) => {
   const { mutate: patchOutingApplyList } = useMutation(
     () => patchOutingRejectAccept("PICNIC", outingStudentId),
     {
+      onError: handleError,
       onSuccess: () => {
         queryClient.invalidateQueries("applyList");
+        toast.success("외출이 수락되었습니다.", { duration: 1000 });
       },
     }
   );

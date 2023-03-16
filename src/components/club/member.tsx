@@ -16,6 +16,7 @@ import {
 import { getDateType } from "@/utils/api/common";
 import { todayDate } from "@/utils/functions/todayDate";
 import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 interface Props {
   head_club_id: string;
@@ -62,6 +63,8 @@ const Member = ({
     () => getLayerClassList(layerData, dayType?.data.type!),
     {
       enabled: !!dayType?.data.type,
+      onError: handleError,
+      cacheTime: 0,
     }
   );
 
@@ -77,7 +80,9 @@ const Member = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries("clubList");
+        toast.success("동아리가 변경되었습니다.", { duration: 1000 });
       },
+      onError: handleError,
     }
   );
 
@@ -85,7 +90,11 @@ const Member = ({
     "kingChange",
     () => clubKingPatch(head_club_id, student_id),
     {
-      onSuccess: () => refetch(),
+      onSuccess: () => {
+        refetch();
+        toast.success("동아리 부장이 바뀌었습니다.", { duration: 1000 });
+      },
+      onError: handleError,
     }
   );
 

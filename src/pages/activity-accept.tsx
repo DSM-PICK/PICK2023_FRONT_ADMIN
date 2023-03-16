@@ -21,6 +21,7 @@ import PageContainer from "@/components/common/PageContainer";
 import ButtonBox from "@/components/activityAccept/ButtonBox";
 import HeadBar from "@/components/activityAccept/HeadBar";
 import Filter from "@/components/activityAccept/Filter";
+import { toast } from "react-hot-toast";
 
 interface ActivityBtnProps {
   children: string;
@@ -89,7 +90,11 @@ const ActivityAccept = () => {
         classNum: class_id,
         floor: layer_id,
         type: (todayType?.data.type as string) || "SELF_STUDY",
-      })
+      }),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
   );
 
   const { data: moveList } = useQuery(
@@ -99,7 +104,11 @@ const ActivityAccept = () => {
         grade: grade_id,
         classNum: class_id,
         floor: layer_id,
-      })
+      }),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
   );
 
   const floorState = useSelector(
@@ -119,7 +128,12 @@ const ActivityAccept = () => {
     />
   );
 
-  const { mutate } = useMutation("floor", () => floorRestrictionPatch());
+  const { mutate } = useMutation("floor", () => floorRestrictionPatch(), {
+    onError: handleError,
+    onSuccess: () => {
+      toast.success("층 이동이 제한되었습니다.", { duration: 1000 });
+    },
+  });
 
   return (
     <PageContainer

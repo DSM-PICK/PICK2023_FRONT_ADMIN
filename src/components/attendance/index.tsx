@@ -8,15 +8,17 @@ import "react-calendar/dist/Calendar.css";
 import { CalendarIcon } from "@/assets/attendanceState";
 import Image from "next/image";
 import moment from "moment";
-import ClassDropDown from "./dropDown";
+import ClassDropDown from "./ClassDropDown";
 import { getDateType } from "@/utils/api/common";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
   getLayerClassList,
   getAttendanceCheckList,
   attandanceStatusChange,
 } from "@/utils/api/selfStudy";
 import PageContainer from "../common/PageContainer";
+import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 const AttendanceState = () => {
   const [className, setClassName] = useState<string>("");
@@ -28,9 +30,14 @@ const AttendanceState = () => {
     classroom_id: classroomId,
     date: date,
   };
-
-  const { data: attendanceCheckList } = useQuery([className, date], () =>
-    getAttendanceCheckList(getAttendanceCheckListReq)
+  const { handleError } = useApiError();
+  const { data: attendanceCheckList } = useQuery(
+    [className, date],
+    () => getAttendanceCheckList(getAttendanceCheckListReq),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
   );
 
   const filter: JSX.Element = (
@@ -110,7 +117,7 @@ const Student = ({
   ];
 
   const fridayArr = [
-    setSixthAttendanceDropDownResult,
+    setEighthAttendanceDropDownResult,
     setSeventhAttendanceDropDownResult,
     setEighthAttendanceDropDownResult,
     setNinethAttendanceDropDownResult,
@@ -138,9 +145,17 @@ const Student = ({
     }
   };
 
-  const { mutate, isLoading, isError, error, isSuccess } = useMutation(
-    attandanceStatusChange
-  );
+  const queryClient = useQueryClient();
+  const { handleError } = useApiError();
+  const { mutate } = useMutation(attandanceStatusChange, {
+    onError: handleError,
+    onSuccess: () => {
+      toast.success("상태가 변경되었습니다.", { duration: 1000 });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries("attendance");
+    },
+  });
 
   function updateAttendance(
     period: number,
@@ -257,7 +272,7 @@ const DropDowns = ({
   };
 
   const parsedDate: string = changeDate();
-
+  const { handleError } = useApiError();
   const { data: dateType } = useQuery(parsedDate, () =>
     getDateType(parsedDate)
   );
@@ -266,6 +281,7 @@ const DropDowns = ({
     () => getLayerClassList(floorDropDownResult.id, dateType?.data.type),
     {
       enabled: !!dateType?.data.type,
+      onError: handleError,
     }
   );
 

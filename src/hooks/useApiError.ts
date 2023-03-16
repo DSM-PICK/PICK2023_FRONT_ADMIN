@@ -1,5 +1,7 @@
+import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { toast } from "react-hot-toast";
+import { removeToken } from "@/utils/functions/tokenManager";
 
 type HandlersType = {
   [status: number | string]: any;
@@ -10,7 +12,10 @@ export const useApiError = (handlers?: HandlersType) => {
     toast.error("잘못된 요청입니다.", { duration: 1000 });
   };
   const handle401 = () => {
+    const router = useRouter();
     toast.error("다시 로그인해주세요.", { duration: 1000 });
+    router.push("/");
+    removeToken();
   };
 
   const handle403 = () => {
@@ -22,7 +27,7 @@ export const useApiError = (handlers?: HandlersType) => {
   };
 
   const handle500 = () => {
-    toast.error("서버 및 동아리에 문의해주세요.", { duration: 1000 });
+    toast.error("서버 관리자 및 동아리에 문의해주세요.", { duration: 1000 });
   };
 
   const handleDefault = () => {

@@ -57,7 +57,7 @@ export const getAttendanceStatusList = async (
 export const attandanceStatusChange = async (
   request: AttandanceStatusChangeRequestDto
 ) => {
-  await instance.post(`/pick/teachers/status`, request);
+  return await instance.post(`/pick/teachers/status`, request);
 };
 
 export const getMainpageStudnetCount = async () => {

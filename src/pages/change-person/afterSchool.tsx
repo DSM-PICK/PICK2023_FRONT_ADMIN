@@ -1,5 +1,6 @@
 import PageContainer from "@/components/common/PageContainer";
 import List from "@/components/personnelChange/List";
+import { useApiError } from "@/hooks/useApiError";
 import {
   getAfterSchoolMemberList,
   getLayerClassList,
@@ -8,14 +9,21 @@ import styled from "@emotion/styled";
 import { useQuery } from "react-query";
 
 const AfterSchoolPage = () => {
-  const { data: classroom } = useQuery("classroom", () =>
-    getLayerClassList(2, "AFTER_SCHOOL")
+  const { handleError } = useApiError();
+  const { data: classroom } = useQuery(
+    "classroom",
+    () => getLayerClassList(2, "AFTER_SCHOOL"),
+    {
+      onError: handleError,
+    }
   );
   const { data: afterSchoolList, refetch } = useQuery(
     "after-school-id",
     () => getAfterSchoolMemberList(classroom?.classroom_list[0].type_id || ""),
     {
       enabled: !!classroom?.classroom_list[0].type_id,
+      onError: handleError,
+      cacheTime: 0,
     }
   );
 
