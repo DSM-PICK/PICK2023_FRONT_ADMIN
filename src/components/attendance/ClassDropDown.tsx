@@ -2,10 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import { DropDownIcon } from "@/assets/dropDown";
 import { useState } from "react";
-import {
-  FloorClassRoomDto,
-  FloorClassRoomList,
-} from "@/models/selfStudy/response";
+import { FloorClassRoomDto } from "@/models/selfStudy/response";
 
 const ClassDropDown = ({
   classList,

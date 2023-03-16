@@ -1,7 +1,62 @@
-import AttendanceState from "@/components/attendanceState";
+import PageContainer from "@/components/common/PageContainer";
+import styled from "@emotion/styled";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import List from "@/components/attendance/List";
+import { getAttendanceCheckList } from "@/utils/api/selfStudy";
+import Header from "@/components/attendance/Header";
+import Filter from "@/components/attendance/Filter";
 
 const AttendancePage = () => {
-  return <AttendanceState />;
+  const [className, setClassName] = useState<string>("");
+  const [classroomId, setClassroomId] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const isFriday = new Date(date).getDay() === 5;
+
+  const getAttendanceCheckListReq = {
+    classroom_id: classroomId,
+    date: date,
+  };
+
+  const { data: attendanceCheckList } = useQuery([className, date], () =>
+    getAttendanceCheckList(getAttendanceCheckListReq)
+  );
+
+  const filter: JSX.Element = (
+    <Filter
+      setClassName={setClassName}
+      setDate={setDate}
+      setClassroomId={setClassroomId}
+    />
+  );
+
+  return (
+    <PageContainer title="출결 상태" filter={filter}>
+      <>
+        <Header className={className} isFriday={isFriday} />
+        <StudentWrapper>
+          {attendanceCheckList?.data.student_list?.map((data, idx) => (
+            <List
+              key={idx}
+              isFriday={isFriday}
+              studentName={data.student_name}
+              studentNumber={data.student_number}
+              attendanceList={data.type_list}
+              studentId={data.student_id}
+            />
+          ))}
+        </StudentWrapper>
+      </>
+    </PageContainer>
+  );
 };
+
+const StudentWrapper = styled.div`
+  height: 88%;
+  overflow-y: scroll;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+`;
 
 export default AttendancePage;

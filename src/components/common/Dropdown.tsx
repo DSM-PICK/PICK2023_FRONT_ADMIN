@@ -82,7 +82,7 @@ const DropDown = ({
       >
         <span>{value}</span>
         {isActivate && (
-          <Image width={12} height={6} src={DropDownIcon} alt="" />
+          <Image width={12} height={6} src={DropDownIcon} alt="arrow" />
         )}
       </SelectButton>
       {isClick && (
@@ -110,12 +110,7 @@ const SelectButton = styled.button<{
   isClick: boolean;
   isFriday?: boolean;
 }>`
-  width: ${(props) =>
-    props.isFriday
-      ? "147px"
-      : props.isFriday === undefined
-      ? "147px"
-      : "260px"};
+  width: ${(props) => (props.isFriday === undefined ? "147px" : "100%")};
   height: 48px;
   background-color: white;
   border: 1px solid
@@ -139,12 +134,7 @@ const SelectButton = styled.button<{
 `;
 
 const SelectList = styled.div<{ isFriday?: boolean }>`
-  width: ${(props) =>
-    props.isFriday
-      ? "147px"
-      : props.isFriday === undefined
-      ? "147px"
-      : "260px"};
+  width: ${(props) => (props.isFriday === undefined ? "147px" : "100%")};
   background: white;
   border: 1px solid ${({ theme }) => theme.colors.gray300};
   box-shadow: 0px 2px 8px rgba(33, 33, 33, 0.25);
