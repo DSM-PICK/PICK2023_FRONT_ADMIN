@@ -51,9 +51,8 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handleError = useCallback(
     (error: any) => {
-      const httpStatus = error.result;
+      const httpStatus = error.response.status;
       const errorMessage = error.data?.errorMessage;
-
       switch (true) {
         case handlers && !!handlers[httpStatus]?.[errorMessage]:
           handlers![httpStatus][errorMessage]();
@@ -68,7 +67,7 @@ export const useApiError = (handlers?: HandlersType) => {
           break;
 
         case !!defaultHandlers[httpStatus]:
-          defaultHandlers[httpStatus]();
+          defaultHandlers[httpStatus].default();
           break;
 
         case !!defaultHandlers[httpStatus]:
