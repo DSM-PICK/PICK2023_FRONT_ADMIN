@@ -65,7 +65,7 @@ const Member = ({
     }
   );
 
-  const classObj = classList?.data.classroom_list.map((item) => {
+  const classObj = classList?.classroom_list.map((item) => {
     return { option: item.description, id: item.type_id };
   });
 
