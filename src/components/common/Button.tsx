@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { buttonStyleMap } from "../../../constants/buttonStyleMap";
 import { SerializedStyles } from "@emotion/react";
+import { buttonStyleMap } from "@/constants/buttonStyleMap";
 
 interface BtnProps {
   children: string;
@@ -16,7 +16,7 @@ interface BtnStyle {
   [index: string]: string;
 }
 
-const ButtonComponent = ({
+const Button = ({
   children,
   fill,
   disabled,
@@ -104,4 +104,4 @@ const DefaultBtn = styled.button<{
     ${({ customStyle }) => customStyle && customStyle}
 `;
 
-export default ButtonComponent;
+export default Button;

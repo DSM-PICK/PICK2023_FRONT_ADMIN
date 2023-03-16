@@ -3,7 +3,7 @@ import { transStatus } from "@/utils/constant/statusMap";
 import { keyframes, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
-import OutSideClickHandler from "../common/outSideClickHandler";
+import OutSideClickHandler from "../common/OutSideClickHandler";
 
 interface Props {
   studentID: string;

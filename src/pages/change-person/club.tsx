@@ -2,13 +2,14 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { ItemType } from "../../models/common/index";
 import Member from "@/components/club/member";
-import DropDown from "@/components/common/dropDown";
+import DropDown from "@/components/common/Dropdown";
 import { useApiError } from "@/hooks/useApiError";
 import { getDateType } from "@/utils/api/common/index";
 import { getLayerClassList, getClubMemberList } from "@/utils/api/selfStudy";
 import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
+import PageContainer from "@/components/common/PageContainer";
 
 const ClubPerson = () => {
   const [layerResult, setLayerResult] = useState<ItemType>({
@@ -48,29 +49,28 @@ const ClubPerson = () => {
     }
   );
 
+  const filter: JSX.Element = (
+    <>
+      <DropDown
+        title="2층"
+        dropDownItem={layerDropDownItem}
+        setResult={setLayerResult}
+      />
+      <DropDown
+        title="반"
+        dropDownItem={classObj!}
+        setResult={setClassResult}
+      />
+    </>
+  );
+
   return (
-    <Wrapper>
-      <Header>
-        <div>
-          <Title>{clubList?.data.club_name}</Title>
-          <SubTitle>
-            {clubList?.data.classroom_name}({clubList?.data.teacher_name}
-            선생님 담당)
-          </SubTitle>
-        </div>
-        <div>
-          <DropDown
-            title="2층"
-            dropDownItem={layerDropDownItem}
-            setResult={setLayerResult}
-          />
-          <DropDown
-            title="반"
-            dropDownItem={classObj!}
-            setResult={setClassResult}
-          />
-        </div>
-      </Header>
+    <PageContainer
+      title={`${clubList?.data.club_name}`}
+      subTitle={`${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
+            선생님 담당)`}
+      filter={filter}
+    >
       <Container>
         {clubList?.data.student_list?.map((list) => (
           <Member
@@ -82,49 +82,9 @@ const ClubPerson = () => {
           />
         ))}
       </Container>
-    </Wrapper>
+    </PageContainer>
   );
 };
-
-const Wrapper = styled.div`
-  width: 900px;
-  height: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  @media screen and (max-width: 1200px) {
-    width: 616px;
-    main {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-`;
-const Header = styled.div`
-  width: 100%;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  > div {
-    display: flex;
-    align-items: end;
-  }
-  > div:nth-child(2) {
-    gap: 10px;
-  }
-`;
-const Title = styled.p`
-  font-size: 32px;
-  color: ${({ theme }) => theme.colors.gray900};
-  font-weight: 700;
-  margin-right: 16px;
-`;
-const SubTitle = styled.p`
-  font-size: 16px;
-  color: ${({ theme }) => theme.colors.gray600};
-  font-weight: 500;
-  margin-bottom: 5px;
-`;
 
 const Container = styled.main`
   flex: 1;

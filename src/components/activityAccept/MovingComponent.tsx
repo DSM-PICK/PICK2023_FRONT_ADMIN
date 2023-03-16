@@ -17,42 +17,41 @@ const MovingComponent = (data: MovingProps) => {
         <p>{student_number + " " + student_name}</p>
       </User>
       <Class>
-        <ClassName>{before}</ClassName>
+        <p>{before}</p>
         <Image src={arrow} alt="->" />
-        <ClassName>{after}</ClassName>
+        <p>{after}</p>
       </Class>
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 12px;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
+  font-size: 15px;
 `;
+
 const User = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
-  width: 132px;
-  height: 40px;
+  height: 50px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const Class = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
-  width: 234px;
-  height: 40px;
+  height: 50px;
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const ClassName = styled.p`
-  flex: 1;
-  text-align: center;
+  > p {
+    flex: 1;
+    text-align: center;
+  }
 `;
 
 export default MovingComponent;

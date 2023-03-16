@@ -1,5 +1,6 @@
 import CalendarArrowIcon from "@/assets/changeTeacher";
 import TeacherCalendar from "@/components/changeTeacher/calendar";
+import Title from "@/components/common/Title";
 import { getSelfStudyTeacherList } from "@/utils/api/selfStudy";
 import styled from "@emotion/styled";
 import { useState, useEffect, useCallback } from "react";
@@ -83,7 +84,7 @@ const ChangeTeacherPage = () => {
   return (
     <Wrapper>
       <Header>
-        <Title>자습감독 선생님 변경</Title>
+        <Title title="자습감독 선생님 변경" />
         <DateDial>
           <CalendarArrowIcon
             direction={0}
@@ -124,14 +125,7 @@ const Wrapper = styled.div`
 
 const Header = styled.header`
   display: flex;
-  align-items: end;
   justify-content: space-between;
-`;
-const Title = styled.div`
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 40px;
-  color: ${({ theme }) => theme.colors.gray900};
 `;
 
 const DateDial = styled.div`

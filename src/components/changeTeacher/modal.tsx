@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
-import DropDown from "../common/dropDown";
+import DropDown from "../common/Dropdown";
 import { useState, useEffect } from "react";
 import { ItemType } from "@/models/common";
-import ButtonComponent from "../common/button/ButtonComponent";
 import { useMutation, useQuery } from "react-query";
 import { getTeachersList } from "@/utils/api/common";
 import { patchSelfStudyTeacher } from "@/utils/api/selfStudy";
+import Button from "../common/Button";
 
 interface Props {
   floor: number;
@@ -102,7 +102,7 @@ const ChangeTeacherModal = ({
           dropDownItem={teacherItem}
         />
         <div id="buttons">
-          <ButtonComponent
+          <Button
             fill="default"
             size={["288px", "52px"]}
             disabled={false}
@@ -111,15 +111,15 @@ const ChangeTeacherModal = ({
             }}
           >
             취소
-          </ButtonComponent>
-          <ButtonComponent
+          </Button>
+          <Button
             fill={"purple"}
             size={["288px", "52px"]}
             disabled={!selectedTeacher.id}
             onClick={() => clickConfirmButton()}
           >
             변경하기
-          </ButtonComponent>
+          </Button>
         </div>
       </Box>
     </Wrapper>

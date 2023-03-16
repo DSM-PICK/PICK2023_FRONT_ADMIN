@@ -1,7 +1,8 @@
 import EditButton from "@/components/changePersonClass/EditButton";
 import StudentList from "@/components/changePersonClass/StudentList";
-import DropDown from "@/components/common/dropDown";
-import ModalPage from "@/components/common/modal";
+import DropDown from "@/components/common/Dropdown";
+import Modal from "@/components/common/Modal";
+import PageContainer from "@/components/common/PageContainer";
 import { ItemType } from "@/models/common";
 import {
   getClassPersonStatus,
@@ -102,10 +103,50 @@ const ChangeClass = () => {
     ? studentList.find((x) => x.student_id == changedState[0].user_id)
     : null;
 
+  const filter: JSX.Element = (
+    <>
+      <EditButton
+        size={[148, 48]}
+        defaultColor={buttonColor}
+        hoverColor={buttonHoverColor}
+        onClick={() => {
+          if (isEditing && changedState.length) {
+            setOpenModal(true);
+          } else {
+            setIsEditing(!isEditing);
+          }
+        }}
+        content={isEditing ? "상태 저장하기" : "상태 수정하기"}
+      />
+      <DropDown
+        title="학년"
+        dropDownItem={grades}
+        setResult={(item) => {
+          const tempItem = item as ItemType;
+          setSelectedStates({
+            ...selectedStates,
+            grade: Number(tempItem.id) + 1,
+          });
+        }}
+      />
+      <DropDown
+        title="반"
+        dropDownItem={classes}
+        setResult={(item) => {
+          const tempItem = item as ItemType;
+          setSelectedStates({
+            ...selectedStates,
+            class: Number(tempItem.id) + 1,
+          });
+        }}
+      />
+    </>
+  );
+
   return (
     <>
       {openModal && firstStudent && (
-        <ModalPage
+        <Modal
           mainText={
             firstStudent.student_number +
             " " +
@@ -129,52 +170,11 @@ const ChangeClass = () => {
           setOpenModal={setOpenModal}
         />
       )}
-      <Wrapper>
-        <Header>
-          <Title>
-            <MainTitle>
-              {selectedStates.grade}학년 {selectedStates.class}반
-            </MainTitle>
-            <SubTitle>담임 {teacher} 선생님</SubTitle>
-          </Title>
-          <Filter>
-            <EditButton
-              size={[120, 40]}
-              defaultColor={buttonColor}
-              hoverColor={buttonHoverColor}
-              onClick={() => {
-                if (isEditing && changedState.length) {
-                  setOpenModal(true);
-                } else {
-                  setIsEditing(!isEditing);
-                }
-              }}
-              content={isEditing ? "상태 저장하기" : "상태 수정하기"}
-            />
-            <StyledDropDown
-              title="학년"
-              dropDownItem={grades}
-              setResult={(item) => {
-                const tempItem = item as ItemType;
-                setSelectedStates({
-                  ...selectedStates,
-                  grade: Number(tempItem.id) + 1,
-                });
-              }}
-            />
-            <StyledDropDown
-              title="반"
-              dropDownItem={classes}
-              setResult={(item) => {
-                const tempItem = item as ItemType;
-                setSelectedStates({
-                  ...selectedStates,
-                  class: Number(tempItem.id) + 1,
-                });
-              }}
-            />
-          </Filter>
-        </Header>
+      <PageContainer
+        title={`${selectedStates.grade}학년 ${selectedStates.class}반`}
+        subTitle={`담임 ${teacher} 선생님`}
+        filter={filter}
+      >
         <Container>
           {isSuccess &&
             studentList.map((value) => {
@@ -189,49 +189,12 @@ const ChangeClass = () => {
               );
             })}
         </Container>
-      </Wrapper>
+      </PageContainer>
     </>
   );
 };
 
 export default ChangeClass;
-
-const Wrapper = styled.div`
-  width: calc(85% - 300px);
-  height: 80vh;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const Header = styled.header`
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-`;
-const Title = styled.div`
-  display: flex;
-  align-items: end;
-  gap: 24px;
-`;
-
-const MainTitle = styled.p`
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 40px;
-  color: ${({ theme }) => theme.colors.gray900};
-`;
-const SubTitle = styled.p`
-  font-size: 24px;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.gray600};
-  margin-bottom: 4px;
-`;
-const Filter = styled.div`
-  display: flex;
-  gap: 24px;
-`;
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
@@ -253,15 +216,5 @@ const Container = styled.div`
   }
   ${media(1800)} {
     grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-`;
-
-const StyledDropDown = styled(DropDown)`
-  > button {
-    width: 120px;
-    height: 40px;
-  }
-  > div {
-    width: 120px;
   }
 `;

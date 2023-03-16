@@ -1,3 +1,4 @@
+import PageContainer from "@/components/common/PageContainer";
 import Outing from "@/components/outList/outing";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
@@ -10,13 +11,9 @@ const OutListPage = () => {
   );
 
   return (
-    <OutListContainer>
-      <TitleBox>
-        <h1>외출자 목록</h1>
-        <p>{todayDate()}</p>
-      </TitleBox>
-      <ListBox>
-        <div>
+    <>
+      <PageContainer title="외출자 목록" subTitle={todayDate()}>
+        <ListBox>
           {isSuccess &&
             data.data.outing.map((item) => {
               return (
@@ -29,47 +26,19 @@ const OutListPage = () => {
                 />
               );
             })}
-        </div>
-      </ListBox>
-    </OutListContainer>
+        </ListBox>
+      </PageContainer>
+    </>
   );
 };
 
-const OutListContainer = styled.div`
-  margin: auto;
-`;
-
-const TitleBox = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  align-items: end;
-  gap: 24px;
-  > h1 {
-    font-size: 32px;
-    font-weight: 700;
-  }
-  > p {
-    font-size: 20px;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.gray600};
-  }
-`;
-
 const ListBox = styled.div`
-  width: 70vw;
-  height: 600px;
-  border-radius: 16px;
-  background-color: ${({ theme }) => theme.colors.gray50};
-  border: solid ${({ theme }) => theme.colors.gray50};
-  border-width: 32px 28px;
-  > div {
-    height: 100%;
-    overflow-y: scroll;
-    display: grid;
-    gap: 16px 20px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 60px);
-  }
+  height: 100%;
+  overflow-y: scroll;
+  display: grid;
+  gap: 16px 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(auto-fill, 60px);
 `;
 
 export default OutListPage;
