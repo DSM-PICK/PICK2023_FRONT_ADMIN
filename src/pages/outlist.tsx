@@ -1,5 +1,5 @@
 import PageContainer from "@/components/common/PageContainer";
-import Outing from "@/components/OutList/outing";
+import List from "@/components/outlist/List";
 import { useApiError } from "@/hooks/useApiError";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
@@ -22,9 +22,9 @@ const OutListPage = () => {
       <PageContainer title="외출자 목록" subTitle={todayDate()}>
         <ListBox>
           {isSuccess &&
-            data.data.outing.map((item) => {
+            data.outing.map((item) => {
               return (
-                <Outing
+                <List
                   student_id={item.student_id}
                   student_name={item.student_name}
                   student_number={item.student_number}
