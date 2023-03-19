@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
 import OutingList from "../components/activityAccept/OutingList";
@@ -22,6 +22,12 @@ import ButtonBox from "@/components/activityAccept/ButtonBox";
 import HeadBar from "@/components/activityAccept/HeadBar";
 import Filter from "@/components/activityAccept/Filter";
 import { toast } from "react-hot-toast";
+import NoData from "@/components/common/Nodata";
+import {
+  gradeDropDownItem,
+  classDropDownItem,
+  layerDropDownItem,
+} from "@/components/activityAccept/DropDownItem";
 
 interface ActivityBtnProps {
   children: string;
@@ -54,18 +60,16 @@ const ActivityBtn = ({ children, onClick, disabled }: ActivityBtnProps) => {
 const ActivityAccept = () => {
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
   const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
-  const [gradeResult, setGradeResult] = useState<ItemType>({
-    option: "1학년",
-    id: 1,
-  });
-  const [classResult, setClassResult] = useState<ItemType>({
-    option: "1반",
-    id: 1,
-  });
-  const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "2층",
-    id: 2,
-  });
+  const [gradeResult, setGradeResult] = useState<ItemType>(
+    gradeDropDownItem[0]
+  );
+  const [classResult, setClassResult] = useState<ItemType>(
+    classDropDownItem[0]
+  );
+  const [layerResult, setLayerResult] = useState<ItemType>(
+    layerDropDownItem[0]
+  );
+
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [pageLock, setPageLock] = useState<boolean>(false);
 
@@ -181,34 +185,29 @@ const ActivityAccept = () => {
               제한하시겠습니까?`}
                     subText={`제한하기를 선택하면 오늘(${todayDate()})
                   방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
-                    callBack={() => {
-                      mutate();
-                    }}
-                  />
-                )}
-                <MovingBox>
-                  {moveList?.data.move_list.map((data) => (
-                    <MovingComponent
-                      key={data.student_number}
-                      student_number={data.student_number}
-                      student_name={data.student_name}
-                      after={data.after}
-                      before={data.before}
-                    />
-                  ))}
-                </MovingBox>
-              </div>
-            </Container>
-          </PageContainer>
-        ) : (
-          <OutingLockContainer>
-            <p>
-              어플리케이션에 외출 기능이 추가되면 사용이 가능한 페이지입니다.
-            </p>
-          </OutingLockContainer>
-        )
-      }
-    </>
+              callBack={() => {
+                mutate();
+              }}
+            />
+          )}
+          <MovingBox>
+            {moveList?.data && moveList?.data.move_list.length ? (
+              moveList?.data.move_list.map((data) => (
+                <MovingComponent
+                  key={data.student_number}
+                  student_number={data.student_number}
+                  student_name={data.student_name}
+                  after={data.after}
+                  before={data.before}
+                />
+              ))
+            ) : (
+              <NoData />
+)}
+          </MovingBox>
+        </div>
+      </Container>
+    </PageContainer>
   );
 };
 

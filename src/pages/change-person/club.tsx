@@ -10,6 +10,8 @@ import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
 import PageContainer from "@/components/common/PageContainer";
+import { toast } from "react-hot-toast";
+import NoData from "@/components/common/Nodata";
 
 const ClubPerson = () => {
   const [layerResult, setLayerResult] = useState<ItemType>({
@@ -78,20 +80,15 @@ const ClubPerson = () => {
       filter={filter}
     >
       <Container>
-        {clubList?.data.student_list?.map(
-          (list) => (
-            console.log(list),
-            (
-              <Member
-                key={list.student_id}
-                head_club_id={clubList.data.club_id}
-                club_name={clubList.data.club_name}
-                refetch={refetch}
-                {...list}
-              />
-            )
-          )
-        )}
+        {clubList?.data.student_list?.map((list) => (
+          <Member
+            key={list.student_id}
+            head_club_id={clubList.data.club_id}
+            club_name={clubList.data.club_name}
+            refetch={refetch}
+            {...list}
+          />
+        ))}
       </Container>
     </PageContainer>
   );
