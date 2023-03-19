@@ -10,9 +10,11 @@ import {
   getMainpageStudnetCount,
 } from "@/utils/api/selfStudy/index";
 import { useApiError } from "@/hooks/useApiError";
+import { getToken } from "@/utils/functions/tokenManager";
 
 const Home = () => {
   const { handleError } = useApiError();
+  const { accessToken } = getToken();
   const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
     onError: handleError,
   });
@@ -21,6 +23,7 @@ const Home = () => {
     () => getTodaySelfStudyTeacherWhether(),
     {
       onError: handleError,
+      enabled: accessToken,
     }
   );
   const { data: students } = useQuery(
