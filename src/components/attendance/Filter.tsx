@@ -60,7 +60,6 @@ const Filter = ({ setClassName, setDate, setClassroomId }: Props) => {
 
   return (
     <BtnsContainer>
-      <ExcelPrintBtn>엑셀 출력하기</ExcelPrintBtn>
       <DropDown
         title="2층"
         dropDownItem={floorDropDownItem}

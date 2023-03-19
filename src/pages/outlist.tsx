@@ -1,3 +1,4 @@
+import NoData from "@/components/common/Nodata";
 import PageContainer from "@/components/common/PageContainer";
 import List from "@/components/outlist/List";
 import { useApiError } from "@/hooks/useApiError";
@@ -21,8 +22,8 @@ const OutListPage = () => {
     <>
       <PageContainer title="외출자 목록" subTitle={todayDate()}>
         <ListBox>
-          {isSuccess &&
-            data.outing.map((item) => {
+          {isSuccess && data.outing.length ? (
+              data.outing.map((item) => {
               return (
                 <List
                   student_id={item.student_id}
@@ -32,7 +33,10 @@ const OutListPage = () => {
                   refetch={refetch}
                 />
               );
-            })}
+            })
+          ) : (
+            <NoData />
+          )}
         </ListBox>
       </PageContainer>
     </>

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
 import OutingList from "../components/activityAccept/OutingList";
@@ -22,6 +22,12 @@ import ButtonBox from "@/components/activityAccept/ButtonBox";
 import HeadBar from "@/components/activityAccept/HeadBar";
 import Filter from "@/components/activityAccept/Filter";
 import { toast } from "react-hot-toast";
+import NoData from "@/components/common/Nodata";
+import {
+  gradeDropDownItem,
+  classDropDownItem,
+  layerDropDownItem,
+} from "@/components/activityAccept/DropDownItem";
 
 interface ActivityBtnProps {
   children: string;
@@ -54,18 +60,16 @@ const ActivityBtn = ({ children, onClick, disabled }: ActivityBtnProps) => {
 const ActivityAccept = () => {
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
   const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
-  const [gradeResult, setGradeResult] = useState<ItemType>({
-    option: "grade",
-    id: 0,
-  });
-  const [classResult, setClassResult] = useState<ItemType>({
-    option: "class",
-    id: 0,
-  });
-  const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "layer",
-    id: 0,
-  });
+  const [gradeResult, setGradeResult] = useState<ItemType>(
+    gradeDropDownItem[0]
+  );
+  const [classResult, setClassResult] = useState<ItemType>(
+    classDropDownItem[0]
+  );
+  const [layerResult, setLayerResult] = useState<ItemType>(
+    layerDropDownItem[0]
+  );
+
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   let grade_id = gradeResult.id as number;
@@ -182,15 +186,19 @@ const ActivityAccept = () => {
             />
           )}
           <MovingBox>
-            {moveList?.data.move_list.map((data) => (
-              <MovingComponent
-                key={data.student_number}
-                student_number={data.student_number}
-                student_name={data.student_name}
-                after={data.after}
-                before={data.before}
-              />
-            ))}
+            {moveList?.data && moveList?.data.move_list.length ? (
+              moveList?.data.move_list.map((data) => (
+                <MovingComponent
+                  key={data.student_number}
+                  student_number={data.student_number}
+                  student_name={data.student_name}
+                  after={data.after}
+                  before={data.before}
+                />
+              ))
+            ) : (
+              <NoData />
+)}
           </MovingBox>
         </div>
       </Container>

@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { OutingApplyListType } from "@/models/outing/response";
+import NoData from "../common/Nodata";
 
 interface OutingProps {
   outing: OutingApplyListType[];
@@ -35,31 +36,35 @@ const OutingList = ({
 
   return (
     <>
-      {outing.map((item, idx) => {
-        let start = item.start_time.slice(0, 5);
-        let end = item.end_time.slice(0, 5);
-        return (
-          <Container
-            key={item.student_id}
-            onClick={() => {
-              studentClick(idx, item.student_id);
-            }}
-            isReason={outingSelectList.includes(idx)}
-          >
-            <div>
-              <NameText>
-                {item.student_number} {item.student_name}
-              </NameText>
-              <TimeText>
-                {start}~{end}
-              </TimeText>
-            </div>
-            <ReasonText isReason={outingSelectList.includes(idx)}>
-              {item.reason}
-            </ReasonText>
-          </Container>
-        );
-      })}
+      {outing.length ? (
+        outing.map((item, idx) => {
+          let start = item.start_time.slice(0, 5);
+          let end = item.end_time.slice(0, 5);
+          return (
+            <Container
+              key={item.student_id}
+              onClick={() => {
+                studentClick(idx, item.student_id);
+              }}
+              isReason={outingSelectList.includes(idx)}
+            >
+              <div>
+                <NameText>
+                  {item.student_number} {item.student_name}
+                </NameText>
+                <TimeText>
+                  {start}~{end}
+                </TimeText>
+              </div>
+              <ReasonText isReason={outingSelectList.includes(idx)}>
+                {item.reason}
+              </ReasonText>
+            </Container>
+          );
+        })
+      ) : (
+        <NoData />
+      )}
     </>
   );
 };
@@ -102,5 +107,7 @@ const ReasonText = styled.p<{ isReason: boolean }>`
   color: ${({ theme }) => theme.colors.gray800};
   display: ${({ isReason }) => (isReason ? "block" : "none")};
 `;
+
+
 
 export default OutingList;
