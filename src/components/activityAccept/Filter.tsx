@@ -69,19 +69,19 @@ const Filter = ({
           <DropDown
             setResult={setGradeResult}
             dropDownItem={gradeDropDownItem}
-            title="grade"
+            title={gradeResult.option}
           />
           <DropDown
             setResult={setClassResult}
             dropDownItem={classDropDownItem}
-            title="class"
+            title={classResult.option}
           />
         </>
       ) : (
         <DropDown
           setResult={setLayerResult}
           dropDownItem={layerDropDownItem}
-          title="layer"
+          title={layerResult.option}
         />
       )}
     </>
