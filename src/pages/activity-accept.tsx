@@ -185,29 +185,38 @@ const ActivityAccept = () => {
               제한하시겠습니까?`}
                     subText={`제한하기를 선택하면 오늘(${todayDate()})
                   방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
-              callBack={() => {
-                mutate();
-              }}
-            />
-          )}
-          <MovingBox>
-            {moveList?.data && moveList?.data.move_list.length ? (
-              moveList?.data.move_list.map((data) => (
-                <MovingComponent
-                  key={data.student_number}
-                  student_number={data.student_number}
-                  student_name={data.student_name}
-                  after={data.after}
-                  before={data.before}
-                />
-              ))
-            ) : (
-              <NoData />
-)}
-          </MovingBox>
-        </div>
-      </Container>
-    </PageContainer>
+                    callBack={() => {
+                      mutate();
+                    }}
+                  />
+                )}
+                <MovingBox>
+                  {moveList?.data && moveList?.data.move_list.length ? (
+                    moveList?.data.move_list.map((data) => (
+                      <MovingComponent
+                        key={data.student_number}
+                        student_number={data.student_number}
+                        student_name={data.student_name}
+                        after={data.after}
+                        before={data.before}
+                      />
+                    ))
+                  ) : (
+                    <NoData />
+                  )}
+                </MovingBox>
+              </div>
+            </Container>
+          </PageContainer>
+        ) : (
+          <OutingLockContainer>
+            <p>
+              어플리케이션에 외출 기능이 추가되면 사용이 가능한 페이지입니다.
+            </p>
+          </OutingLockContainer>
+        )
+      }
+    </>
   );
 };
 

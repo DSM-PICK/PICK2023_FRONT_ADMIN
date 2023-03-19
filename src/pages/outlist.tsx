@@ -27,7 +27,7 @@ const OutListPage = () => {
         pageLock ? (
           <PageContainer title="외출자 목록" subTitle={todayDate()}>
             <ListBox>
-              {isSuccess &&
+              {data && data.data.outing.length ? (
                 data.data.outing.map((item) => {
                   return (
                     <Outing
@@ -38,7 +38,10 @@ const OutListPage = () => {
                       refetch={refetch}
                     />
                   );
-                })}
+                })
+              ) : (
+                <NoData />
+              )}
             </ListBox>
           </PageContainer>
         ) : (
@@ -49,25 +52,6 @@ const OutListPage = () => {
           </OutingLockContainer>
         )
       }
-      <PageContainer title="외출자 목록" subTitle={todayDate()}>
-        <ListBox>
-          {data && data.data.outing.length ? (
-            data.data.outing.map((item) => {
-              return (
-                <Outing
-                  student_id={item.student_id}
-                  student_name={item.student_name}
-                  student_number={item.student_number}
-                  end_time={item.end_time}
-                  refetch={refetch}
-                />
-              );
-            })
-          ) : (
-            <NoData />
-          )}
-        </ListBox>
-      </PageContainer>
     </>
   );
 };

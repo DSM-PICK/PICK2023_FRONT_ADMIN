@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
 import PageContainer from "@/components/common/PageContainer";
-import { toast } from "react-hot-toast";
 import NoData from "@/components/common/Nodata";
 
 const ClubPerson = () => {
@@ -72,7 +71,7 @@ const ClubPerson = () => {
     <PageContainer
       title={clubList?.data.club_name! && `${clubList?.data.club_name}`}
       subTitle={
-        dayType?.data.type === "CLUB"
+        clubList?.data
           ? `${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
             선생님 담당)`
           : `층 및 동아리를 선택해주세요.`
@@ -80,15 +79,19 @@ const ClubPerson = () => {
       filter={filter}
     >
       <Container>
-        {clubList?.data.student_list?.map((list) => (
-          <Member
-            key={list.student_id}
-            head_club_id={clubList.data.club_id}
-            club_name={clubList.data.club_name}
-            refetch={refetch}
-            {...list}
-          />
-        ))}
+        {clubList && clubList.data.student_list.length ? (
+          clubList.data.student_list?.map((list) => (
+            <Member
+              key={list.student_id}
+              head_club_id={clubList.data.club_id}
+              club_name={clubList.data.club_name}
+              refetch={refetch}
+              {...list}
+            />
+          ))
+        ) : (
+          <NoData />
+        )}
       </Container>
     </PageContainer>
   );
