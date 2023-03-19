@@ -28,7 +28,11 @@ export const userLogin = () => {
     {
       onError: handleError,
       onSuccess: ({ data }) => {
-        setToken(data.access_token, data.refresh_token);
+        setToken(
+          data.access_token,
+          data.refresh_token,
+          new Date(data.expire_at)
+        );
         router.push("/main");
       },
     }
