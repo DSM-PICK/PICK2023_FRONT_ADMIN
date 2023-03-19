@@ -19,8 +19,12 @@ const AttendancePage = () => {
     date: date,
   };
 
-  const { data: attendanceCheckList } = useQuery([className, date], () =>
-    getAttendanceCheckList(getAttendanceCheckListReq)
+  const { data: attendanceCheckList, isSuccess } = useQuery(
+    [className, date],
+    () => getAttendanceCheckList(getAttendanceCheckListReq),
+    {
+      enabled: !!classroomId,
+    }
   );
 
   const filter: JSX.Element = (
@@ -36,7 +40,7 @@ const AttendancePage = () => {
       <>
         <Header className={className} isFriday={isFriday} />
         <StudentWrapper>
-          {attendanceCheckList &&
+          {isSuccess &&
           attendanceCheckList.data.student_list.length ? (
             attendanceCheckList.data.student_list?.map((data, idx) => (
               <List
@@ -47,7 +51,6 @@ const AttendancePage = () => {
                 attendanceList={data.type_list}
                 studentId={data.student_id}
               />
-            ))
           ) : (
             <NoData />
           )}

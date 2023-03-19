@@ -1,7 +1,7 @@
 import NoData from "@/components/common/Nodata";
 import PageContainer from "@/components/common/PageContainer";
+import List from "@/components/outlist/List";
 import { useState } from "react";
-import Outing from "@/components/outList/outing";
 import { useApiError } from "@/hooks/useApiError";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
@@ -27,8 +27,8 @@ const OutListPage = () => {
         pageLock ? (
           <PageContainer title="외출자 목록" subTitle={todayDate()}>
             <ListBox>
-              {data && data.data.outing.length ? (
-                data.data.outing.map((item) => {
+              {isSuccess && data.outing.length ? (
+                data.outing.map((item) => {
                   return (
                     <Outing
                       student_id={item.student_id}

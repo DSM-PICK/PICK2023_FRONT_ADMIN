@@ -16,7 +16,7 @@ interface Props {
   refetch: () => void;
 }
 
-const Outing = ({
+const List = ({
   student_id,
   student_number,
   student_name,
@@ -109,4 +109,4 @@ const CustomButton = styled(Button)`
   border-radius: 10px;
 `;
 
-export default Outing;
+export default List;

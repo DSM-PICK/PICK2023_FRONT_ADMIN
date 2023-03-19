@@ -110,6 +110,8 @@ const ActivityAccept = () => {
         floor: layer_id,
       }),
     {
+      enabled: !!grade_id || !!layer_id,
+      onError: handleError,
       cacheTime: 0,
     }
   );
