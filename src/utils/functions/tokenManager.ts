@@ -2,20 +2,23 @@ import axios from "axios";
 import cookies from "react-cookies";
 import { toast } from "react-hot-toast";
 
-export const setToken = (accessToken: string, refreshToken: string) => {
+export const setToken = (
+  accessToken: string,
+  refreshToken: string,
+  expire_at: Date
+) => {
   axios.defaults.headers.common.Authorization = "Bearer " + accessToken;
-  const expires = new Date();
-  expires.setDate(Date.now() + 1000 * 60 * 60 * 24);
+  const expires = new Date(expire_at);
 
   cookies.save("accessToken", accessToken, {
     path: "/",
-    expires,
+    expires: expires,
     httpOnly: process.env.NEXT_PUBLIC_HTTP_ONLY === "true",
   });
 
   cookies.save("refreshToken", refreshToken, {
     path: "/",
-    expires,
+    expires: expires,
     httpOnly: process.env.NEXT_PUBLIC_HTTP_ONLY === "true",
   });
 };
@@ -33,7 +36,7 @@ export const getToken = () => {
 interface RefreshToken {
   access_token: string;
   refresh_token: string;
-  expire_at: string;
+  expire_at: Date;
 }
 
 export const refreshToken = async () => {
@@ -48,9 +51,9 @@ export const refreshToken = async () => {
       refreshToken: refreshToken,
     });
 
-    const { access_token, refresh_token } = response.data;
+    const { access_token, refresh_token, expire_at } = response.data;
 
-    setToken(access_token, refresh_token);
+    setToken(access_token, refresh_token, expire_at);
   } catch (error) {
     toast.error("토큰 리프레쉬에 실패하였습니다.");
   }
