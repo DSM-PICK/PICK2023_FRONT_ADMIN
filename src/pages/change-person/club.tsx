@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
 import PageContainer from "@/components/common/PageContainer";
-import { toast } from "react-hot-toast";
 
 const ClubPerson = () => {
   const [layerResult, setLayerResult] = useState<ItemType>({
@@ -29,18 +28,11 @@ const ClubPerson = () => {
     onError: handleError,
   });
 
-  useEffect(() => {
-    if (dayType?.data.type === "SELF_STUDY") {
-      toast.error("운영진들에게 문의해주세요.");
-    }
-  }, [dayType?.data.type]);
-
   let layerData = Number(layerResult.id);
   const { data: classList } = useQuery(
     ["classList", layerData],
-    () => getLayerClassList(layerData, dayType?.data.type!),
+    () => getLayerClassList(layerData, "CLUB"),
     {
-      enabled: !!dayType?.data.type,
       onError: handleError,
     }
   );
@@ -76,25 +68,30 @@ const ClubPerson = () => {
 
   return (
     <PageContainer
-      title={dayType?.data.type === "CLUB" ? `${clubList?.data.club_name}` : ``}
+      title={clubList?.data.club_name! && `${clubList?.data.club_name}`}
       subTitle={
         dayType?.data.type === "CLUB"
           ? `${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
             선생님 담당)`
-          : `운영진들에게 문의해주세요..`
+          : `층 및 동아리를 선택해주세요.`
       }
       filter={filter}
     >
       <Container>
-        {clubList?.data.student_list?.map((list) => (
-          <Member
-            key={list.student_id}
-            head_club_id={clubList.data.club_id}
-            club_name={clubList.data.club_name}
-            refetch={refetch}
-            {...list}
-          />
-        ))}
+        {clubList?.data.student_list?.map(
+          (list) => (
+            console.log(list),
+            (
+              <Member
+                key={list.student_id}
+                head_club_id={clubList.data.club_id}
+                club_name={clubList.data.club_name}
+                refetch={refetch}
+                {...list}
+              />
+            )
+          )
+        )}
       </Container>
     </PageContainer>
   );

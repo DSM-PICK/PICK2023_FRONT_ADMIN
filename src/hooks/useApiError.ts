@@ -32,7 +32,6 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle500 = () => {
     toast.error("서버 관리자 및 동아리에 문의해주세요.", { duration: 1000 });
-    router.push("/");
   };
 
   const handleDefault = () => {

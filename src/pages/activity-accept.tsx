@@ -55,18 +55,19 @@ const ActivityAccept = () => {
   const [outingSelectList, setOutingSelectList] = useState<number[]>([]);
   const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
   const [gradeResult, setGradeResult] = useState<ItemType>({
-    option: "grade",
-    id: 0,
+    option: "1학년",
+    id: 1,
   });
   const [classResult, setClassResult] = useState<ItemType>({
-    option: "class",
-    id: 0,
+    option: "1반",
+    id: 1,
   });
   const [layerResult, setLayerResult] = useState<ItemType>({
-    option: "layer",
-    id: 0,
+    option: "2층",
+    id: 2,
   });
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [pageLock, setPageLock] = useState<boolean>(false);
 
   let grade_id = gradeResult.id as number;
   let class_id = classResult.id as number;
@@ -92,7 +93,6 @@ const ActivityAccept = () => {
         type: (todayType?.data.type as string) || "SELF_STUDY",
       }),
     {
-      onError: handleError,
       cacheTime: 0,
     }
   );
@@ -106,7 +106,6 @@ const ActivityAccept = () => {
         floor: layer_id,
       }),
     {
-      onError: handleError,
       cacheTime: 0,
     }
   );
@@ -136,64 +135,80 @@ const ActivityAccept = () => {
   });
 
   return (
-    <PageContainer
-      title="외출/이동 수락"
-      subTitle={todayDate()}
-      filter={filter}
-    >
-      <Container>
-        <div>
-          <HeadBar title="외출 신청 목록">
-            <ActivityBtn>새로운 외출증 발급</ActivityBtn>
-          </HeadBar>
-          <OutingBox>
-            <OutingList
-              outing={applyList?.outing || []}
-              outingSelectList={outingSelectList}
-              outingStudentId={outingStudentId}
-              setOutingSelectList={setOutingSelectList}
-              setOutingStudentId={setOutingStudentId}
-            />
-          </OutingBox>
-          <ButtonBox isActive={isClick} outingStudentId={outingStudentId} />
-        </div>
-        <div>
-          <HeadBar title="이동한 학생">
-            <ActivityBtn
-              onClick={() => setOpenModal(true)}
-              disabled={floorState ? false : true}
-            >
-              {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
-            </ActivityBtn>
-          </HeadBar>
-          {isOpenModal && (
-            <Modal
-              setOpenModal={setOpenModal}
-              isDanger={true}
-              btnText="제한하기"
-              mainText={`오늘 ${floorState}층의 모든 이동을
+    <>
+      {
+        // 앱 쪽에서 신청 쪽 추가 되면 삭제
+        pageLock ? (
+          <PageContainer
+            title="외출/이동 수락"
+            subTitle={todayDate()}
+            filter={filter}
+          >
+            <Container>
+              <div>
+                <HeadBar title="외출 신청 목록">
+                  <ActivityBtn>새로운 외출증 발급</ActivityBtn>
+                </HeadBar>
+                <OutingBox>
+                  <OutingList
+                    outing={applyList?.outing || []}
+                    outingSelectList={outingSelectList}
+                    outingStudentId={outingStudentId}
+                    setOutingSelectList={setOutingSelectList}
+                    setOutingStudentId={setOutingStudentId}
+                  />
+                </OutingBox>
+                <ButtonBox
+                  isActive={isClick}
+                  outingStudentId={outingStudentId}
+                />
+              </div>
+              <div>
+                <HeadBar title="이동한 학생">
+                  <ActivityBtn
+                    onClick={() => setOpenModal(true)}
+                    disabled={floorState ? false : true}
+                  >
+                    {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
+                  </ActivityBtn>
+                </HeadBar>
+                {isOpenModal && (
+                  <Modal
+                    setOpenModal={setOpenModal}
+                    isDanger={true}
+                    btnText="제한하기"
+                    mainText={`오늘 ${floorState}층의 모든 이동을
               제한하시겠습니까?`}
-              subText={`제한하기를 선택하면 오늘(${todayDate()})
+                    subText={`제한하기를 선택하면 오늘(${todayDate()})
                   방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
-              callBack={() => {
-                mutate();
-              }}
-            />
-          )}
-          <MovingBox>
-            {moveList?.data.move_list.map((data) => (
-              <MovingComponent
-                key={data.student_number}
-                student_number={data.student_number}
-                student_name={data.student_name}
-                after={data.after}
-                before={data.before}
-              />
-            ))}
-          </MovingBox>
-        </div>
-      </Container>
-    </PageContainer>
+                    callBack={() => {
+                      mutate();
+                    }}
+                  />
+                )}
+                <MovingBox>
+                  {moveList?.data.move_list.map((data) => (
+                    <MovingComponent
+                      key={data.student_number}
+                      student_number={data.student_number}
+                      student_name={data.student_name}
+                      after={data.after}
+                      before={data.before}
+                    />
+                  ))}
+                </MovingBox>
+              </div>
+            </Container>
+          </PageContainer>
+        ) : (
+          <OutingLockContainer>
+            <p>
+              어플리케이션에 외출 기능이 추가되면 사용이 가능한 페이지입니다.
+            </p>
+          </OutingLockContainer>
+        )
+      }
+    </>
   );
 };
 
@@ -230,6 +245,18 @@ const MovingBox = styled.div`
   flex-direction: column;
   gap: 16px;
   overflow-y: scroll;
+`;
+
+// 앱 쪽에서 신청 추가 되기 전까지 임시 방편
+const OutingLockContainer = styled.div`
+  margin: auto;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+
+  > p {
+    font-size: 28px;
+  }
 `;
 
 export default ActivityAccept;
