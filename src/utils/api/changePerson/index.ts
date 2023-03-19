@@ -23,15 +23,8 @@ interface ClassPersonStatusType {
 }
 
 export const getClassPersonStatus = async (grade: number, classNum: number) => {
-  try {
-    const response = await instance.get<ClassPersonStatusType>(
-      `/pick/admin/class/students?grade=${grade}&classNum=${classNum}`
-    );
-    return response.data;
-  } catch {
-    return {
-      teacher_name: "",
-      student_list: [],
-    };
-  }
+  const response = await instance.get<ClassPersonStatusType>(
+    `/pick/admin/class/students?grade=${grade}&classNum=${classNum}`
+  );
+  return response.data;
 };
