@@ -2,6 +2,7 @@ import EditButton from "@/components/changePersonClass/EditButton";
 import StudentList from "@/components/changePersonClass/StudentList";
 import DropDown from "@/components/common/Dropdown";
 import Modal from "@/components/common/Modal";
+import NoData from "@/components/common/Nodata";
 import PageContainer from "@/components/common/PageContainer";
 import { useApiError } from "@/hooks/useApiError";
 import { ItemType } from "@/models/common";
@@ -54,7 +55,6 @@ const ChangeClass = () => {
       cacheTime: 0,
     }
   );
-
 
   const studentList = data ? data.student_list : [];
   const grades: ItemType[] = [
@@ -179,7 +179,7 @@ const ChangeClass = () => {
         filter={filter}
       >
         <Container>
-          {isSuccess &&
+          {data && data.student_list.length ? (
             studentList.map((value) => {
               return (
                 <StudentList
@@ -190,7 +190,10 @@ const ChangeClass = () => {
                   text={`${value.student_number} ${value.student_name}`}
                 />
               );
-            })}
+            })
+          ) : (
+            <NoData />
+          )}
         </Container>
       </PageContainer>
     </>

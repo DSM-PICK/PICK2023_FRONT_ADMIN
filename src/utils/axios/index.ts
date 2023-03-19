@@ -41,7 +41,7 @@ instance.interceptors.response.use(
       });
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         data;
-      setToken(newAccessToken, newRefreshToken);
+      setToken(newAccessToken, newRefreshToken, new Date(""));
       axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
       return axios(originalRequest);

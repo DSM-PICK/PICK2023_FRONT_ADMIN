@@ -10,7 +10,6 @@ import { useQuery } from "react-query";
 import { todayDate } from "@/utils/functions/todayDate";
 import { layerDropDownItem } from "../../constants/DropDownItem";
 import PageContainer from "@/components/common/PageContainer";
-import { toast } from "react-hot-toast";
 import NoData from "@/components/common/Nodata";
 
 const ClubPerson = () => {
@@ -30,18 +29,11 @@ const ClubPerson = () => {
     onError: handleError,
   });
 
-  useEffect(() => {
-    if (dayType?.data.type === "SELF_STUDY") {
-      toast.error("운영진들에게 문의해주세요.");
-    }
-  }, [dayType?.data.type]);
-
   let layerData = Number(layerResult.id);
   const { data: classList } = useQuery(
     ["classList", layerData],
-    () => getLayerClassList(layerData, dayType?.data.type!),
+    () => getLayerClassList(layerData, "CLUB"),
     {
-      enabled: !!dayType?.data.type,
       onError: handleError,
     }
   );
@@ -77,12 +69,12 @@ const ClubPerson = () => {
 
   return (
     <PageContainer
-      title={dayType?.data.type === "CLUB" ? `${clubList?.data.club_name}` : ``}
+      title={clubList?.data.club_name! && `${clubList?.data.club_name}`}
       subTitle={
-        dayType?.data.type === "CLUB"
+        clubList?.data
           ? `${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
             선생님 담당)`
-          : `운영진들에게 문의해주세요..`
+          : `층 및 동아리를 선택해주세요.`
       }
       filter={filter}
     >
