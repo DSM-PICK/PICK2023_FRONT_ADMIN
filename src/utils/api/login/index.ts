@@ -30,7 +30,7 @@ export const userLogin = () => {
     {
       onError: handleError,
       onSuccess: ({ data }) => {
-        if (data.role === "sch") {
+        if (data.role === "SCH") {
           setToken(
             data.access_token,
             data.refresh_token,

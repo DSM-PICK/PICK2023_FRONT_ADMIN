@@ -15,7 +15,6 @@ const Date = ({ date, name, floor }: Props) => {
   useEffect(() => {
     const floorData = floor?.map((item) => item);
     dispatch(setTeacherState({ setSelfStudyState: floorData! }));
-    console.log(floorData);
   }, [floor, dispatch]);
 
   return (
