@@ -12,7 +12,7 @@ const Header = ({ className, isFriday }: Props) => {
 
   return (
     <StudentListHeaderContainer isFriday={isFriday}>
-      <ClassName>{className}</ClassName>
+      <ClassName>{className || "미선택"}</ClassName>
       {period.map((period, idx) => (
         <PeriodBox key={idx}>{period}</PeriodBox>
       ))}
