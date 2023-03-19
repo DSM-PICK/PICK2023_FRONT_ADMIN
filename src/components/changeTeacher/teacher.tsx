@@ -45,6 +45,7 @@ const TeacherBlock = ({
 export default TeacherBlock;
 
 const Wrapper = styled.div<{ disable: boolean }>`
+  cursor: pointer;
   background-color: ${({ theme }) => theme.colors.white};
   flex-shrink: 1;
   position: relative;
