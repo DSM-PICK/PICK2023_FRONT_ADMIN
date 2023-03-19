@@ -38,8 +38,8 @@ const ChangeClass = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
-    grade: 0,
-    class: 0,
+    grade: 1,
+    class: 1,
   });
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
   const { mutate, data: patchData } = useMutation(
@@ -123,7 +123,7 @@ const ChangeClass = () => {
         content={isEditing ? "상태 저장하기" : "상태 수정하기"}
       />
       <DropDown
-        title="학년"
+        title={grades[0].option}
         dropDownItem={grades}
         setResult={(item) => {
           const tempItem = item as ItemType;
@@ -134,7 +134,7 @@ const ChangeClass = () => {
         }}
       />
       <DropDown
-        title="반"
+        title={classes[0].option}
         dropDownItem={classes}
         setResult={(item) => {
           const tempItem = item as ItemType;

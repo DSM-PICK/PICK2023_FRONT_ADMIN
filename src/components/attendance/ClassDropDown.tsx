@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { DropDownIcon } from "@/assets/dropDown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FloorClassRoomDto } from "@/models/selfStudy/response";
 
 const ClassDropDown = ({
@@ -21,6 +21,10 @@ const ClassDropDown = ({
     setIsClick(false);
     setClassroomId(value.classroom_id);
   };
+
+  useEffect(() => {
+    if (classList) changeState(classList[0]);
+  }, [classList]);
 
   return (
     <Container>
