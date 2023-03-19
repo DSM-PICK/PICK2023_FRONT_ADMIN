@@ -18,7 +18,7 @@ export const getOutingStudentList = async () => {
   const outingStudentList = await instance.get<OutingStudentList>(
     `/pick/applications`
   );
-  return outingStudentList;
+  return outingStudentList.data;
 };
 
 export const patchOutingStudentState = async (
