@@ -22,6 +22,7 @@ import ButtonBox from "@/components/activityAccept/ButtonBox";
 import HeadBar from "@/components/activityAccept/HeadBar";
 import Filter from "@/components/activityAccept/Filter";
 import { toast } from "react-hot-toast";
+import NoData from "@/components/common/Nodata";
 
 interface ActivityBtnProps {
   children: string;
@@ -181,15 +182,19 @@ const ActivityAccept = () => {
             />
           )}
           <MovingBox>
-            {moveList?.data.move_list.map((data) => (
-              <MovingComponent
-                key={data.student_number}
-                student_number={data.student_number}
-                student_name={data.student_name}
-                after={data.after}
-                before={data.before}
-              />
-            ))}
+            {moveList?.data && moveList?.data.move_list.length ? (
+              moveList?.data.move_list.map((data) => (
+                <MovingComponent
+                  key={data.student_number}
+                  student_number={data.student_number}
+                  student_name={data.student_name}
+                  after={data.after}
+                  before={data.before}
+                />
+              ))
+            ) : (
+              <NoData />
+)}
           </MovingBox>
         </div>
       </Container>

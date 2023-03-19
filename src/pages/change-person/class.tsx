@@ -55,10 +55,8 @@ const ChangeClass = () => {
     }
   );
 
-  if (!isSuccess) return <></>;
 
-  const studentList = data.student_list;
-  const teacher = data.teacher_name;
+  const studentList = data ? data.student_list : [];
   const grades: ItemType[] = [
     { id: 0, option: "1학년" },
     { id: 1, option: "2학년" },
@@ -178,7 +176,6 @@ const ChangeClass = () => {
       )}
       <PageContainer
         title={`${selectedStates.grade}학년 ${selectedStates.class}반`}
-        subTitle={`담임 ${teacher} 선생님`}
         filter={filter}
       >
         <Container>

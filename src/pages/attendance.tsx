@@ -6,6 +6,7 @@ import List from "@/components/attendance/List";
 import { getAttendanceCheckList } from "@/utils/api/selfStudy";
 import Header from "@/components/attendance/Header";
 import Filter from "@/components/attendance/Filter";
+import NoData from "@/components/common/Nodata";
 
 const AttendancePage = () => {
   const [className, setClassName] = useState<string>("");
@@ -35,16 +36,21 @@ const AttendancePage = () => {
       <>
         <Header className={className} isFriday={isFriday} />
         <StudentWrapper>
-          {attendanceCheckList?.data.student_list?.map((data, idx) => (
-            <List
-              key={idx}
-              isFriday={isFriday}
-              studentName={data.student_name}
-              studentNumber={data.student_number}
-              attendanceList={data.type_list}
-              studentId={data.student_id}
-            />
-          ))}
+          {attendanceCheckList &&
+          attendanceCheckList.data.student_list.length ? (
+            attendanceCheckList.data.student_list?.map((data, idx) => (
+              <List
+                key={idx}
+                isFriday={isFriday}
+                studentName={data.student_name}
+                studentNumber={data.student_number}
+                attendanceList={data.type_list}
+                studentId={data.student_id}
+              />
+            ))
+          ) : (
+            <NoData />
+          )}
         </StudentWrapper>
       </>
     </PageContainer>
