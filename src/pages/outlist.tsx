@@ -30,7 +30,7 @@ const OutListPage = () => {
               {isSuccess && data.outing.length ? (
                 data.outing.map((item) => {
                   return (
-                    <Outing
+                    <List
                       student_id={item.student_id}
                       student_name={item.student_name}
                       student_number={item.student_number}
