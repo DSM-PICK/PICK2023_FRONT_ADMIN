@@ -22,8 +22,6 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle403 = () => {
     toast.error("권한이 없습니다.", { duration: 1000 });
-    removeToken();
-    router.push("/");
   };
 
   const handle404 = () => {
