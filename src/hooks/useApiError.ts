@@ -16,8 +16,8 @@ export const useApiError = (handlers?: HandlersType) => {
   };
   const handle401 = () => {
     toast.error("다시 로그인해주세요.", { duration: 1000 });
-    removeToken();
     router.push("/");
+    removeToken();
   };
 
   const handle403 = () => {

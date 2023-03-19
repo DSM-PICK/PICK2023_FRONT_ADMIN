@@ -14,6 +14,7 @@ import { media } from "@/utils/functions/media";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { useMutation, useQuery } from "react-query";
 
 interface SelectedProps {
@@ -51,7 +52,15 @@ const ChangeClass = () => {
     ["get-student-in-class", selectedStates, patchData],
     () => getClassPersonStatus(selectedStates.grade, selectedStates.class),
     {
-      onError: handleError,
+      onError: (err: any) => {
+        if (err.response.data.status === 401) {
+          toast.error("현재 인원변경이 가능한 시간이 아닙니다", {
+            duration: 2000,
+          });
+        } else {
+          handleError;
+        }
+      },
       cacheTime: 0,
     }
   );
