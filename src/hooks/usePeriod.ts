@@ -11,7 +11,6 @@ export const usePeriod = () => {
     const dateA = new Date(today + " 17:30:00");
     const diffMSec = date.getTime() - dateA.getTime();
     const diffMin = diffMSec * (1 / (60 * 1000));
-    console.log("diffmin", diffMin);
     if (diffMin < 120 && diffMSec >= 0) {
       return 9;
     } else if (diffMin >= 120) {
