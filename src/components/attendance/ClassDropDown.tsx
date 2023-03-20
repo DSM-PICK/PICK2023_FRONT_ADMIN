@@ -25,6 +25,9 @@ const ClassDropDown = ({
 
   useEffect(() => {
     if (classList) changeState(classList[0]);
+    else {
+      setValue("교실 없음");
+    }
   }, [classList]);
 
   return (
