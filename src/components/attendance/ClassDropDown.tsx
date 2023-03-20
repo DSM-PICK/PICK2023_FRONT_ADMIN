@@ -3,6 +3,7 @@ import Image from "next/image";
 import { DropDownIcon } from "@/assets/dropDown";
 import { useState, useEffect } from "react";
 import { FloorClassRoomDto } from "@/models/selfStudy/response";
+import OutSideClickHandler from "../common/OutSideClickHandler";
 
 const ClassDropDown = ({
   classList,
@@ -27,25 +28,31 @@ const ClassDropDown = ({
   }, [classList]);
 
   return (
-    <Container>
-      <SelectButton
-        disabled={classList?.length === 0}
-        isClick={isClick}
-        onClick={() => setIsClick(!isClick)}
-      >
-        <span>{value}</span>
-        <Image width={12} height={6} src={DropDownIcon} alt="" />
-      </SelectButton>
-      {isClick && (
-        <SelectList>
-          {classList?.map((value) => (
-            <span key={value.classroom_id} onClick={() => changeState(value)}>
-              {value.name}
-            </span>
-          ))}
-        </SelectList>
-      )}
-    </Container>
+    <OutSideClickHandler
+      onOutSideClick={() => {
+        setIsClick(false);
+      }}
+    >
+      <Container>
+        <SelectButton
+          disabled={classList?.length === 0}
+          isClick={isClick}
+          onClick={() => setIsClick(!isClick)}
+        >
+          <span>{value}</span>
+          <Image width={12} height={6} src={DropDownIcon} alt="" />
+        </SelectButton>
+        {isClick && (
+          <SelectList>
+            {classList?.map((value) => (
+              <span key={value.classroom_id} onClick={() => changeState(value)}>
+                {value.name}
+              </span>
+            ))}
+          </SelectList>
+        )}
+      </Container>
+    </OutSideClickHandler>
   );
 };
 
@@ -54,6 +61,7 @@ const Container = styled.div`
 `;
 
 const SelectButton = styled.button<{ isClick: boolean }>`
+  cursor: pointer;
   width: 147px;
   height: 48px;
   background-color: white;
@@ -74,6 +82,7 @@ const SelectButton = styled.button<{ isClick: boolean }>`
 `;
 
 const SelectList = styled.div`
+  cursor: pointer;
   width: 147px;
   background: white;
   border: 1px solid ${({ theme }) => theme.colors.gray300};

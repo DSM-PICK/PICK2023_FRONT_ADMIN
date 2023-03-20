@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ItemType } from "@/models/common";
 import { useTheme } from "@emotion/react";
+import OutSideClickHandler from "./OutSideClickHandler";
 
 interface Props {
   title: string | undefined;
@@ -70,31 +71,37 @@ const DropDown = ({
   }, [title]);
 
   return (
-    <SelectBoxContainer className={className}>
-      <SelectButton
-        fontColor={fontColor}
-        borderColor={borderColor}
-        isAttendance={isAttendance}
-        isClick={isClick}
-        onClick={() => setIsClick(!isClick)}
-        isFriday={isFriday}
-        disabled={!isActivate}
-      >
-        <span>{value}</span>
-        {isActivate && (
-          <Image width={12} height={6} src={DropDownIcon} alt="arrow" />
+    <OutSideClickHandler
+      onOutSideClick={() => {
+        setIsClick(false);
+      }}
+    >
+      <SelectBoxContainer className={className}>
+        <SelectButton
+          fontColor={fontColor}
+          borderColor={borderColor}
+          isAttendance={isAttendance}
+          isClick={isClick}
+          onClick={() => setIsClick(!isClick)}
+          isFriday={isFriday}
+          disabled={!isActivate}
+        >
+          <span>{value}</span>
+          {isActivate && (
+            <Image width={12} height={6} src={DropDownIcon} alt="arrow" />
+          )}
+        </SelectButton>
+        {isClick && (
+          <SelectList isFriday={isFriday}>
+            {dropDownItem.map((item) => (
+              <span key={item.id} onClick={() => onChange(item)}>
+                {item.option}
+              </span>
+            ))}
+          </SelectList>
         )}
-      </SelectButton>
-      {isClick && (
-        <SelectList isFriday={isFriday}>
-          {dropDownItem.map((item) => (
-            <span key={item.id} onClick={() => onChange(item)}>
-              {item.option}
-            </span>
-          ))}
-        </SelectList>
-      )}
-    </SelectBoxContainer>
+      </SelectBoxContainer>
+    </OutSideClickHandler>
   );
 };
 
