@@ -83,12 +83,8 @@ const ChangeTeacherModal = ({
   };
 
   return (
-    <Wrapper onClick={() => setToggle(false)}>
-      <Box
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
+    <Wrapper>
+      <Box>
         <Title>
           {date.month}월 {date.day}일
         </Title>
@@ -134,6 +130,7 @@ const ChangeTeacherModal = ({
 export default ChangeTeacherModal;
 
 const Wrapper = styled.div`
+  cursor: default;
   position: fixed;
   top: 0px;
   left: 0px;
