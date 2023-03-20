@@ -18,7 +18,7 @@ const AttendancePage = () => {
     classroom_id: classroomId,
     date: date,
   };
-  
+
   const { data: attendanceCheckList, isSuccess } = useQuery(
     [className, date],
     () => getAttendanceCheckList(getAttendanceCheckListReq),
