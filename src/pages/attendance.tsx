@@ -54,7 +54,9 @@ const AttendancePage = () => {
               );
             })
           ) : (
-            <NoData />
+            <NoDataContainer>
+              <NoData />
+            </NoDataContainer>
           )}
         </StudentWrapper>
       </>
@@ -68,6 +70,10 @@ const StudentWrapper = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: column;
+`;
+
+const NoDataContainer = styled.div`
+  margin: auto;
 `;
 
 export default AttendancePage;
