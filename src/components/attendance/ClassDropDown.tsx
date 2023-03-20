@@ -35,16 +35,16 @@ const ClassDropDown = ({
     >
       <Container>
         <SelectButton
-          disabled={classList?.length === 0}
+          disabled={!classList}
           isClick={isClick}
           onClick={() => setIsClick(!isClick)}
         >
           <span>{value}</span>
           <Image width={12} height={6} src={DropDownIcon} alt="" />
         </SelectButton>
-        {isClick && (
+        {isClick && classList && (
           <SelectList>
-            {classList?.map((value) => (
+            {classList.map((value) => (
               <span key={value.classroom_id} onClick={() => changeState(value)}>
                 {value.name}
               </span>

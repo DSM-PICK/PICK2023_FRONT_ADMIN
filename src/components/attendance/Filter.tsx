@@ -47,14 +47,19 @@ const Filter = ({ setClassName, setDate, setClassroomId }: Props) => {
 
   const parsedDate: string = changeDate();
 
-  const { data: dateType } = useQuery(parsedDate, () =>
-    getDateType(parsedDate)
+  const { data: dateType, isSuccess: isSuccessDateType } = useQuery(
+    parsedDate,
+    () => getDateType(parsedDate)
   );
-  const { data: classList } = useQuery(
+  const { data: classList, isSuccess: isSuccessClassList } = useQuery(
     ["classList", parsedDate, floorDropDownResult],
-    () => getLayerClassList(floorDropDownResult.id, dateType?.data.type),
+    () =>
+      getLayerClassList(
+        floorDropDownResult.id,
+        isSuccessDateType && !!dateType.data.type ? dateType.data.type : ""
+      ),
     {
-      enabled: !!dateType?.data.type,
+      enabled: isSuccessDateType && !!dateType.data.type,
     }
   );
 
@@ -68,7 +73,11 @@ const Filter = ({ setClassName, setDate, setClassroomId }: Props) => {
       <ClassDropDown
         setClassName={setClassName}
         setClassroomId={setClassroomId}
-        classList={classList?.classroom_list}
+        classList={
+          isSuccessClassList && classList.classroom_list.length
+            ? classList.classroom_list
+            : undefined
+        }
       />
       <DateInput onClick={() => setIsCalendarActive(!isCalendarActive)}>
         {parsedDate} <Image src={CalendarIcon} alt="" />
