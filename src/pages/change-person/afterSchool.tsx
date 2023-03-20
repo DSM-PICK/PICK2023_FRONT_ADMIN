@@ -29,30 +29,24 @@ const AfterSchoolPage = () => {
   );
 
   return (
-    <>
-      {classroom?.classroom_list[0].type_id ? (
-        <PageContainer title="방과후 자습" subTitle="2층 창조실">
-          <ListBox>
-            {afterSchoolList && afterSchoolList.data.after_school_user_list ? (
-              afterSchoolList.data.after_school_user_list.map((item) => (
-                <List
-                  after_school_id={classroom?.classroom_list[0].type_id || ""}
-                  key={item.student_id}
-                  student_id={item.student_id}
-                  student_name={item.student_name}
-                  student_number={item.student_number}
-                  refetch={refetch}
-                />
-              ))
-            ) : (
-              <NoData />
-            )}
-          </ListBox>
-        </PageContainer>
-      ) : (
-        ""
-      )}
-    </>
+    <PageContainer title="방과후 자습" subTitle="2층 창조실">
+      <ListBox>
+        {afterSchoolList && afterSchoolList.data.after_school_user_list ? (
+          afterSchoolList.data.after_school_user_list.map((item) => (
+            <List
+              after_school_id={classroom?.classroom_list[0].type_id || ""}
+              key={item.student_id}
+              student_id={item.student_id}
+              student_name={item.student_name}
+              student_number={item.student_number}
+              refetch={refetch}
+            />
+          ))
+        ) : (
+          <NoData />
+        )}
+      </ListBox>
+    </PageContainer>
   );
 };
 
