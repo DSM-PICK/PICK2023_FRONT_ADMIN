@@ -182,6 +182,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                             teacher && (
                               <TeacherBlock
                                 refetch={refetch}
+                                teachers={value.teacher}
                                 date={{
                                   month: month,
                                   day: value.day,

@@ -10,6 +10,7 @@ interface Props {
     day: number;
   };
   floor: number;
+  teachers: string[];
   refetch: () => void;
   disable?: boolean;
 }
@@ -18,6 +19,7 @@ const TeacherBlock = ({
   name,
   date,
   floor,
+  teachers,
   refetch,
   disable = false,
 }: Props) => {
@@ -31,6 +33,7 @@ const TeacherBlock = ({
           floor={floor}
           setToggle={setToggle}
           teacher={name}
+          teachers={teachers}
           refetch={refetch}
         />
       )}
