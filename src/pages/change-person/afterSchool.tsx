@@ -26,7 +26,7 @@ const AfterSchoolPage = () => {
     "after-school-id",
     () => getAfterSchoolMemberList(classroom?.classroom_list[0]?.type_id || ""),
     {
-      enabled: !!classroom?.classroom_list[0].type_id,
+      enabled: !!classroom?.classroom_list[0]?.type_id,
       onError: handleError,
       cacheTime: 0,
     }
@@ -37,10 +37,10 @@ const AfterSchoolPage = () => {
       <ListBox>
         {isSuccessClassRoom &&
         isSuccessAfterSchool &&
-        afterSchoolList.data.after_school_user_list ? (
+        afterSchoolList.data.after_school_user_list.length ? (
           afterSchoolList.data.after_school_user_list.map((item) => (
             <List
-              after_school_id={classroom?.classroom_list[0].type_id || ""}
+              after_school_id={classroom.classroom_list[0].type_id || ""}
               key={item.student_id}
               student_id={item.student_id}
               student_name={item.student_name}
