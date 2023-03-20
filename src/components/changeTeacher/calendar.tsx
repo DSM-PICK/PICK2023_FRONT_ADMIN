@@ -57,6 +57,15 @@ const months = [
 
 const Days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
+const KoreanType = {
+  SELF_STUDY: "자습",
+  AFTER_SCHOOL: "방과후",
+  CLUB: "동아리",
+  "": "",
+};
+
+type DayType = "SELF_STUDY" | "AFTER_SCHOOL" | "CLUB" | "";
+
 interface Props {
   monthIndex: number;
   data: DataType;
@@ -64,6 +73,7 @@ interface Props {
 }
 
 interface CalendarType {
+  type: string;
   day: number;
   class: string;
   teacher: string[];
@@ -110,6 +120,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = prevMonthDays; i <= prevMonth.days; i++) {
       const teacher = data.past.get(getDate(monthIndex - 1, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "prev-month",
@@ -118,6 +129,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = 1; i <= thisMonthDays; i++) {
       const teacher = data.present.get(getDate(monthIndex, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "current-month",
@@ -126,6 +138,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = 1; i <= nextMonthDays; i++) {
       const teacher = data.future.get(getDate(monthIndex + 1, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "next-month",
@@ -152,7 +165,10 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
               <tr key={index}>
                 {calendarDays.slice(index * 7, (index + 1) * 7).map((value) => (
                   <td className={value.class} key={value.day}>
-                    {value.day}
+                    <DayBlockHeader>
+                      <p>{value.day}</p>
+                      <p>{KoreanType[value.type as DayType]}</p>
+                    </DayBlockHeader>
                     <TeacherList>
                       {value.teacher &&
                         value.teacher.slice(1, 4).map((teacher, idx) => {
@@ -191,6 +207,14 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
 };
 
 export default TeacherCalendar;
+
+const DayBlockHeader = styled.div`
+  width: 100%;
+  padding: 0 4px;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -233,6 +257,10 @@ const Wrapper = styled.div`
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+    cursor: pointer;
+    :hover {
+      background-color: ${({ theme }) => theme.colors.gray100};
+    }
   }
   td:not(.current-month) {
     color: ${({ theme }) => theme.colors.gray500};
