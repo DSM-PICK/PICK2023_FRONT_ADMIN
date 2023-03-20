@@ -212,9 +212,7 @@ const ActivityAccept = () => {
           </PageContainer>
         ) : (
           <OutingLockContainer>
-            <p>
-              어플리케이션에 외출 기능이 추가되면 사용이 가능한 페이지입니다.
-            </p>
+            <p>앱 기능에 외출 기능이 추가되면 사용이 가능한 페이지입니다.</p>
           </OutingLockContainer>
         )
       }

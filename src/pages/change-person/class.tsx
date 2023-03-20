@@ -201,7 +201,9 @@ const ChangeClass = () => {
               );
             })
           ) : (
-            <NoData />
+            <NoDataContainer>
+              <NoData />
+            </NoDataContainer>
           )}
         </Container>
       </PageContainer>
@@ -232,4 +234,8 @@ const Container = styled.div`
   ${media(1800)} {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+`;
+
+const NoDataContainer = styled.div`
+  margin: auto;
 `;
