@@ -20,7 +20,7 @@ const AfterSchoolPage = () => {
   );
   const { data: afterSchoolList, refetch } = useQuery(
     "after-school-id",
-    () => getAfterSchoolMemberList(classroom?.classroom_list[0].type_id || ""),
+    () => getAfterSchoolMemberList(classroom?.classroom_list[0]?.type_id || ""),
     {
       enabled: !!classroom?.classroom_list[0].type_id,
       onError: handleError,
