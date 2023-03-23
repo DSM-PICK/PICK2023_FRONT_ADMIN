@@ -3,6 +3,7 @@ import { SelfStudyTeacherType } from "@/utils/api/selfStudy";
 import { media } from "@/utils/functions/media";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
+import ChangeType from "./changeType";
 import TeacherBlock from "./teacher";
 const months = [
   {
@@ -57,13 +58,16 @@ const months = [
 
 const Days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
+export type DayType = "SELF_STUDY" | "AFTER_SCHOOL" | "CLUB" | "";
+
 interface Props {
   monthIndex: number;
   data: DataType;
   refetch: () => void;
 }
 
-interface CalendarType {
+export interface CalendarType {
+  type: string;
   day: number;
   class: string;
   teacher: string[];
@@ -110,6 +114,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = prevMonthDays; i <= prevMonth.days; i++) {
       const teacher = data.past.get(getDate(monthIndex - 1, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "prev-month",
@@ -118,6 +123,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = 1; i <= thisMonthDays; i++) {
       const teacher = data.present.get(getDate(monthIndex, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "current-month",
@@ -126,6 +132,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     for (let i = 1; i <= nextMonthDays; i++) {
       const teacher = data.future.get(getDate(monthIndex + 1, i));
       days.push({
+        type: teacher?.type || "",
         day: i,
         teacher: teacher ? teacher.teacher : emptyTeacher,
         class: "next-month",
@@ -150,37 +157,56 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
           <tbody>
             {new Array(6).fill(0).map((_, index) => (
               <tr key={index}>
-                {calendarDays.slice(index * 7, (index + 1) * 7).map((value) => (
-                  <td className={value.class} key={value.day}>
-                    {value.day}
-                    <TeacherList>
-                      {value.teacher &&
-                        value.teacher.slice(1, 4).map((teacher, idx) => {
-                          const month =
-                            value.class == "prev-month"
-                              ? monthIndex - 1
-                              : value.class == "next-month"
-                              ? monthIndex + 1
-                              : monthIndex;
-                          return (
-                            teacher && (
-                              <TeacherBlock
-                                refetch={refetch}
-                                date={{
-                                  month: month,
-                                  day: value.day,
-                                }}
-                                floor={idx + 1}
-                                key={value.day + value.class + idx}
-                                name={teacher}
-                                disable={value.class !== "current-month"}
-                              />
-                            )
-                          );
-                        })}
-                    </TeacherList>
-                  </td>
-                ))}
+                {calendarDays.slice(index * 7, (index + 1) * 7).map((value) => {
+                  const month =
+                    value.class == "prev-month"
+                      ? monthIndex - 1
+                      : value.class == "next-month"
+                      ? monthIndex + 1
+                      : monthIndex;
+                  return (
+                    <td
+                      className={value.class}
+                      key={value.day}
+                      style={{
+                        opacity: value.class != "current-month" ? 0.4 : 1,
+                      }}
+                    >
+                      <DayBlockHeader>
+                        <p>{value.day}</p>
+                        <ChangeType
+                          refetch={refetch}
+                          value={value}
+                          date={{
+                            day: value.day,
+                            month: month,
+                          }}
+                        />
+                      </DayBlockHeader>
+                      <TeacherList>
+                        {value.teacher &&
+                          value.teacher.slice(1, 4).map((teacher, idx) => {
+                            console.log(value.class != "current-month");
+                            return (
+                              teacher && (
+                                <TeacherBlock
+                                  refetch={refetch}
+                                  teachers={value.teacher}
+                                  date={{
+                                    month: month,
+                                    day: value.day,
+                                  }}
+                                  floor={idx + 1}
+                                  key={value.day + value.class + idx}
+                                  name={teacher}
+                                />
+                              )
+                            );
+                          })}
+                      </TeacherList>
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -191,6 +217,14 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
 };
 
 export default TeacherCalendar;
+
+const DayBlockHeader = styled.div`
+  width: 100%;
+  padding: 0 4px;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -233,6 +267,9 @@ const Wrapper = styled.div`
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
+    :hover {
+      background-color: ${({ theme }) => theme.colors.gray100};
+    }
   }
   td:not(.current-month) {
     color: ${({ theme }) => theme.colors.gray500};

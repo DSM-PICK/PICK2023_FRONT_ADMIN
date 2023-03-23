@@ -15,6 +15,7 @@ interface Props {
     month: number;
     day: number;
   };
+  teachers: string[];
   teacher: string;
   setToggle: (state: boolean) => void;
   refetch: () => void;
@@ -24,6 +25,7 @@ const ChangeTeacherModal = ({
   date,
   floor,
   setToggle,
+  teachers,
   refetch,
   teacher,
 }: Props) => {
@@ -82,24 +84,27 @@ const ChangeTeacherModal = ({
     setToggle(false);
   };
 
+  const dropDownItem: ItemType[] = teachers
+    .map((value, index) => {
+      if (value !== "")
+        return {
+          id: index,
+          option: `${index + 1}층`,
+        };
+      return false;
+    })
+    .filter((value: ItemType | false) => value) as ItemType[];
+
   return (
-    <Wrapper onClick={() => setToggle(false)}>
-      <Box
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
+    <Wrapper>
+      <Box>
         <Title>
           {date.month}월 {date.day}일
         </Title>
         <DropDown
           setResult={setFloor}
           title={selectedFloor.option}
-          dropDownItem={[
-            { id: 1, option: "2층" },
-            { id: 2, option: "3층" },
-            { id: 3, option: "4층" },
-          ]}
+          dropDownItem={dropDownItem}
         />
         <StyledDropDown
           setResult={setTeacher}
@@ -134,6 +139,7 @@ const ChangeTeacherModal = ({
 export default ChangeTeacherModal;
 
 const Wrapper = styled.div`
+  cursor: default;
   position: fixed;
   top: 0px;
   left: 0px;

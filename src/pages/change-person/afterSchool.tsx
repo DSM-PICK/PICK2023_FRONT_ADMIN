@@ -11,18 +11,22 @@ import { useQuery } from "react-query";
 
 const AfterSchoolPage = () => {
   const { handleError } = useApiError();
-  const { data: classroom } = useQuery(
+  const { data: classroom, isSuccess: isSuccessClassRoom } = useQuery(
     "classroom",
     () => getLayerClassList(2, "AFTER_SCHOOL"),
     {
       onError: handleError,
     }
   );
-  const { data: afterSchoolList, refetch } = useQuery(
+  const {
+    data: afterSchoolList,
+    isSuccess: isSuccessAfterSchool,
+    refetch,
+  } = useQuery(
     "after-school-id",
     () => getAfterSchoolMemberList(classroom?.classroom_list[0]?.type_id || ""),
     {
-      enabled: !!classroom?.classroom_list[0].type_id,
+      enabled: !!classroom?.classroom_list[0]?.type_id,
       onError: handleError,
       cacheTime: 0,
     }
@@ -31,10 +35,12 @@ const AfterSchoolPage = () => {
   return (
     <PageContainer title="방과후 자습" subTitle="2층 창조실">
       <ListBox>
-        {afterSchoolList && afterSchoolList.data.after_school_user_list ? (
+        {isSuccessClassRoom &&
+        isSuccessAfterSchool &&
+        afterSchoolList.data.after_school_user_list.length ? (
           afterSchoolList.data.after_school_user_list.map((item) => (
             <List
-              after_school_id={classroom?.classroom_list[0].type_id || ""}
+              after_school_id={classroom.classroom_list[0].type_id || ""}
               key={item.student_id}
               student_id={item.student_id}
               student_name={item.student_name}

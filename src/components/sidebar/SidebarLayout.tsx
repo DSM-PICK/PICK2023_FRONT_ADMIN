@@ -53,13 +53,15 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const { handleError } = useApiError();
 
-  const { data: state } = useQuery(
+  const { data: state, isSuccess } = useQuery(
     "state",
     () => getTodaySelfStudyTeacherWhether(),
     {
       onError: handleError,
     }
   );
+
+  const stateData = isSuccess ? state.data.name : "";
 
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
@@ -75,7 +77,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
       <SidebarWrapper id="sidebar">
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
-          <h1>{state?.data.name} 선생님</h1>
+          <h1>{stateData} 선생님</h1>
         </TitleContainer>
         <ItemContainer>
           {nameToInfo.map((item, idx) => {

@@ -1,6 +1,6 @@
 import PageContainer from "@/components/common/PageContainer";
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import List from "@/components/attendance/List";
 import { getAttendanceCheckList } from "@/utils/api/selfStudy";
@@ -41,7 +41,7 @@ const AttendancePage = () => {
         <Header className={className} isFriday={isFriday} />
         <StudentWrapper>
           {isSuccess && attendanceCheckList.data.student_list.length ? (
-            attendanceCheckList.data.student_list?.map((data, idx) => {
+            attendanceCheckList.data.student_list.map((data, idx) => {
               return (
                 <List
                   key={idx}
