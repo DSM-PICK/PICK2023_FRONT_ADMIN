@@ -3,6 +3,7 @@ import { SelfStudyTeacherType } from "@/utils/api/selfStudy";
 import { media } from "@/utils/functions/media";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
+import ChangeType from "./changeType";
 import TeacherBlock from "./teacher";
 const months = [
   {
@@ -57,14 +58,7 @@ const months = [
 
 const Days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-const KoreanType = {
-  SELF_STUDY: "자습",
-  AFTER_SCHOOL: "방과후",
-  CLUB: "동아리",
-  "": "",
-};
-
-type DayType = "SELF_STUDY" | "AFTER_SCHOOL" | "CLUB" | "";
+export type DayType = "SELF_STUDY" | "AFTER_SCHOOL" | "CLUB" | "";
 
 interface Props {
   monthIndex: number;
@@ -72,7 +66,7 @@ interface Props {
   refetch: () => void;
 }
 
-interface CalendarType {
+export interface CalendarType {
   type: string;
   day: number;
   class: string;
@@ -163,41 +157,51 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
           <tbody>
             {new Array(6).fill(0).map((_, index) => (
               <tr key={index}>
-                {calendarDays.slice(index * 7, (index + 1) * 7).map((value) => (
-                  <td className={value.class} key={value.day}>
-                    <DayBlockHeader>
-                      <p>{value.day}</p>
-                      <p>{KoreanType[value.type as DayType]}</p>
-                    </DayBlockHeader>
-                    <TeacherList>
-                      {value.teacher &&
-                        value.teacher.slice(1, 4).map((teacher, idx) => {
-                          const month =
-                            value.class == "prev-month"
-                              ? monthIndex - 1
-                              : value.class == "next-month"
-                              ? monthIndex + 1
-                              : monthIndex;
-                          return (
-                            teacher && (
-                              <TeacherBlock
-                                refetch={refetch}
-                                teachers={value.teacher}
-                                date={{
-                                  month: month,
-                                  day: value.day,
-                                }}
-                                floor={idx + 1}
-                                key={value.day + value.class + idx}
-                                name={teacher}
-                                disable={value.class !== "current-month"}
-                              />
-                            )
-                          );
-                        })}
-                    </TeacherList>
-                  </td>
-                ))}
+                {calendarDays.slice(index * 7, (index + 1) * 7).map((value) => {
+                  const month =
+                    value.class == "prev-month"
+                      ? monthIndex - 1
+                      : value.class == "next-month"
+                      ? monthIndex + 1
+                      : monthIndex;
+                  return (
+                    <td className={value.class} key={value.day}>
+                      <DayBlockHeader>
+                        <p>{value.day}</p>
+                        <ChangeType
+                          refetch={refetch}
+                          value={value}
+                          date={{
+                            day: value.day,
+                            month: month,
+                          }}
+                        />
+                      </DayBlockHeader>
+                      <TeacherList>
+                        {value.teacher &&
+                          value.teacher.slice(1, 4).map((teacher, idx) => {
+                            console.log(value.class != "current-month");
+                            return (
+                              teacher && (
+                                <TeacherBlock
+                                  refetch={refetch}
+                                  teachers={value.teacher}
+                                  date={{
+                                    month: month,
+                                    day: value.day,
+                                  }}
+                                  floor={idx + 1}
+                                  key={value.day + value.class + idx}
+                                  name={teacher}
+                                  disable={value.class != "current-month"}
+                                />
+                              )
+                            );
+                          })}
+                      </TeacherList>
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

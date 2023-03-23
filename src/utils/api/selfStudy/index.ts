@@ -180,3 +180,20 @@ export const getLayerClassList = async (
   }>(`/pick/class-room/?floor=${floor}&type=${type}`);
   return layerClassList.data;
 };
+
+export const setDateType = async (request: { date: string; type: string }) => {
+  const response = await instance.post(
+    `/pick/admin/type?date=${request.date}&type=${request.type}`
+  );
+  return response;
+};
+
+export const patchDateType = async (req: {
+  date: string;
+  type: string;
+}) => {
+  const response = await instance.patch(
+    `/pick/admin/type?date=${req.date}&type=${req.type}`
+  );
+  return response;
+};
