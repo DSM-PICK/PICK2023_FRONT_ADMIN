@@ -68,8 +68,11 @@ const ChangeType = ({ value, date, refetch }: Props) => {
 export default ChangeType;
 
 const Text = styled.p`
+  cursor: pointer;
+
   min-width: 15px;
 `;
 
-const Plus = styled(Text)`
+const Plus = styled.button`
+  cursor: pointer;
 `;

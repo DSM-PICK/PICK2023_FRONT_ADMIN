@@ -165,7 +165,13 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                       ? monthIndex + 1
                       : monthIndex;
                   return (
-                    <td className={value.class} key={value.day}>
+                    <td
+                      className={value.class}
+                      key={value.day}
+                      style={{
+                        opacity: value.class != "current-month" ? 0.4 : 1,
+                      }}
+                    >
                       <DayBlockHeader>
                         <p>{value.day}</p>
                         <ChangeType
@@ -193,7 +199,6 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                                   floor={idx + 1}
                                   key={value.day + value.class + idx}
                                   name={teacher}
-                                  disable={value.class != "current-month"}
                                 />
                               )
                             );
@@ -262,7 +267,6 @@ const Wrapper = styled.div`
     font-weight: 400;
     font-size: 14px;
     line-height: 20px;
-    cursor: pointer;
     :hover {
       background-color: ${({ theme }) => theme.colors.gray100};
     }
