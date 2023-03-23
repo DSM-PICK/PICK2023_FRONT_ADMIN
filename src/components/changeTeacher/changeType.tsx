@@ -72,5 +72,4 @@ const Text = styled.p`
 `;
 
 const Plus = styled(Text)`
-  border: 1px solid black;
 `;
