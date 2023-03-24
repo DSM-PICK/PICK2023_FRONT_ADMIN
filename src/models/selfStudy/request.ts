@@ -17,8 +17,8 @@ export interface AttandanceStatusChangeRequestDto {
 export interface IssuanceOuting {
   user_id_list: string[];
   reason: string;
-  start_period: number;
-  end_period: number;
+  start_period: number | string;
+  end_period: number | string;
 }
 
 export interface AfterSchoolUserAdd {
