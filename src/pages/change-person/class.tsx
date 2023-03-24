@@ -44,12 +44,19 @@ const ChangeClass = () => {
     class: 1,
   });
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
-  const { mutate, data: patchData } = useMutation(
+  const [studentList, setList] = useState<StudentType[]>([]);
+  const { mutate, isLoading } = useMutation(
     "patch-student-in-class",
-    (user_list: ChangeStudentType[]) => patchClassPersonStatus(user_list)
+    (user_list: ChangeStudentType[]) => patchClassPersonStatus(user_list),
+    {
+      onError: (err: any) => {
+        setChangedState([]);
+        handleError;
+      },
+    }
   );
-  const { data, isSuccess } = useQuery(
-    ["get-student-in-class", selectedStates, patchData],
+  const { data, dataUpdatedAt, refetch } = useQuery(
+    ["get-student-in-class"],
     () => getClassPersonStatus(selectedStates.grade, selectedStates.class),
     {
       onError: (err: any) => {
@@ -65,7 +72,19 @@ const ChangeClass = () => {
     }
   );
 
-  const studentList = data ? data.student_list : [];
+  useEffect(() => {
+    if (!isLoading) {
+      setList([]);
+      refetch();
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (data) {
+      setList([...data.student_list]);
+    }
+  }, [data, dataUpdatedAt]);
+
   const grades: ItemType[] = [
     { id: 0, option: "1학년" },
     { id: 1, option: "2학년" },
@@ -193,7 +212,7 @@ const ChangeClass = () => {
               return (
                 <StudentList
                   studentID={value.student_id}
-                  status="ATTENDANCE"
+                  status={value.status}
                   isEditing={isEditing}
                   onChange={(changedValue) => onChange(changedValue, value)}
                   text={`${value.student_number} ${value.student_name}`}

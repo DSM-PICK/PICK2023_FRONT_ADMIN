@@ -158,6 +158,18 @@ const SelectList = styled.div<{ isFriday?: boolean }>`
   z-index: 1;
   top: 56px;
   z-index: 99;
+  max-height: 200px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 8px;
+    display: block;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.gray400};
+    border-radius: 10px;
+
+    display: block;
+  }
   > span {
     cursor: pointer;
   }

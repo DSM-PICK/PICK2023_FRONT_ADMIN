@@ -186,7 +186,6 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                       <TeacherList>
                         {value.teacher &&
                           value.teacher.slice(1, 4).map((teacher, idx) => {
-                            console.log(value.class != "current-month");
                             return (
                               teacher && (
                                 <TeacherBlock
