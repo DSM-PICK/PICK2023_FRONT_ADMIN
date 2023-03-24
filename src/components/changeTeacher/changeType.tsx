@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import { CalendarType, DayType } from "./calendar";
 import { useState } from "react";
 import ChangeTypeModal from "./typemodal";
+import { useApiError } from "@/hooks/useApiError";
 
 export const KoreanType = {
   SELF_STUDY: "자습",
@@ -22,13 +23,16 @@ interface Props {
 }
 
 const ChangeType = ({ value, date, refetch }: Props) => {
+  const { handleError } = useApiError();
   const [toggle1, setToggle1] = useState(false);
   const [toggle2, setToggle2] = useState(false);
   const { mutate: setTypeMutate } = useMutation(setDateType, {
     onSuccess: () => refetch(),
+    onError: handleError,
   });
   const { mutate: patchTypeMutate } = useMutation(patchDateType, {
     onSuccess: () => refetch(),
+    onError: handleError,
   });
 
   return date.month < 13 && date.month > 0 ? (
