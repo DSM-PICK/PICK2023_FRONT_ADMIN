@@ -9,7 +9,7 @@ interface Props {
 const TodayTeacher = ({ second_floor, third_floor, fourth_floor }: Props) => {
   return (
     <TodayTeacherContainer>
-      <p>오늘의 자습감독</p>
+      <p>오늘의 자습감독 선생님</p>
       <div>
         <p>2층 {second_floor}선생님</p>
         <p>3층 {third_floor}선생님</p>
