@@ -38,10 +38,8 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
   const [outingUserIdList, setOutingUserIdList] = useState<string[]>([]);
   const [outingUserList, setOutingUserList] = useState<string[]>([]);
 
-  // API 에러 핸들링 함수 가져오기
   const { handleError } = useApiError();
 
-  // 유저 리스트 가져오기
   const { data: userList } = useQuery(
     ["classList", name],
     () => searchUser(name),
@@ -52,7 +50,6 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
     }
   );
 
-  // 외출증 발급 요청 데이터
   const issuanceOutingRequest: IssuanceOuting = {
     user_id_list: outingUserIdList,
     reason: reason,
@@ -60,7 +57,6 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
     end_period: endPeriod.id,
   };
 
-  // 외출증 발급 요청 API 호출 함수
   const { mutate } = useMutation(postIssuanceOuting, {
     onError: handleError,
     onSuccess: () => {
@@ -69,20 +65,21 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
     },
   });
 
-  // 외출 유저 리스트에 추가하는 함수
   const pushUserIdList = () => {
+    if (outingUserIdList.includes(id)) {
+      toast.error("이미 추가된 학생입니다.", { duration: 1000 });
+      return;
+    }
     setOutingUserIdList((prevList) => [...prevList, id]);
     setOutingUserList((prevList) => [...prevList, name]);
     setName("");
   };
 
-  // 유저 id 설정 함수
   const onSetId = (value: SearchedUserListType) => {
     setId(value.id);
     setName(value.num + " " + value.name);
   };
 
-  // 외출 유저 리스트에서 제거하는 함수
   const popUserIdList = (idx: number) => {
     const updatedOutingUserList = [...outingUserList];
     const updatedOutingUserIdList = [...outingUserIdList];
@@ -111,7 +108,7 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
         <NameInputWrapper>
           <div>
             <NameSearchInput
-              placeholder="이름을 검색해주세요."
+              placeholder="이름을 입력해주세요."
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
