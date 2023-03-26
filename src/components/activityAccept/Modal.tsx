@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import DropDown from "../common/Dropdown";
 import { ItemType } from "@/models/common";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { searchUser } from "@/utils/api/outing";
 import { useQuery, useMutation } from "react-query";
 import { useApiError } from "@/hooks/useApiError";
@@ -23,15 +23,8 @@ interface OutingIssueModalProps {
 }
 
 const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
-  // 초기 상태값 설정
-  const [startPeriod, setStartPeriod] = useState<ItemType>({
-    option: "8교시",
-    id: 8,
-  });
-  const [endPeriod, setEndPeriod] = useState<ItemType>({
-    option: "10교시",
-    id: 10,
-  });
+  const [startPeriod, setStartPeriod] = useState<ItemType>(outingPeriod[0]);
+  const [endPeriod, setEndPeriod] = useState<ItemType>(outingPeriod[2]);
   const [name, setName] = useState<string>("");
   const [reason, setReason] = useState<string>("");
   const [id, setId] = useState<string>("");
@@ -40,15 +33,11 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
 
   const { handleError } = useApiError();
 
-  const { data: userList } = useQuery(
-    ["classList", name],
-    () => searchUser(name),
-    {
-      onError: handleError,
-      cacheTime: 0,
-      enabled: name != "",
-    }
-  );
+  const { data: userList } = useQuery(["", name], () => searchUser(name), {
+    onError: handleError,
+    cacheTime: 0,
+    enabled: name != "",
+  });
 
   const issuanceOutingRequest: IssuanceOuting = {
     user_id_list: outingUserIdList,
@@ -142,7 +131,7 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
         </NameInputWrapper>
         <ReasonInput
           placeholder="외출 사유를 입력해주세요."
-          onChange={(e: any) => setReason(e.target.value)}
+          onChange={(e) => setReason(e.target.value)}
         />
         <Btns>
           <CancelBtn onClick={() => setIsOpenOutingModal(false)}>
@@ -219,6 +208,7 @@ const NameSearchInput = styled.input`
   line-height: 24px;
   :focus {
     outline: 1px solid ${({ theme }) => theme.colors.purple400};
+    background: white;
   }
   ::placeholder {
     color: ${({ theme }) => theme.colors.gray300};
