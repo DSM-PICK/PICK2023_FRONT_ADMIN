@@ -186,6 +186,7 @@ const AddButton = styled.button`
   font-size: 20px;
   line-height: 24px;
   color: ${({ theme }) => theme.colors.gray300};
+  cursor: pointer;
   :hover {
     border: 1px solid ${({ theme }) => theme.colors.purple400};
     color: ${({ theme }) => theme.colors.purple400};
@@ -211,11 +212,12 @@ const AddedList = styled.div`
     align-items: center;
     background: white;
     gap: 14px;
+    cursor: pointer;
   }
 `;
 
 const SearchStudentList = styled.div`
-  width: 277px;
+  width: 410px;
   box-shadow: 0px 2px 8px ${({ theme }) => theme.colors.black};
   border-radius: 12px;
   display: flex;
@@ -231,6 +233,7 @@ const SearchStudentList = styled.div`
   top: 60px;
   max-height: 140px;
   overflow-x: scroll;
+  cursor: pointer;
 `;
 
 const Btns = styled.div`
@@ -250,10 +253,11 @@ const CancelBtn = styled.button`
   color: ${({ theme }) => theme.colors.gray700};
   width: 250px;
   height: 60px;
+  cursor: pointer;
 `;
 
 const AddBtn = styled.button`
-  background: ${({ theme }) => theme.colors.purple50};
+  background: ${({ theme }) => theme.colors.purple400};
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;
@@ -262,9 +266,7 @@ const AddBtn = styled.button`
   height: 60px;
   border-radius: 12px;
   color: white;
-  :hover {
-    background: ${({ theme }) => theme.colors.purple400};
-  }
+  cursor: pointer;
 `;
 
 export default Modal;

@@ -225,6 +225,7 @@ const AddButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.gray100};
   border-radius: 12px;
   background: white;
+  cursor: pointer;
   :hover {
     color: ${({ theme }) => theme.colors.purple400};
     border: 1px solid ${({ theme }) => theme.colors.purple400};
@@ -263,10 +264,11 @@ const CancelBtn = styled.button`
   color: ${({ theme }) => theme.colors.gray700};
   width: 288px;
   height: 60px;
+  cursor: pointer;
 `;
 
 const IssueBtn = styled.button`
-  background: ${({ theme }) => theme.colors.purple50};
+  background: ${({ theme }) => theme.colors.purple400};
   font-weight: 500;
   font-size: 24px;
   line-height: 36px;
@@ -275,9 +277,7 @@ const IssueBtn = styled.button`
   height: 60px;
   border-radius: 12px;
   color: white;
-  :hover {
-    background: ${({ theme }) => theme.colors.purple400};
-  }
+  cursor: pointer;
 `;
 
 const SearchStudentList = styled.div`
@@ -297,6 +297,7 @@ const SearchStudentList = styled.div`
   top: 60px;
   max-height: 140px;
   overflow-x: scroll;
+  cursor: pointer;
 `;
 
 const AddedList = styled.div`
@@ -318,6 +319,7 @@ const AddedList = styled.div`
     align-items: center;
     background: white;
     gap: 14px;
+    cursor: pointer;
   }
 `;
 

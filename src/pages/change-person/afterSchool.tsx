@@ -86,6 +86,7 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   :hover {
     color: ${({ theme }) => theme.colors.purple400};
     border: 1px solid ${({ theme }) => theme.colors.purple400};
