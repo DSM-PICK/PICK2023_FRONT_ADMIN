@@ -98,7 +98,7 @@ export const getClubMemberList = async (club_id: string) => {
 };
 
 export const postIssuanceOuting = async (request: IssuanceOuting) => {
-  const issuanceOuting = await instance.post("/pick/admin/picnic", { request });
+  const issuanceOuting = await instance.post("/pick/admin/picnic", request);
   return issuanceOuting;
 };
 
@@ -188,10 +188,7 @@ export const setDateType = async (request: { date: string; type: string }) => {
   return response;
 };
 
-export const patchDateType = async (req: {
-  date: string;
-  type: string;
-}) => {
+export const patchDateType = async (req: { date: string; type: string }) => {
   const response = await instance.patch(
     `/pick/admin/type?date=${req.date}&type=${req.type}`
   );

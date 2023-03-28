@@ -2,6 +2,7 @@ import instance from "@/utils/axios";
 import {
   OutingApplyList,
   OutingStudentList,
+  SearchedUserListType,
 } from "../../../models/outing/response";
 import { GetOutingApplyListRequestType } from "@/models/outing/request";
 
@@ -41,4 +42,11 @@ export const patchOutingRejectAccept = async (
     user_id_list,
   });
   return outingRejectAccept;
+};
+
+export const searchUser = async (name: string) => {
+  const userList = await instance.get<SearchedUserListType[]>(
+    `/users/search?name=${name}`
+  );
+  return userList;
 };

@@ -28,3 +28,16 @@ export const getClassPersonStatus = async (grade: number, classNum: number) => {
   );
   return response.data;
 };
+
+interface addAfterSchoolStudentRequstType {
+  after_school_id: string;
+  user_id_list: string[];
+}
+
+export const addAfterSchoolStudent = async (
+  request: addAfterSchoolStudentRequstType
+) => {
+  await instance.post(`pick/admin/${request.after_school_id}`, {
+    user_id_list: request.user_id_list,
+  });
+};

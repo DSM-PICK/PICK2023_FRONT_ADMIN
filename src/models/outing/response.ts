@@ -21,3 +21,9 @@ export interface OutingStudentListType {
 export interface OutingStudentList {
   outing: OutingApplyListType[];
 }
+
+export interface SearchedUserListType {
+  id: string;
+  num: string;
+  name: string;
+}
