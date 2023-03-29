@@ -234,6 +234,9 @@ const SearchStudentList = styled.div`
   max-height: 140px;
   overflow-x: scroll;
   cursor: pointer;
+  > span {
+    cursor: pointer;
+  }
 `;
 
 const Btns = styled.div`

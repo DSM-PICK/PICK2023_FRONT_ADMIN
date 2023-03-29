@@ -281,7 +281,7 @@ const IssueBtn = styled.button`
 `;
 
 const SearchStudentList = styled.div`
-  width: 277px;
+  width: 280px;
   box-shadow: 0px 2px 8px ${({ theme }) => theme.colors.black};
   border-radius: 12px;
   display: flex;
@@ -298,6 +298,9 @@ const SearchStudentList = styled.div`
   max-height: 140px;
   overflow-x: scroll;
   cursor: pointer;
+  > span {
+    cursor: pointer;
+  }
 `;
 
 const AddedList = styled.div`
