@@ -194,3 +194,12 @@ export const patchDateType = async (req: { date: string; type: string }) => {
   );
   return response;
 };
+
+export const addSelfStudyTeacher = async (req: {
+  teacher_id: string;
+  floor: number;
+  date: string;
+}) => {
+  console.log(req.date);
+  await instance.post("/pick/admin/director", req);
+};
