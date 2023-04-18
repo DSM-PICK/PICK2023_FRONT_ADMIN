@@ -4,7 +4,10 @@ import { useState, useEffect } from "react";
 import { ItemType } from "@/models/common";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getTeachersList } from "@/utils/api/common";
-import { patchSelfStudyTeacher } from "@/utils/api/selfStudy";
+import {
+  addSelfStudyTeacher,
+  patchSelfStudyTeacher,
+} from "@/utils/api/selfStudy";
 import Button from "../common/Button";
 import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
@@ -19,6 +22,7 @@ interface Props {
   teacher: string;
   setToggle: (state: boolean) => void;
   refetch: () => void;
+  isAdd?: boolean;
 }
 
 const ChangeTeacherModal = ({
@@ -28,6 +32,7 @@ const ChangeTeacherModal = ({
   teachers,
   refetch,
   teacher,
+  isAdd,
 }: Props) => {
   const [selectedFloor, setFloor] = useState<ItemType>({
     id: floor,
@@ -41,7 +46,8 @@ const ChangeTeacherModal = ({
     getTeachersList()
   );
   const { handleError } = useApiError();
-  const { mutate } = useMutation(
+
+  const { mutate: editTeacher } = useMutation(
     ["patch-teachers-list", selectedTeacher.id, selectedFloor.id],
     () => {
       const request = {
@@ -62,6 +68,27 @@ const ChangeTeacherModal = ({
     }
   );
 
+  const { mutate: addTeacher } = useMutation(
+    ["add-teacher", selectedTeacher.id, selectedFloor.id],
+    () => {
+      const request = {
+        teacher_id: selectedTeacher.id.toString(),
+        floor: Number(selectedFloor.id) + 1,
+        date: `${new Date().getFullYear()}-${date.month
+          .toString()
+          .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`,
+      };
+      return addSelfStudyTeacher(request);
+    },
+    {
+      onSuccess: () => {
+        refetch();
+        toast.success("자습감독선생님이 추가되었습니다.", { duration: 1000 });
+      },
+      onError: handleError,
+    }
+  );
+
   useEffect(() => {
     const id = data?.teachers.find((value) => value.name == teacher)?.id;
     setTeacher({
@@ -72,7 +99,7 @@ const ChangeTeacherModal = ({
 
   if (!data) return <></>;
 
-  const teacherItem: ItemType[] = data.teachers.map((value, index) => {
+  const teacherItem: ItemType[] = data.teachers.map((value) => {
     return {
       id: value.id,
       option: value.name,
@@ -80,8 +107,13 @@ const ChangeTeacherModal = ({
   });
 
   const clickConfirmButton = () => {
-    mutate();
-    setToggle(false);
+    if (isAdd) {
+      addTeacher();
+      setToggle(false);
+    } else {
+      editTeacher();
+      setToggle(false);
+    }
   };
 
   const dropDownItem: ItemType[] = teachers
@@ -95,6 +127,21 @@ const ChangeTeacherModal = ({
     })
     .filter((value: ItemType | false) => value) as ItemType[];
 
+  const floorDropDownItem = [
+    {
+      id: 2,
+      option: "2층",
+    },
+    {
+      id: 3,
+      option: "3층",
+    },
+    {
+      id: 4,
+      option: "4층",
+    },
+  ];
+
   return (
     <Wrapper>
       <Box>
@@ -104,7 +151,7 @@ const ChangeTeacherModal = ({
         <DropDown
           setResult={setFloor}
           title={selectedFloor.option}
-          dropDownItem={dropDownItem}
+          dropDownItem={isAdd ? floorDropDownItem : dropDownItem}
         />
         <StyledDropDown
           setResult={setTeacher}
@@ -128,7 +175,7 @@ const ChangeTeacherModal = ({
             disabled={!selectedTeacher.id}
             onClick={() => clickConfirmButton()}
           >
-            변경하기
+            {isAdd ? "추가하기" : "변경하기"}
           </Button>
         </div>
       </Box>

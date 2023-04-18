@@ -1,9 +1,8 @@
 import { DataType } from "@/pages/changeTeacher";
-import { SelfStudyTeacherType } from "@/utils/api/selfStudy";
-import { media } from "@/utils/functions/media";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import ChangeType from "./changeType";
+import ChangeTeacherModal from "./modal";
 import TeacherBlock from "./teacher";
 const months = [
   {
@@ -87,6 +86,11 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
   );
   const [calendarDays, setCalendarDays] = useState<CalendarType[]>([]);
   const emptyTeacher = ["", "", "", "", ""];
+  const [isActiveModal, setIsActiveModal] = useState<boolean>(false);
+  const [addSelfSudyTeacherModalDay, setAddSelfSudyTeacherModalDay] =
+    useState<number>(0);
+  const [addSelfSudyTeacherModalMonth, setAddSelfSudyTeacherModalMonth] =
+    useState<number>(0);
 
   useEffect(() => {
     const current = months[month];
@@ -141,6 +145,12 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
     setCalendarDays(days);
   }, [currentMonth, prevMonth, data]);
 
+  const addAfterShcoolTeacher = (day: number, month: number) => {
+    setAddSelfSudyTeacherModalDay(day);
+    setAddSelfSudyTeacherModalMonth(month);
+    setIsActiveModal(true);
+  };
+
   return (
     <>
       <Wrapper>
@@ -173,7 +183,13 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                       }}
                     >
                       <DayBlockHeader>
-                        <p>{value.day}</p>
+                        <p
+                          onClick={() =>
+                            addAfterShcoolTeacher(value.day, month)
+                          }
+                        >
+                          {value.day}
+                        </p>
                         <ChangeType
                           refetch={refetch}
                           value={value}
@@ -211,6 +227,20 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
           </tbody>
         </table>
       </Wrapper>
+      {isActiveModal && (
+        <ChangeTeacherModal
+          date={{
+            month: addSelfSudyTeacherModalMonth,
+            day: addSelfSudyTeacherModalDay,
+          }}
+          floor={1}
+          teachers={[]}
+          teacher={"선생님을 추가해주세요"}
+          setToggle={setIsActiveModal}
+          refetch={() => refetch}
+          isAdd={true}
+        />
+      )}
     </>
   );
 };
