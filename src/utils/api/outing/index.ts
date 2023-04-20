@@ -26,7 +26,7 @@ export const patchOutingStudentState = async (
   student_id: string,
   end_period: number
 ) => {
-  const outingStudentState = await instance.patch("/teachers", {
+  const outingStudentState = await instance.patch("/pick/teachers", {
     student_id,
     end_period,
   });
