@@ -81,6 +81,8 @@ const Student = ({
         return "이동";
       case "ATTENDANCE":
         return "출석";
+      case "EMPLOYMENT":
+        return "취업";
     }
   };
   const { handleError } = useApiError();

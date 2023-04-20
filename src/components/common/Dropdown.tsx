@@ -63,6 +63,15 @@ const DropDown = ({
         changeStates(theme.colors.gray600, theme.colors.gray300, true);
         setIsActivate(false);
         break;
+      case "조퇴":
+        changeStates(theme.colors.red400, theme.colors.red100, true);
+        break;
+      case "취업":
+        changeStates(theme.colors.gray600, theme.colors.gray300, true);
+        break;
+      case "귀가":
+        changeStates(theme.colors.gray600, theme.colors.gray300, true);
+        break;
     }
   }, [value]);
 

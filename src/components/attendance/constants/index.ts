@@ -9,4 +9,8 @@ export const floorDropDownItem: ItemType[] = [
 export const attendanceDropDownItem: ItemType[] = [
   { option: "출석", id: "ATTENDANCE" },
   { option: "무단", id: "DISALLOWED" },
+  { option: "귀가", id: "HOME" },
+  { option: "취업", id: "EMPLOYMENT" },
+  { option: "현체", id: "FIELD_TRIP" },
+  { option: "조퇴", id: "LEAVE" },
 ];
