@@ -60,7 +60,7 @@ const ClubPerson = () => {
         setResult={setLayerResult}
       />
       <DropDown
-        title="반"
+        title="동아리"
         dropDownItem={classObj!}
         setResult={setClassResult}
       />
