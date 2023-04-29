@@ -10,6 +10,8 @@ export const KoreanType = {
   SELF_STUDY: "자습",
   AFTER_SCHOOL: "방과후",
   CLUB: "동아리",
+  FRI_CLUB: "동아리",
+  TUE_CLUB: "동아리",
   "": "",
 };
 
