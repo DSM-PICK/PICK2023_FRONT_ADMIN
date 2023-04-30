@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import DropDown from "../common/Dropdown";
 import Button from "../common/Button";
 import { KoreanType } from "./changeType";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ItemType } from "@/models/common";
 
 interface Props {
@@ -18,6 +18,11 @@ interface Props {
 type StatusType = "SELF_STUDY" | "CLUB" | "AFTER_SCHOOL" | "";
 
 const ChangeTypeModal = ({ date, setToggle, mutate, type }: Props) => {
+  const requestDate: string = `${new Date().getFullYear()}-${date.month
+    .toString()
+    .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`;
+  const isFriDay: boolean = new Date(requestDate).getDay() === 5;
+
   const Type = [
     {
       id: "AFTER_SCHOOL",
@@ -39,10 +44,13 @@ const ChangeTypeModal = ({ date, setToggle, mutate, type }: Props) => {
 
   const clickConfirmButton = () => {
     mutate({
-      date: `${new Date().getFullYear()}-${date.month
-        .toString()
-        .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`,
-      type: selectedType.id as string,
+      date: requestDate,
+      type:
+        (selectedType.id as string) === "CLUB"
+          ? isFriDay
+            ? "FRI_CLUB"
+            : "TUE_CLUB"
+          : (selectedType.id as string),
     });
     setToggle(false);
   };

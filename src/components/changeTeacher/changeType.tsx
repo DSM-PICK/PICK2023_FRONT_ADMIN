@@ -5,11 +5,14 @@ import { CalendarType, DayType } from "./calendar";
 import { useState } from "react";
 import ChangeTypeModal from "./typemodal";
 import { useApiError } from "@/hooks/useApiError";
+import { toast } from "react-hot-toast";
 
 export const KoreanType = {
   SELF_STUDY: "자습",
   AFTER_SCHOOL: "방과후",
   CLUB: "동아리",
+  FRI_CLUB: "동아리",
+  TUE_CLUB: "동아리",
   "": "",
 };
 
@@ -31,7 +34,10 @@ const ChangeType = ({ value, date, refetch }: Props) => {
     onError: handleError,
   });
   const { mutate: patchTypeMutate } = useMutation(patchDateType, {
-    onSuccess: () => refetch(),
+    onSuccess: () => {
+      toast.success("해당 날짜 유형이 변경되었습니다.", { duration: 1000 });
+      refetch();
+    },
     onError: handleError,
   });
 
