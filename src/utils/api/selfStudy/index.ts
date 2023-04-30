@@ -200,6 +200,5 @@ export const addSelfStudyTeacher = async (req: {
   floor: number;
   date: string;
 }) => {
-  console.log(req.date);
   await instance.post("/pick/admin/director", req);
 };
