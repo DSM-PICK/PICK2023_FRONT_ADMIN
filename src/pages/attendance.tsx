@@ -1,6 +1,6 @@
 import PageContainer from "@/components/common/PageContainer";
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import List from "@/components/attendance/List";
 import { getAttendanceCheckList } from "@/utils/api/selfStudy";
