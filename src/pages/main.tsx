@@ -3,20 +3,20 @@ import Card from "@/components/main/Card";
 import Date from "@/components/main/Date";
 import TodayTeacher from "@/components/main/TodayTeacher";
 import styled from "@emotion/styled";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import {
   getTodaySelfStudyTeacher,
   getTodaySelfStudyTeacherWhether,
   getMainpageStudnetCount,
 } from "@/utils/api/selfStudy/index";
 import { useApiError } from "@/hooks/useApiError";
-import { getToken } from "@/utils/functions/tokenManager";
 
 const Home = () => {
   const { handleError } = useApiError();
   const { data } = useQuery("postlist", () => getTodaySelfStudyTeacher(), {
     onError: handleError,
   });
+
   const { data: state } = useQuery(
     "state",
     () => getTodaySelfStudyTeacherWhether(),
@@ -24,6 +24,7 @@ const Home = () => {
       onError: handleError,
     }
   );
+
   const { data: students } = useQuery(
     "students",
     () => getMainpageStudnetCount(),
@@ -35,7 +36,7 @@ const Home = () => {
       <>
         <p>현재 외출 신청 학생은</p>
         <p>
-          총 <i>{students?.data.picnic}명</i>입니다.
+          총 <i>{students?.data.application}명</i>입니다.
         </p>
       </>
     );
@@ -46,7 +47,7 @@ const Home = () => {
       <>
         <p>현재 2층에서 이동한</p>
         <p>
-          학생 수는 <i>{students?.data.application}명</i>입니다.
+          학생 수는 <i>{students?.data.classroom_movement}명</i>입니다.
         </p>
       </>
     );
@@ -57,7 +58,7 @@ const Home = () => {
       <>
         <p> 현재 외출 중인 학생은</p>
         <p>
-          총 <i>{students?.data.classroom_movement}명</i>입니다.
+          총 <i>{students?.data.picnic}명</i>입니다.
         </p>
       </>
     );
