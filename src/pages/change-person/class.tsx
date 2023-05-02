@@ -56,7 +56,7 @@ const ChangeClass = () => {
     }
   );
   const { data, dataUpdatedAt, refetch } = useQuery(
-    ["get-student-in-class"],
+    ["get-student-in-class", selectedStates],
     () => getClassPersonStatus(selectedStates.grade, selectedStates.class),
     {
       onError: (err: any) => {
