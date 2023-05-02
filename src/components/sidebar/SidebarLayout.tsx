@@ -61,7 +61,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
     }
   );
 
-  const stateData = isSuccess ? state.data.name : "";
+  const stateData = state?.data.name;
 
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
