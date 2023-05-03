@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
 import OutingList from "../components/activityAccept/OutingList";
@@ -73,7 +73,6 @@ const ActivityAccept = () => {
   );
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [pageLock, setPageLock] = useState<boolean>(false);
 
   let grade_id = gradeResult.id as number;
   let class_id = classResult.id as number;

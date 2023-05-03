@@ -10,19 +10,18 @@ import SidebarLayout from "@/components/sidebar/SidebarLayout";
 import { DehydratedState, QueryClient, QueryClientProvider } from "react-query";
 import { store } from "@/store/store";
 import dynamic from "next/dynamic";
-import { Toaster } from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export default function App({
   Component,
   pageProps,
 }: AppProps<{ dehydratedState: DehydratedState }>) {
+  const router = useRouter();
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         retry: 0,
-        staleTime: 1000,
-        refetchInterval: 0,
-        refetchOnWindowFocus: false,
       },
     },
   });
@@ -57,9 +56,13 @@ export default function App({
           <Toaster />
           <SDSThemeProvider mode="light-only">
             <Global styles={globalStyles} />
-            <SidebarLayout>
+            {router.pathname !== "/" ? (
+              <SidebarLayout>
+                <Component {...pageProps} />
+              </SidebarLayout>
+            ) : (
               <Component {...pageProps} />
-            </SidebarLayout>
+            )}
           </SDSThemeProvider>
         </QueryClientProvider>
       </>

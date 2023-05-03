@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Logo from "../../assets/Logo.svg";
 import { useRouter } from "next/router";
 import Item from "./Item";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import { getTodaySelfStudyTeacherWhether } from "@/utils/api/selfStudy/index";
 import {
   check,
@@ -61,8 +61,6 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
     }
   );
 
-  const stateData = isSuccess ? state.data.name : "";
-
   const onClickItem = (idx: number) => {
     setActiveItem(idx);
   };
@@ -77,7 +75,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
       <SidebarWrapper id="sidebar">
         <TitleContainer>
           <Image onClick={onClickLogo} src={Logo} alt="logo" />
-          <h1>{stateData} 선생님</h1>
+          <h1>{state?.data.name} 선생님</h1>
         </TitleContainer>
         <ItemContainer>
           {nameToInfo.map((item, idx) => {
@@ -99,6 +97,7 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
         </ItemContainer>
       </SidebarWrapper>
       <Spacer id="space" />
+
       {children}
     </LayoutWrapper>
   );

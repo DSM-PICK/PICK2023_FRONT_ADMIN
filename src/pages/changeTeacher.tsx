@@ -4,7 +4,7 @@ import Title from "@/components/common/Title";
 import { getSelfStudyTeacherList } from "@/utils/api/selfStudy";
 import styled from "@emotion/styled";
 import { useState, useEffect, useCallback } from "react";
-import { useQueries, useQuery } from "react-query";
+import { useQueries } from "react-query";
 
 export interface TeacherType {
   type: string;

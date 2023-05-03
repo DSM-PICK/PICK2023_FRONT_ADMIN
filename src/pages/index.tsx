@@ -91,6 +91,10 @@ const LoginContainer = styled.div`
 `;
 
 const LoginWrapper = styled.form`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 50px 60px;
   border-radius: 12px;
   display: flex;
