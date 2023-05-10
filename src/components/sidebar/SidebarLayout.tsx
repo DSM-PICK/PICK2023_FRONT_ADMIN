@@ -95,6 +95,10 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
             );
           })}
         </ItemContainer>
+        <span>
+          버그제보는 아래 메일로 부탁드립니다. <br />
+          bugreportpick2023@gmail.com
+        </span>
       </SidebarWrapper>
       <Spacer id="space" />
 
@@ -121,6 +125,11 @@ const SidebarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.gray100};
+  > span {
+    font-size: 15px;
+    margin-top: 30px;
+    color: ${({ theme }) => theme.colors.gray700};
+  }
 `;
 
 const TitleContainer = styled.div`
