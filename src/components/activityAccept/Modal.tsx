@@ -218,11 +218,11 @@ const NameSearchInput = styled.input`
 const AddButton = styled.button`
   width: 80px;
   height: 40px;
-  color: ${({ theme }) => theme.colors.gray300};
+  color: ${({ theme }) => theme.colors.gray500};
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.gray100};
+  border: 1px solid ${({ theme }) => theme.colors.gray500};
   border-radius: 12px;
   background: white;
   cursor: pointer;
