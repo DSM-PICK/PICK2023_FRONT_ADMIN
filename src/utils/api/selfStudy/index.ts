@@ -11,7 +11,6 @@ import {
   ClubMemberList,
   SchoolTeacherList,
   FloorClassRoomDto,
-  FloorClassRoomList,
   SelfStudyTeacher,
 } from "@/models/selfStudy/response";
 import {

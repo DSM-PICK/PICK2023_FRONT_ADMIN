@@ -2,9 +2,18 @@ import styled from "@emotion/styled";
 import DropDown from "@/components/common/Dropdown";
 import { grades, classes } from "@/constants/DropDownItem";
 import { useState } from "react";
-import { ItemType, weekendMealStudentType } from "@/models/common";
+import { ItemType } from "@/models/common";
 import PageContainer from "@/components/common/PageContainer";
 import StudentContainer from "@/components/weekendMeal/StudentContainer";
+import { useApiError } from "@/hooks/useApiError";
+import { getWeekendMealStudentListExcel } from "@/utils/api/weekendMeal";
+import { useMutation, useQuery } from "react-query";
+import { toast } from "react-hot-toast";
+import {
+  checkTeacher,
+  getWeekendMealStudentList,
+} from "@/utils/api/weekendMeal";
+import fileSaver from "file-saver";
 
 const WeekendMeal = () => {
   const [gradeNum, setGradeNum] = useState<ItemType>({
@@ -14,6 +23,35 @@ const WeekendMeal = () => {
   const [classNum, setClassNum] = useState<ItemType>({
     option: "1반",
     id: 1,
+  });
+  const { handleError } = useApiError();
+
+  const { mutate: teacherCheck } = useMutation(
+    "",
+    () =>
+      checkTeacher({
+        gradeNum: gradeNum.id as number,
+        classNum: classNum.id as number,
+      }),
+    {
+      onSuccess: () => {
+        toast.success("주말 급식 신청 현황을 확인하였습니다.", {
+          duration: 1000,
+        });
+      },
+      onError: handleError,
+    }
+  );
+
+  const { mutate: getExcel } = useMutation(getWeekendMealStudentListExcel, {
+    onSuccess: (res) => {
+      const blob = new Blob([res.data], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      fileSaver.saveAs(blob, "전교생 주말 급식 신청 여부");
+      toast.success("엑셀이 출력되었습니다.", { duration: 1000 });
+    },
+    onError: handleError,
   });
 
   const filter: JSX.Element = (
@@ -28,23 +66,23 @@ const WeekendMeal = () => {
         dropDownItem={classes}
         setResult={setClassNum}
       />
-      <ExcelBtn>엑셀 출력하기</ExcelBtn>
+      <Btn onClick={() => teacherCheck()}>담임 확인하기</Btn>
+      <Btn onClick={() => getExcel()}>엑셀 출력하기</Btn>
     </DropDownContainer>
   );
 
-  const resStudent: weekendMealStudentType[] = [
-    //응답자
-    { userId: "sdfdf", number: 2106, name: "김의찬", status: "NOTAPPLY" },
-    { userId: "sdfdf", number: 2109, name: "김태원", status: "APPLY" },
-    { userId: "sdfdf", number: 2110, name: "문정민", status: "NOTAPPLY" },
-  ];
-
-  const noResStudent: weekendMealStudentType[] = [
-    //미응답자
-    { userId: "sdfdf", number: 2116, name: "이상운", status: "NORESPONSE" },
-    { userId: "sdfdf", number: 2117, name: "이준서", status: "NORESPONSE" },
-    { userId: "sdfdf", number: 2118, name: "임세현", status: "NORESPONSE" },
-  ];
+  const { data: studentList } = useQuery(
+    ["", gradeNum, classNum],
+    () =>
+      getWeekendMealStudentList({
+        gradeNum: gradeNum.id as number,
+        classNum: classNum.id as number,
+      }),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
+  );
 
   return (
     <PageContainer title="주말 급식" filter={filter}>
@@ -52,12 +90,12 @@ const WeekendMeal = () => {
         <StudentContainer
           title="응답자"
           subTitle="응답자의 상태는 수정할 수 없습니다"
-          students={resStudent}
+          students={studentList?.data.response_students}
         />
         <StudentContainer
           title="미응답자"
           subTitle="매달 5일 전까지 상태를 수정할 수 있습니다"
-          students={noResStudent}
+          students={studentList?.data.non_response_students}
         />
       </Wrapper>
     </PageContainer>
@@ -69,8 +107,9 @@ const DropDownContainer = styled.div`
   gap: 20px;
 `;
 
-const ExcelBtn = styled.button`
-  width: 147px;
+const Btn = styled.button`
+  padding: 0 10px;
+  min-width: 147px;
   height: 48px;
   border-radius: 12px;
   font-weight: 400;
@@ -79,6 +118,7 @@ const ExcelBtn = styled.button`
   color: ${({ theme }) => theme.colors.purple400};
   border: 1px solid ${({ theme }) => theme.colors.purple400};
   background-color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`
