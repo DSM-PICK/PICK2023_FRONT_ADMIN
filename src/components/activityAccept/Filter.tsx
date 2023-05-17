@@ -52,8 +52,8 @@ const Filter = ({
       <LayerToggle
         action={isLayerToggle}
         leftClick={() => {
-          setGradeResult({ ...gradeResult, id: 0 });
-          setClassResult({ ...classResult, id: 0 });
+          setGradeResult({ ...gradeResult, id: "" });
+          setClassResult({ ...classResult, id: "" });
           setLayerResult({ ...layerResult, id: 0 });
           setIsLayerToggle(false);
         }}
