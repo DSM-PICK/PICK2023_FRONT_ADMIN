@@ -32,7 +32,7 @@ const ClubPerson = () => {
   let layerData = Number(layerResult.id);
   const { data: classList } = useQuery(
     ["classList", layerData],
-    () => getLayerClassList(layerData, "CLUB"),
+    () => getLayerClassList(layerData, "FRI_CLUB"),
     {
       onError: handleError,
     }
