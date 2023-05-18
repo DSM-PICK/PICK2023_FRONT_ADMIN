@@ -7,13 +7,14 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   placeholder?: string;
+  type: string;
 }
 
-const Input = ({ label, ...props }: InputProps) => {
+const Input = ({ label, type, ...props }: InputProps) => {
   return (
     <InputContainer>
       {label && <InputLabelBox>{label}</InputLabelBox>}
-      <InputBox {...props} />
+      <InputBox type={type} {...props} />
     </InputContainer>
   );
 };
