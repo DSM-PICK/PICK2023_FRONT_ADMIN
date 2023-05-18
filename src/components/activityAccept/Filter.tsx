@@ -43,7 +43,7 @@ const Filter = ({
         <RightBtn select={action} onClick={rightClick}>
           반별로 보기
         </RightBtn>
-      </ButtonBox> 
+      </ButtonBox>
     );
   };
 
@@ -54,13 +54,13 @@ const Filter = ({
         leftClick={() => {
           setGradeResult({ ...gradeResult, id: "" });
           setClassResult({ ...classResult, id: "" });
-          setLayerResult({ ...layerResult, id: 0 });
+          setLayerResult({ ...layerResult, id: 1 });
           setIsLayerToggle(false);
         }}
         rightClick={() => {
-          setGradeResult({ ...gradeResult, id: 0 });
-          setClassResult({ ...classResult, id: 0 });
-          setLayerResult({ ...layerResult, id: ""});
+          setGradeResult({ ...gradeResult, id: 1 });
+          setClassResult({ ...classResult, id: 1 });
+          setLayerResult({ ...layerResult, id: "" });
           setIsLayerToggle(true);
         }}
       />

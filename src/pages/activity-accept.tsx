@@ -68,9 +68,10 @@ const ActivityAccept = () => {
   const [classResult, setClassResult] = useState<ItemType>(
     classDropDownItem[0]
   );
-  const [layerResult, setLayerResult] = useState<ItemType>(
-    layerDropDownItem[0]
-  );
+  const [layerResult, setLayerResult] = useState<ItemType>({
+    option: "1층",
+    id: "",
+  });
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
