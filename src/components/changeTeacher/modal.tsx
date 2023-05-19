@@ -18,7 +18,6 @@ interface Props {
     month: number;
     day: number;
   };
-  teachers: string[];
   teacher: string;
   setToggle: (state: boolean) => void;
   refetch: () => void;
@@ -29,7 +28,6 @@ const ChangeTeacherModal = ({
   date,
   floor,
   setToggle,
-  teachers,
   refetch,
   teacher,
   isAdd,
@@ -115,17 +113,6 @@ const ChangeTeacherModal = ({
       setToggle(false);
     }
   };
-
-  const dropDownItem: ItemType[] = teachers
-    .map((value, index) => {
-      if (value !== "")
-        return {
-          id: index,
-          option: `${index + 1}층`,
-        };
-      return false;
-    })
-    .filter((value: ItemType | false) => value) as ItemType[];
 
   const floorDropDownItem = [
     {

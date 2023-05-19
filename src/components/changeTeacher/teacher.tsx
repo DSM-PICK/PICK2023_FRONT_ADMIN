@@ -33,7 +33,6 @@ const TeacherBlock = ({
           floor={floor}
           setToggle={setToggle}
           teacher={name}
-          teachers={teachers}
           refetch={refetch}
         />
       )}

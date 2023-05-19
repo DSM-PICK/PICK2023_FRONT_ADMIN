@@ -234,7 +234,6 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
             day: addSelfSudyTeacherModalDay,
           }}
           floor={1}
-          teachers={[]}
           teacher={"선생님을 추가해주세요"}
           setToggle={setIsActiveModal}
           refetch={() => refetch}
