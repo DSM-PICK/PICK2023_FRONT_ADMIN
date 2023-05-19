@@ -50,7 +50,7 @@ const ChangeTeacherModal = ({
     () => {
       const request = {
         teacher_id: selectedTeacher.id.toString(),
-        floor: Number(selectedFloor.id) + 1,
+        floor: Number(selectedFloor.id),
         date: `${new Date().getFullYear()}-${date.month
           .toString()
           .padStart(2, "0")}-${date.day.toString().padStart(2, "0")}`,

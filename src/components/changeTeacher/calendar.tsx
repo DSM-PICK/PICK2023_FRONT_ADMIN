@@ -211,7 +211,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                                     month: month,
                                     day: value.day,
                                   }}
-                                  floor={idx + 1}
+                                  floor={idx + 2}
                                   key={value.day + value.class + idx}
                                   name={teacher}
                                 />
