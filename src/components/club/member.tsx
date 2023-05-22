@@ -13,7 +13,6 @@ import {
   clubChangePatch,
   clubKingPatch,
 } from "@/utils/api/selfStudy";
-import { getDateType } from "@/utils/api/common";
 import { todayDate } from "@/utils/functions/todayDate";
 import { useApiError } from "@/hooks/useApiError";
 import { toast } from "react-hot-toast";
@@ -53,16 +52,11 @@ const Member = ({
   const date = todayDate();
   const { handleError } = useApiError();
 
-  const { data: dayType } = useQuery("toDayType", () => getDateType(date), {
-    onError: handleError,
-  });
-
   let layerData = Number(layerResult.id);
   const { data: classList } = useQuery(
     ["classList", layerData],
-    () => getLayerClassList(layerData, dayType?.data.type!),
+    () => getLayerClassList(layerData, "FRI_CLUB"),
     {
-      enabled: !!dayType?.data.type,
       onError: handleError,
       cacheTime: 0,
     }
