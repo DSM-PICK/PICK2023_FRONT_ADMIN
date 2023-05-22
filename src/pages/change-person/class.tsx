@@ -234,7 +234,7 @@ export default ChangeClass;
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.colors.gray50};
-  min-height: 500px;
+  min-height: 200px;
   border-radius: 16px;
   flex: 1;
   gap: 20px 30px;
