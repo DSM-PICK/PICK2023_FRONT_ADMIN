@@ -175,13 +175,7 @@ const TeacherCalendar = ({ monthIndex, data, refetch }: Props) => {
                       ? monthIndex + 1
                       : monthIndex;
                   return (
-                    <td
-                      className={value.class}
-                      key={value.day}
-                      style={{
-                        opacity: value.class != "current-month" ? 0.4 : 1,
-                      }}
-                    >
+                    <td className={value.class} key={value.day}>
                       <DayBlockHeader>
                         <p
                           onClick={() =>
