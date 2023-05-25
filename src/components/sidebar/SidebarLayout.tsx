@@ -12,6 +12,7 @@ import {
   people,
   teacher,
   out,
+  meal,
 } from "../../assets/navigation/index";
 import { useApiError } from "@/hooks/useApiError";
 
@@ -44,6 +45,12 @@ const nameToInfo = [
     name: "자습 감독 선생님 변경",
     link: "changeTeacher",
     Icon: teacher,
+    dropdown: false,
+  },
+  {
+    name: "주말 급식",
+    link: "weekendMeal",
+    Icon: meal,
     dropdown: false,
   },
 ];
@@ -95,10 +102,6 @@ const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
             );
           })}
         </ItemContainer>
-        <span>
-          버그제보는 아래 메일로 부탁드립니다. <br />
-          bugreportpick2023@gmail.com
-        </span>
       </SidebarWrapper>
       <Spacer id="space" />
 
@@ -119,7 +122,7 @@ const Spacer = styled.div`
 const SidebarWrapper = styled.div`
   width: 300px;
   height: 100vh;
-  padding: 100px 20px 20px;
+  padding: 50px 20px 20px;
   overflow-y: scroll;
   position: fixed;
   display: flex;
