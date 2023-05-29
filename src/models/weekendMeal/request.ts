@@ -1,4 +1,4 @@
 export interface WeekendMealStudentListRequestDto {
-  gradeNum: string;
-  classNum: string;
+  gradeNum: number;
+  classNum: number;
 }
