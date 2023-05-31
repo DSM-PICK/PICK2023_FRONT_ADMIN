@@ -19,7 +19,7 @@ export const checkTeacher = async (
 };
 
 export const getWeekendMealStudentListExcel = async () => {
-  return instance.get("/applications/admin/weekend-meal/excel", {
+  return instance.get("/admin/weekend-meal/all/excel", {
     responseType: "blob",
   });
 };
