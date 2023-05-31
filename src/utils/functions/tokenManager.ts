@@ -7,7 +7,6 @@ export const setToken = (
   refreshToken: string,
   expire_at: Date
 ) => {
-  axios.defaults.headers.common.Authorization = "Bearer " + accessToken;
   const expires = new Date(expire_at);
 
   cookies.save("accessToken", accessToken, {
