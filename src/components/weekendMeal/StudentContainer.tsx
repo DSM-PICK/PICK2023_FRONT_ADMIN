@@ -13,9 +13,11 @@ const StudentContainer = ({ title, subTitle, students }: Props) => {
     <Container>
       <Title>{title}</Title>
       <SubTitle>{subTitle}</SubTitle>
-      {students?.map((student) => (
-        <Student student={student} />
-      ))}
+      {students ? (
+        students?.map((student, idx) => <Student key={idx} student={student} />)
+      ) : (
+        <span>학생이 없습니다.</span>
+      )}
     </Container>
   );
 };
