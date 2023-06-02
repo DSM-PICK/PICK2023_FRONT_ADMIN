@@ -48,7 +48,8 @@ const WeekendMeal = () => {
       const blob = new Blob([res.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      fileSaver.saveAs(blob, "전교생 주말 급식 신청 여부");
+      const month = new Date().getMonth();
+      fileSaver.saveAs(blob, `${month}월 전교생 주말 급식 신청 여부`);
       toast.success("엑셀이 출력되었습니다.", { duration: 1000 });
     },
     onError: handleError,
