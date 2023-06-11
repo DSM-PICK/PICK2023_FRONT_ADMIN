@@ -70,7 +70,7 @@ const WeekendMeal = () => {
       }),
     {
       onSuccess: () => {
-        setIsTeacherCheck(!isTeacherCheckData?.data);
+        setIsTeacherCheck(isTeacherCheckData?.data);
       },
     }
   );
