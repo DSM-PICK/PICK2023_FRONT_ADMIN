@@ -1,4 +1,7 @@
-import { WeekendMealStudentListRequestDto } from "@/models/weekendMeal/request";
+import {
+  WeekendMealStudentListRequestDto,
+  CheckTeacherRequestDto,
+} from "@/models/weekendMeal/request";
 import instance from "@/utils/axios";
 
 export const getWeekendMealStudentList = async (
@@ -10,11 +13,12 @@ export const getWeekendMealStudentList = async (
   return weekendMealStudentList;
 };
 
-export const checkTeacher = async (
-  request: WeekendMealStudentListRequestDto
-) => {
+export const checkTeacher = async (request: CheckTeacherRequestDto) => {
   return instance.post(
-    `/applications/weekend-meal/teacher?grade=${request.gradeNum}&classNum=${request.classNum}`
+    `/applications/admin/weekend-meal/teacher/check?grade=${request.gradeNum}&classNum=${request.classNum}`,
+    {
+      is_check: request.isCheck,
+    }
   );
 };
 
