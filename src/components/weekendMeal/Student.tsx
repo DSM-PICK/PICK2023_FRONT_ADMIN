@@ -15,7 +15,7 @@ const Student = ({ student }: { student: weekendMealStudentType }) => {
       <span>
         {student.number} {student.name}
       </span>
-      {student.status === "NORESPONSE" ? (
+      {student.status === "NON_RESPONSE" ? (
         <DropDown title="미응답" dropDownItem={apply} setResult={setIsApply} />
       ) : (
         <WhetherToApply status={student.status}>
