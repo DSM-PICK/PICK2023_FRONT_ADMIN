@@ -24,24 +24,8 @@ const WeekendMeal = () => {
     option: "1반",
     id: 1,
   });
-  const { handleError } = useApiError();
 
-  const { mutate: teacherCheck } = useMutation(
-    "",
-    () =>
-      checkTeacher({
-        gradeNum: gradeNum.id as number,
-        classNum: classNum.id as number,
-      }),
-    {
-      onSuccess: () => {
-        toast.success("주말 급식 신청 현황을 확인하였습니다.", {
-          duration: 1000,
-        });
-      },
-      onError: handleError,
-    }
-  );
+  const { handleError } = useApiError();
 
   const { mutate: getExcel } = useMutation(getWeekendMealStudentListExcel, {
     onSuccess: (res) => {
@@ -55,6 +39,41 @@ const WeekendMeal = () => {
     onError: handleError,
   });
 
+  const { data: studentList } = useQuery(
+    ["", gradeNum, classNum],
+    () =>
+      getWeekendMealStudentList({
+        gradeNum: gradeNum.id as number,
+        classNum: classNum.id as number,
+      }),
+    {
+      onError: handleError,
+      cacheTime: 0,
+    }
+  );
+
+  const [isCheck, setIsCheck] = useState<boolean>(studentList?.data.is_check);
+  const { mutate: teacherCheck } = useMutation(
+    "",
+    () =>
+      checkTeacher({
+        gradeNum: gradeNum.id as number,
+        classNum: classNum.id as number,
+        isCheck: !isCheck,
+      }),
+    {
+      onSuccess: () => {
+        toast.success("주말 급식 신청 현황을 확인하였습니다.", {
+          duration: 1000,
+        });
+        setIsCheck(!isCheck);
+      },
+      onError: () => {
+        handleError;
+      },
+    }
+  );
+
   const filter: JSX.Element = (
     <DropDownContainer>
       <DropDown
@@ -67,22 +86,11 @@ const WeekendMeal = () => {
         dropDownItem={classes}
         setResult={setClassNum}
       />
-      <Btn onClick={() => teacherCheck()}>담임 확인하기</Btn>
-      <Btn onClick={() => getExcel()}>엑셀 출력하기</Btn>
+      <Btn onClick={() => teacherCheck()} isCheck={isCheck}>
+        담임 확인하기
+      </Btn>
+      <ExcelBtn onClick={() => getExcel()}>엑셀 출력하기</ExcelBtn>
     </DropDownContainer>
-  );
-
-  const { data: studentList } = useQuery(
-    ["", gradeNum, classNum],
-    () =>
-      getWeekendMealStudentList({
-        gradeNum: gradeNum.id as number,
-        classNum: classNum.id as number,
-      }),
-    {
-      onError: handleError,
-      cacheTime: 0,
-    }
   );
 
   return (
@@ -108,7 +116,7 @@ const DropDownContainer = styled.div`
   gap: 20px;
 `;
 
-const Btn = styled.button`
+const ExcelBtn = styled.button`
   padding: 0 10px;
   min-width: 147px;
   height: 48px;
@@ -120,6 +128,29 @@ const Btn = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.purple400};
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
+`;
+
+const Btn = styled.button<{ isCheck: boolean }>`
+  padding: 0 10px;
+  min-width: 147px;
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${(props) =>
+    props.isCheck ? props.theme.colors.purple400 : props.theme.colors.gray300};
+  border: 1px solid
+    ${(props) =>
+      props.isCheck
+        ? props.theme.colors.purple400
+        : props.theme.colors.gray300};
+  background-color: ${({ theme }) => theme.colors.white};
+  cursor: pointer;
+  :hover {
+    color: ${({ theme }) => theme.colors.purple400};
+    border: 1px solid ${({ theme }) => theme.colors.purple400};
+  }
 `;
 
 const Wrapper = styled.div`
