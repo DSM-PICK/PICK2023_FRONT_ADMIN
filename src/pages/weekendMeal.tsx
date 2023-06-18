@@ -63,9 +63,15 @@ const WeekendMeal = () => {
       }),
     {
       onSuccess: () => {
-        toast.success("주말 급식 신청 현황을 확인하였습니다.", {
-          duration: 1000,
-        });
+        if (!isCheck) {
+          toast.success("주말 급식 신청 현황을 확인하였습니다.", {
+            duration: 1000,
+          });
+        } else {
+          toast.success("주말 급식 신청 현황 확인을 취소하셨습니다. ", {
+            duration: 1000,
+          });
+        }
         setIsCheck(!isCheck);
       },
       onError: () => {
