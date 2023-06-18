@@ -8,3 +8,8 @@ export interface CheckTeacherRequestDto {
   classNum: number;
   isCheck: boolean;
 }
+
+export interface changeStudentWeekendMealStatusRequestDto {
+  studentId: string;
+  status: string;
+}
