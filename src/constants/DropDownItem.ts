@@ -35,6 +35,6 @@ export const classes: ItemType[] = [
 ];
 
 export const apply: ItemType[] = [
-  { id: "true", option: "신청" },
-  { id: "false", option: "미신청" },
+  { id: "APPLY", option: "신청" },
+  { id: "NOT_APPLY", option: "미신청" },
 ];
