@@ -4,7 +4,7 @@ export interface ItemType {
 }
 
 export interface weekendMealStudentType {
-  userId: string;
+  id: string;
   number: number;
   name: string;
   status: string;
