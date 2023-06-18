@@ -24,6 +24,7 @@ const WeekendMeal = () => {
     option: "1반",
     id: 1,
   });
+  const [isGetApplication, setIsGetApplication] = useState<boolean>(false);
 
   const { handleError } = useApiError();
 
@@ -52,18 +53,20 @@ const WeekendMeal = () => {
     }
   );
 
-  const [isCheck, setIsCheck] = useState<boolean>(studentList?.data.is_check);
+  const [isTeacherCheck, setIsTeacherCheck] = useState<boolean>(
+    studentList?.data.is_check
+  );
   const { mutate: teacherCheck } = useMutation(
     "",
     () =>
       checkTeacher({
         gradeNum: gradeNum.id as number,
         classNum: classNum.id as number,
-        isCheck: !isCheck,
+        isCheck: !isTeacherCheck,
       }),
     {
       onSuccess: () => {
-        if (!isCheck) {
+        if (!isTeacherCheck) {
           toast.success("주말 급식 신청 현황을 확인하였습니다.", {
             duration: 1000,
           });
@@ -72,7 +75,7 @@ const WeekendMeal = () => {
             duration: 1000,
           });
         }
-        setIsCheck(!isCheck);
+        setIsTeacherCheck(!isTeacherCheck);
       },
       onError: () => {
         handleError;
@@ -92,8 +95,18 @@ const WeekendMeal = () => {
         dropDownItem={classes}
         setResult={setClassNum}
       />
-      <Btn onClick={() => teacherCheck()} isCheck={isCheck}>
+      <Btn onClick={() => teacherCheck()} isActive={isTeacherCheck}>
         담임 확인하기
+      </Btn>
+      <Btn
+        onClick={() =>
+          toast.error(`현재 완성되지 않은 기능입니다.\n조금만 기다려주세요.`, {
+            duration: 1000,
+          })
+        }
+        isActive={isGetApplication}
+      >
+        주말급식 신청받기
       </Btn>
       <ExcelBtn onClick={() => getExcel()}>엑셀 출력하기</ExcelBtn>
     </DropDownContainer>
@@ -136,7 +149,7 @@ const ExcelBtn = styled.button`
   cursor: pointer;
 `;
 
-const Btn = styled.button<{ isCheck: boolean }>`
+const Btn = styled.button<{ isActive: boolean }>`
   padding: 0 10px;
   min-width: 147px;
   height: 48px;
@@ -145,10 +158,10 @@ const Btn = styled.button<{ isCheck: boolean }>`
   font-size: 16px;
   line-height: 24px;
   color: ${(props) =>
-    props.isCheck ? props.theme.colors.purple400 : props.theme.colors.gray300};
+    props.isActive ? props.theme.colors.purple400 : props.theme.colors.gray300};
   border: 1px solid
     ${(props) =>
-      props.isCheck
+      props.isActive
         ? props.theme.colors.purple400
         : props.theme.colors.gray300};
   background-color: ${({ theme }) => theme.colors.white};
