@@ -1,14 +1,45 @@
 import { ItemType, weekendMealStudentType } from "@/models/common";
 import DropDown from "../common/Dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { apply } from "@/constants/DropDownItem";
+import { useMutation } from "react-query";
+import { changeStudentWeekendMealStatus } from "@/utils/api/weekendMeal";
+import { toast } from "react-hot-toast";
+import { useApiError } from "@/hooks/useApiError";
 
 const Student = ({ student }: { student: weekendMealStudentType }) => {
   const [isApply, setIsApply] = useState<ItemType>({
     option: "미응답",
     id: "",
   });
+
+  const { handleError } = useApiError();
+  const { mutate: changeStudentStatus } = useMutation(
+    "changeStudentStatus",
+    () =>
+      changeStudentWeekendMealStatus({
+        studentId: student.id,
+        status: isApply.id as string,
+      }),
+    {
+      onSuccess: () => {
+        toast.success(
+          `${student.name}학생 ${isApply.option}으로 변경되었습니다. `,
+          {
+            duration: 1000,
+          }
+        );
+      },
+      onError: handleError,
+    }
+  );
+
+  useEffect(() => {
+    if (isApply.option !== "미응답") {
+      changeStudentStatus();
+    }
+  }, [isApply]);
 
   return (
     <Container key={student.number}>
