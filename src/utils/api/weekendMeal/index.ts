@@ -23,7 +23,7 @@ export const checkTeacher = async (request: CheckTeacherRequestDto) => {
 };
 
 export const getWeekendMealStudentListExcel = async () => {
-  return instance.get("/applications/admin/weekend-meal/all/excel", {
+  return instance.get("/applications/admin/weekend-meal/excel", {
     responseType: "blob",
   });
 };
@@ -31,8 +31,14 @@ export const getWeekendMealStudentListExcel = async () => {
 export const changeStudentWeekendMealStatus = async (
   request: changeStudentWeekendMealStatusRequestDto
 ) => {
-  return instance.patch("/applications/admin/weekend-meal/change", {
+  return instance.patch("/applications/admin/change/student/status", {
     student_id: request.studentId,
     status: request.status,
+  });
+};
+
+export const weekendMealPeriodChange = async (allowedPeriod: boolean) => {
+  return instance.patch("/applications/admin/change/period", {
+    allowed_period: allowedPeriod,
   });
 };
