@@ -25,9 +25,9 @@ const Student = ({ student }: { student: weekendMealStudentType }) => {
     {
       onSuccess: () => {
         toast.success(
-          `${student.name}학생 ${isApply.option}으로 변경되었습니다. `,
+          `${student.name}학생이 ${isApply.option}으로 변경되었습니다. `,
           {
-            duration: 1000,
+            duration: 2000,
           }
         );
       },
