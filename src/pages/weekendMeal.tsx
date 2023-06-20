@@ -6,7 +6,10 @@ import { ItemType } from "@/models/common";
 import PageContainer from "@/components/common/PageContainer";
 import StudentContainer from "@/components/weekendMeal/StudentContainer";
 import { useApiError } from "@/hooks/useApiError";
-import { getWeekendMealStudentListExcel } from "@/utils/api/weekendMeal";
+import {
+  getWeekendMealStudentListExcel,
+  weekendMealPeriodChange,
+} from "@/utils/api/weekendMeal";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-hot-toast";
 import {
@@ -14,6 +17,7 @@ import {
   getWeekendMealStudentList,
 } from "@/utils/api/weekendMeal";
 import fileSaver from "file-saver";
+import CheckBox from "@/components/common/CheckBox";
 
 const WeekendMeal = () => {
   const [gradeNum, setGradeNum] = useState<ItemType>({
@@ -34,8 +38,8 @@ const WeekendMeal = () => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
       const month = new Date().getMonth();
-      fileSaver.saveAs(blob, `${month}월 전교생 주말 급식 신청 여부`);
-      toast.success("엑셀이 출력되었습니다.", { duration: 1000 });
+      fileSaver.saveAs(blob, `9월 전교생 주말 급식 신청 여부`);
+      toast.success("엑셀이 출력되었습니다.", { duration: 2000 });
     },
     onError: handleError,
   });
@@ -67,15 +71,37 @@ const WeekendMeal = () => {
     {
       onSuccess: () => {
         if (!isTeacherCheck) {
-          toast.success("주말 급식 신청 현황을 확인하였습니다.", {
-            duration: 1000,
+          toast.success("주말 급식 신청을 마감하였습니다.", {
+            duration: 2000,
           });
         } else {
-          toast.success("주말 급식 신청 현황 확인을 취소하셨습니다. ", {
-            duration: 1000,
+          toast.success("주말 급식 신청을 마감 취소하였습니다.", {
+            duration: 2000,
           });
         }
         setIsTeacherCheck(!isTeacherCheck);
+      },
+      onError: () => {
+        handleError;
+      },
+    }
+  );
+
+  const { mutate: changeWeekendMealPeriod } = useMutation(
+    "",
+    () => weekendMealPeriodChange(!isGetApplication),
+    {
+      onSuccess: () => {
+        if (!isGetApplication) {
+          toast.success("주말 급식 신청기간으로 변경하였습니다.", {
+            duration: 2000,
+          });
+        } else {
+          toast.success("주말 급식 미신청기간으로 변경하였습니다.", {
+            duration: 2000,
+          });
+        }
+        setIsGetApplication(!isGetApplication);
       },
       onError: () => {
         handleError;
@@ -95,16 +121,13 @@ const WeekendMeal = () => {
         dropDownItem={classes}
         setResult={setClassNum}
       />
-      <Btn onClick={() => teacherCheck()} isActive={isTeacherCheck}>
-        담임 확인하기
+      <Btn onClick={() => teacherCheck()}>
+        급식실로 제출
+        <CheckBox isChecked={isTeacherCheck} />
       </Btn>
       <Btn
-        onClick={() =>
-          toast.error(`현재 완성되지 않은 기능입니다.\n조금만 기다려주세요.`, {
-            duration: 1000,
-          })
-        }
-        isActive={isGetApplication}
+        onClick={() => changeWeekendMealPeriod}
+        // isActive={isGetApplication}
       >
         주말급식 신청받기
       </Btn>
@@ -122,7 +145,7 @@ const WeekendMeal = () => {
         />
         <StudentContainer
           title="미응답자"
-          subTitle="매달 5일 전까지 상태를 수정할 수 있습니다"
+          subTitle="미응답자의 상태를 수정할 수 있습니다"
           students={studentList?.data.non_response_students}
         />
       </Wrapper>
@@ -149,7 +172,11 @@ const ExcelBtn = styled.button`
   cursor: pointer;
 `;
 
-const Btn = styled.button<{ isActive: boolean }>`
+const Btn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   padding: 0 10px;
   min-width: 147px;
   height: 48px;
@@ -157,19 +184,10 @@ const Btn = styled.button<{ isActive: boolean }>`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: ${(props) =>
-    props.isActive ? props.theme.colors.purple400 : props.theme.colors.gray300};
-  border: 1px solid
-    ${(props) =>
-      props.isActive
-        ? props.theme.colors.purple400
-        : props.theme.colors.gray300};
-  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.purple400};
+  border: 1px solid ${({ theme }) => theme.colors.purple400};
+  background: white;
   cursor: pointer;
-  :hover {
-    color: ${({ theme }) => theme.colors.purple400};
-    border: 1px solid ${({ theme }) => theme.colors.purple400};
-  }
 `;
 
 const Wrapper = styled.div`
