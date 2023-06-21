@@ -23,7 +23,7 @@ export const checkTeacher = async (request: CheckTeacherRequestDto) => {
 };
 
 export const getWeekendMealStudentListExcel = async () => {
-  return instance.get("/applications/admin/weekend-meal/excel", {
+  return instance.get("/applications/admin/weekend-meal/all/excel", {
     responseType: "blob",
   });
 };
