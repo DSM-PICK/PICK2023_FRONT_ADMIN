@@ -176,17 +176,6 @@ const Btn = styled.button`
   gap: 10px;
 `;
 
-// const Btn = styled.button`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 10px;
-//   background-color: ${({ theme }) => theme.colors.white};
-//   border: none;
-//   font-size: 18px;
-//   color: ${({ theme }) => theme.colors.purple400};
-// `;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
