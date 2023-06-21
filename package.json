@@ -30,6 +30,7 @@
     "react-cookies": "^0.1.1",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.9.0",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
     "recoil": "^0.7.6",
