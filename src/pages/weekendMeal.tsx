@@ -18,6 +18,7 @@ import {
 } from "@/utils/api/weekendMeal";
 import fileSaver from "file-saver";
 import CheckBox from "@/components/common/CheckBox";
+import Toggle from "@/components/weekendMeal/Toggle";
 
 const WeekendMeal = () => {
   const [gradeNum, setGradeNum] = useState<ItemType>({
@@ -111,6 +112,10 @@ const WeekendMeal = () => {
 
   const filter: JSX.Element = (
     <DropDownContainer>
+      <Toggle
+        isOn={isGetApplication}
+        onClick={() => changeWeekendMealPeriod()}
+      />
       <DropDown
         title={gradeNum.option}
         dropDownItem={grades}
@@ -122,16 +127,10 @@ const WeekendMeal = () => {
         setResult={setClassNum}
       />
       <Btn onClick={() => teacherCheck()}>
-        급식실로 제출
+        제출 마감
         <CheckBox isChecked={isTeacherCheck} />
       </Btn>
-      <Btn
-        onClick={() => changeWeekendMealPeriod}
-        // isActive={isGetApplication}
-      >
-        주말급식 신청받기
-      </Btn>
-      <ExcelBtn onClick={() => getExcel()}>엑셀 출력하기</ExcelBtn>
+      <Btn onClick={() => getExcel()}>엑셀 출력하기</Btn>
     </DropDownContainer>
   );
 
@@ -156,9 +155,10 @@ const WeekendMeal = () => {
 const DropDownContainer = styled.div`
   display: flex;
   gap: 20px;
+  align-items: center;
 `;
 
-const ExcelBtn = styled.button`
+const Btn = styled.button`
   padding: 0 10px;
   min-width: 147px;
   height: 48px;
@@ -170,25 +170,22 @@ const ExcelBtn = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.purple400};
   background-color: ${({ theme }) => theme.colors.white};
   cursor: pointer;
-`;
-
-const Btn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 0 10px;
-  min-width: 147px;
-  height: 48px;
-  border-radius: 12px;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: ${({ theme }) => theme.colors.purple400};
-  border: 1px solid ${({ theme }) => theme.colors.purple400};
-  background: white;
-  cursor: pointer;
 `;
+
+// const Btn = styled.button`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 10px;
+//   background-color: ${({ theme }) => theme.colors.white};
+//   border: none;
+//   font-size: 18px;
+//   color: ${({ theme }) => theme.colors.purple400};
+// `;
 
 const Wrapper = styled.div`
   display: flex;
