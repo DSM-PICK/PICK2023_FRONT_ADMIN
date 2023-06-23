@@ -13,3 +13,8 @@ export interface changeStudentWeekendMealStatusRequestDto {
   studentId: string;
   status: string;
 }
+
+export interface getIsTeacherCheckRequestDto {
+  gradeNum: number;
+  classNum: number;
+}
