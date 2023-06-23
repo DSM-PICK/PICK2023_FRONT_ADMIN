@@ -2,6 +2,7 @@ import {
   WeekendMealStudentListRequestDto,
   CheckTeacherRequestDto,
   changeStudentWeekendMealStatusRequestDto,
+  getIsTeacherCheckRequestDto,
 } from "@/models/weekendMeal/request";
 import instance from "@/utils/axios";
 
@@ -41,4 +42,12 @@ export const weekendMealPeriodChange = async (allowedPeriod: boolean) => {
   return instance.patch("/applications/admin/change/period", {
     allowed_period: allowedPeriod,
   });
+};
+
+export const getIsTeacherCheck = async (
+  request: getIsTeacherCheckRequestDto
+) => {
+  return instance.get(
+    `/applications/admin/check?grade=${request.gradeNum}&classNum=${request.classNum}`
+  );
 };
