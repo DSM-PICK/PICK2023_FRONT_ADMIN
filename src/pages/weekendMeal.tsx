@@ -7,6 +7,7 @@ import PageContainer from "@/components/common/PageContainer";
 import StudentContainer from "@/components/weekendMeal/StudentContainer";
 import { useApiError } from "@/hooks/useApiError";
 import {
+  getIsTeacherCheck,
   getWeekendMealStudentListExcel,
   weekendMealPeriodChange,
 } from "@/utils/api/weekendMeal";
@@ -57,9 +58,16 @@ const WeekendMeal = () => {
       cacheTime: 0,
     }
   );
+  
+  const { data: isTeacherCheckData } = useQuery([gradeNum, classNum], () =>
+    getIsTeacherCheck({
+      gradeNum: gradeNum.id as number,
+      classNum: classNum.id as number,
+    })
+  );
 
   const [isTeacherCheck, setIsTeacherCheck] = useState<boolean>(
-    studentList?.data.is_check
+    isTeacherCheckData?.data
   );
   const { mutate: teacherCheck } = useMutation(
     "",
