@@ -47,12 +47,12 @@ const nameToInfo = [
     Icon: teacher,
     dropdown: false,
   },
-  // {
-  //   name: "주말 급식",
-  //   link: "weekendMeal",
-  //   Icon: meal,
-  //   dropdown: false,
-  // },
+  {
+    name: "주말 급식",
+    link: "weekendMeal",
+    Icon: meal,
+    dropdown: false,
+  },
 ];
 
 const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
