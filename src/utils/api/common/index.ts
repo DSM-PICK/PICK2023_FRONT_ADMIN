@@ -23,3 +23,8 @@ export const getTeachersList = async () => {
   const response = await instance.get<GetTeachersListDto>(`/users/teachers`);
   return response.data;
 };
+
+export const getMyClass = async () => {
+  const response = await instance.get(`/pick/teachers/grade/classNum`);
+  return response;
+};
