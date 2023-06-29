@@ -16,7 +16,7 @@ const StudentContainer = ({ title, subTitle, students }: Props) => {
       {students ? (
         students?.map((student, idx) => <Student key={idx} student={student} />)
       ) : (
-        <span>학생이 없습니다.</span>
+        <span>{title} 학생이 없습니다.</span>
       )}
     </Container>
   );
@@ -29,6 +29,7 @@ const Container = styled.div`
   gap: 15px;
   height: 72vh;
   overflow-y: scroll;
+  padding-bottom: 20px;
 `;
 
 const Title = styled.p`
