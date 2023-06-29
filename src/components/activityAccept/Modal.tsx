@@ -13,6 +13,13 @@ import Image from "next/image";
 import { deleteStudent } from "@/assets/ActivityAccept";
 
 const outingPeriod: ItemType[] = [
+  { option: "1교시", id: 1 },
+  { option: "2교시", id: 2 },
+  { option: "3교시", id: 3 },
+  { option: "4교시", id: 4 },
+  { option: "5교시", id: 5 },
+  { option: "6교시", id: 6 },
+  { option: "7교시", id: 7 },
   { option: "8교시", id: 8 },
   { option: "9교시", id: 9 },
   { option: "10교시", id: 10 },
@@ -24,7 +31,7 @@ interface OutingIssueModalProps {
 
 const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
   const [startPeriod, setStartPeriod] = useState<ItemType>(outingPeriod[0]);
-  const [endPeriod, setEndPeriod] = useState<ItemType>(outingPeriod[2]);
+  const [endPeriod, setEndPeriod] = useState<ItemType>(outingPeriod[1]);
   const [name, setName] = useState<string>("");
   const [reason, setReason] = useState<string>("");
   const [id, setId] = useState<string>("");
