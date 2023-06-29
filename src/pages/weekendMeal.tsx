@@ -58,17 +58,23 @@ const WeekendMeal = () => {
       cacheTime: 0,
     }
   );
-  
-  const { data: isTeacherCheckData } = useQuery([gradeNum, classNum], () =>
-    getIsTeacherCheck({
-      gradeNum: gradeNum.id as number,
-      classNum: classNum.id as number,
-    })
+
+  const [isTeacherCheck, setIsTeacherCheck] = useState<boolean>(false);
+
+  const { data: isTeacherCheckData } = useQuery(
+    [gradeNum, classNum],
+    () =>
+      getIsTeacherCheck({
+        gradeNum: gradeNum.id as number,
+        classNum: classNum.id as number,
+      }),
+    {
+      onSuccess: () => {
+        setIsTeacherCheck(!isTeacherCheckData?.data);
+      },
+    }
   );
 
-  const [isTeacherCheck, setIsTeacherCheck] = useState<boolean>(
-    isTeacherCheckData?.data
-  );
   const { mutate: teacherCheck } = useMutation(
     "",
     () =>
