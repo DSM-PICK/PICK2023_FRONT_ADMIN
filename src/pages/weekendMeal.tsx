@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import DropDown from "@/components/common/Dropdown";
 import { grades, classes } from "@/constants/DropDownItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ItemType } from "@/models/common";
 import PageContainer from "@/components/common/PageContainer";
 import StudentContainer from "@/components/weekendMeal/StudentContainer";
@@ -70,10 +70,14 @@ const WeekendMeal = () => {
       }),
     {
       onSuccess: () => {
-        setIsTeacherCheck(isTeacherCheckData?.data);
+        setIsTeacherCheck(isTeacherCheckData?.data.check);
       },
     }
   );
+
+  useEffect(() => {
+    setIsTeacherCheck(isTeacherCheckData?.data.check);
+  }, [isTeacherCheckData]);
 
   const { mutate: teacherCheck } = useMutation(
     "",
