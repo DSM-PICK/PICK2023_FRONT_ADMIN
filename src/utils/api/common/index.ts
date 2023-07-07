@@ -1,3 +1,4 @@
+import { GetMyClassResponseDto } from "@/models/common";
 import instance from "@/utils/axios";
 
 interface GetDateTypeDto {
@@ -25,6 +26,8 @@ export const getTeachersList = async () => {
 };
 
 export const getMyClass = async () => {
-  const response = await instance.get(`/pick/teachers/grade/classNum`);
-  return response;
+  const response = await instance.get<GetMyClassResponseDto>(
+    `/pick/teachers/grade/classNum`
+  );
+  return response.data;
 };

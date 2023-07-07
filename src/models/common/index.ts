@@ -9,3 +9,8 @@ export interface weekendMealStudentType {
   name: string;
   status: string;
 }
+
+export interface GetMyClassResponseDto {
+  grade: number;
+  class_num: number;
+}
