@@ -27,7 +27,7 @@ export const getTeachersList = async () => {
 
 export const getMyClass = async () => {
   const response = await instance.get<GetMyClassResponseDto>(
-    `/pick/teachers/grade/classNum`
+    `/pick/teachers/buck`
   );
   return response.data;
 };
