@@ -20,14 +20,16 @@ const OutingRecord = () => {
   });
 
   useEffect(() => {
-    setGradeResult({
-      option: myClass?.grade + "학년",
-      id: myClass?.grade as number,
-    });
-    setClassResult({
-      option: myClass?.class_num + "반",
-      id: myClass?.class_num as number,
-    });
+    if (myClass) {
+      setGradeResult({
+        option: myClass?.grade + "학년",
+        id: myClass?.grade as number,
+      });
+      setClassResult({
+        option: myClass?.class_num + "반",
+        id: myClass?.class_num as number,
+      });
+    }
   }, [myClass]);
 
   const filter: JSX.Element = (
