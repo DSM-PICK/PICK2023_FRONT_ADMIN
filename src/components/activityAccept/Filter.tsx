@@ -8,6 +8,8 @@ import {
 } from "./DropDownItem";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { useQuery } from "react-query";
+import { getMyClass } from "@/utils/api/common";
 
 interface FilterProps {
   gradeResult: ItemType;
@@ -47,6 +49,8 @@ const Filter = ({
     );
   };
 
+  const { data } = useQuery("myClass", getMyClass);
+
   return (
     <>
       <LayerToggle
@@ -58,8 +62,14 @@ const Filter = ({
           setIsLayerToggle(false);
         }}
         rightClick={() => {
-          setGradeResult({ ...gradeResult, id: 1 });
-          setClassResult({ ...classResult, id: 1 });
+          setGradeResult({
+            option: data?.grade + "학년",
+            id: data?.grade as number,
+          });
+          setClassResult({
+            option: data?.class_num + "반",
+            id: data?.class_num as number,
+          });
           setLayerResult({ ...layerResult, id: "" });
           setIsLayerToggle(true);
         }}
@@ -69,12 +79,12 @@ const Filter = ({
           <DropDown
             setResult={setGradeResult}
             dropDownItem={gradeDropDownItem}
-            title={gradeResult.option}
+            title={data?.grade + "학년"}
           />
           <DropDown
             setResult={setClassResult}
             dropDownItem={classDropDownItem}
-            title={classResult.option}
+            title={data?.class_num + "반"}
           />
         </>
       ) : (

@@ -10,6 +10,7 @@ import {
   getClassPersonStatus,
   patchClassPersonStatus,
 } from "@/utils/api/changePerson";
+import { getMyClass } from "@/utils/api/common";
 import { media } from "@/utils/functions/media";
 import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -39,10 +40,19 @@ const ChangeClass = () => {
   const theme = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+
+  const { data: myClass } = useQuery("myClass", getMyClass);
   const [selectedStates, setSelectedStates] = useState<SelectedProps>({
     grade: 1,
     class: 1,
   });
+
+  useEffect(() => {
+    setSelectedStates({
+      grade: myClass?.grade as number,
+      class: myClass?.class_num as number,
+    });
+  }, [myClass]);
   const [changedState, setChangedState] = useState<ChangeStudentType[]>([]);
   const [studentList, setList] = useState<StudentType[]>([]);
   const { mutate, isLoading } = useMutation(
@@ -151,7 +161,7 @@ const ChangeClass = () => {
         content={isEditing ? "상태 저장하기" : "상태 수정하기"}
       />
       <DropDown
-        title={grades[0].option}
+        title={myClass?.grade + "학년"}
         dropDownItem={grades}
         setResult={(item) => {
           const tempItem = item as ItemType;
@@ -162,7 +172,7 @@ const ChangeClass = () => {
         }}
       />
       <DropDown
-        title={classes[0].option}
+        title={myClass?.class_num + "반"}
         dropDownItem={classes}
         setResult={(item) => {
           const tempItem = item as ItemType;

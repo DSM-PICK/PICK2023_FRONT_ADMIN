@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@emotion/react";
 import { useQuery, useMutation } from "react-query";
 import OutingList from "../components/activityAccept/OutingList";
@@ -13,7 +13,7 @@ import {
   getMoveStudentList,
   floorRestrictionPatch,
 } from "@/utils/api/selfStudy";
-import { getDateType } from "@/utils/api/common/index";
+import { getDateType, getMyClass } from "@/utils/api/common/index";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Button from "@/components/common/Button";
@@ -72,6 +72,19 @@ const ActivityAccept = () => {
     option: "1층",
     id: "",
   });
+
+  const { data: myClass } = useQuery("myClass", getMyClass);
+
+  useEffect(() => {
+    setGradeResult({
+      option: myClass?.grade + "학년",
+      id: myClass?.grade as number,
+    });
+    setClassResult({
+      option: myClass?.class_num + "반",
+      id: myClass?.class_num as number,
+    });
+  }, [myClass]);
 
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
@@ -248,18 +261,6 @@ const MovingBox = styled.div`
   flex-direction: column;
   gap: 16px;
   overflow-y: scroll;
-`;
-
-// 앱 쪽에서 신청 추가 되기 전까지 임시 방편
-const OutingLockContainer = styled.div`
-  margin: auto;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-
-  > p {
-    font-size: 28px;
-  }
 `;
 
 export default ActivityAccept;
