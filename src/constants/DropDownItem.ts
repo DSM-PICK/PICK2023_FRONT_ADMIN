@@ -38,3 +38,11 @@ export const apply: ItemType[] = [
   { id: "APPLY", option: "신청" },
   { id: "NOT_APPLY", option: "미신청" },
 ];
+
+export const monthDropDownItem: ItemType[] = [
+  { id: 3, option: "3월" },
+  { id: 4, option: "4월" },
+  { id: 5, option: "5월" },
+  { id: 6, option: "6월" },
+  { id: 7, option: "7월" },
+];
