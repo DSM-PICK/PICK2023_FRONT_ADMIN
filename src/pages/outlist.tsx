@@ -25,12 +25,13 @@ const OutListPage = () => {
   );
 
   const filter: JSX.Element = (
-    <Button
-      children="기록 확인하기"
-      onClick={() => router.push("/outing-record")}
-      size={["147px", "44px"]}
-      fill="purple"
-    />
+    // <Button
+    //   children="기록 확인하기"
+    //   onClick={() => router.push("/outing-record")}
+    //   size={["147px", "44px"]}
+    //   fill="purple"
+    // />
+    <></>
   );
 
   return (
