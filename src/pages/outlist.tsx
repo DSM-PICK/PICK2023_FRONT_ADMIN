@@ -1,14 +1,20 @@
+import Button from "@/components/common/Button";
 import NoData from "@/components/common/Nodata";
 import PageContainer from "@/components/common/PageContainer";
 import List from "@/components/outlist/List";
 import { useApiError } from "@/hooks/useApiError";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
+import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import css from "styled-jsx/css";
 
 const OutListPage = () => {
   const { handleError } = useApiError();
+  const router = useRouter();
+
   const { data, isSuccess, refetch } = useQuery(
     "outing-students-list",
     () => getOutingStudentList(),
@@ -18,9 +24,18 @@ const OutListPage = () => {
     }
   );
 
+  const filter: JSX.Element = (
+    <Button
+      children="기록 확인하기"
+      onClick={() => router.push("/outing-record")}
+      size={["147px", "44px"]}
+      fill="purple"
+    />
+  );
+
   return (
     <>
-      <PageContainer title="외출자 목록" subTitle={todayDate()}>
+      <PageContainer title="외출자 목록" subTitle={todayDate()} filter={filter}>
         <ListBox>
           {isSuccess && data.outing.length ? (
             data.outing.map((item) => {
@@ -50,18 +65,6 @@ const ListBox = styled.div`
   gap: 16px 20px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: repeat(auto-fill, 60px);
-`;
-
-// 앱 쪽에서 신청 추가 되기 전까지 임시 방편
-const OutingLockContainer = styled.div`
-  margin: auto;
-  display: flex;
-  justify-items: center;
-  align-items: center;
-
-  > p {
-    font-size: 28px;
-  }
 `;
 
 export default OutListPage;
