@@ -26,7 +26,6 @@ import NoData from "@/components/common/Nodata";
 import {
   gradeDropDownItem,
   classDropDownItem,
-  layerDropDownItem,
 } from "@/components/activityAccept/DropDownItem";
 import OutingIssueModal from "@/components/activityAccept/Modal";
 
@@ -73,19 +72,6 @@ const ActivityAccept = () => {
     id: "",
   });
 
-  const { data: myClass } = useQuery("myClass", getMyClass);
-
-  useEffect(() => {
-    setGradeResult({
-      option: myClass?.grade + "학년",
-      id: myClass?.grade as number,
-    });
-    setClassResult({
-      option: myClass?.class_num + "반",
-      id: myClass?.class_num as number,
-    });
-  }, [myClass]);
-
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   let grade_id = gradeResult.id as number;
@@ -131,6 +117,26 @@ const ActivityAccept = () => {
     }
   );
 
+  const { data: myClassData } = useQuery("myClass", getMyClass);
+
+  const { mutate } = useMutation("floor", () => floorRestrictionPatch(), {
+    onError: handleError,
+    onSuccess: () => {
+      toast.success("층 이동이 제한되었습니다.", { duration: 1000 });
+    },
+  });
+
+  useEffect(() => {
+    setGradeResult({
+      option: myClassData?.grade + "학년",
+      id: myClassData?.grade as number,
+    });
+    setClassResult({
+      option: myClassData?.class_num + "반",
+      id: myClassData?.class_num as number,
+    });
+  }, [myClassData]);
+
   const floorState = useSelector(
     (state: RootState) => state.counter.initalState.setTeacherState
   );
@@ -148,83 +154,74 @@ const ActivityAccept = () => {
     />
   );
 
-  const { mutate } = useMutation("floor", () => floorRestrictionPatch(), {
-    onError: handleError,
-    onSuccess: () => {
-      toast.success("층 이동이 제한되었습니다.", { duration: 1000 });
-    },
-  });
-
   return (
-    <>
-      <PageContainer
-        title="외출/이동 수락"
-        subTitle={todayDate()}
-        filter={filter}
-      >
-        <Container>
-          <div>
-            <HeadBar title="외출 신청 목록">
-              <ActivityBtn onClick={() => setIsOpenOutingModal(true)}>
-                새로운 외출증 발급
-              </ActivityBtn>
-            </HeadBar>
-            <OutingBox>
-              <OutingList
-                outing={applyList?.outing || []}
-                outingSelectList={outingSelectList}
-                outingStudentId={outingStudentId}
-                setOutingSelectList={setOutingSelectList}
-                setOutingStudentId={setOutingStudentId}
-              />
-            </OutingBox>
-            <ButtonBox isActive={isClick} outingStudentId={outingStudentId} />
-          </div>
-          <div>
-            <HeadBar title="이동한 학생">
-              <ActivityBtn
-                onClick={() => setOpenModal(true)}
-                disabled={floorState ? false : true}
-              >
-                {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
-              </ActivityBtn>
-            </HeadBar>
-            {isOpenModal && (
-              <Modal
-                setOpenModal={setOpenModal}
-                isDanger={true}
-                btnText="제한하기"
-                mainText={`오늘 ${floorState}층의 모든 이동을
+    <PageContainer
+      title="외출/이동 수락"
+      subTitle={todayDate()}
+      filter={filter}
+    >
+      <Container>
+        <div>
+          <HeadBar title="외출 신청 목록">
+            <ActivityBtn onClick={() => setIsOpenOutingModal(true)}>
+              새로운 외출증 발급
+            </ActivityBtn>
+          </HeadBar>
+          <OutingBox>
+            <OutingList
+              outing={applyList?.outing || []}
+              outingSelectList={outingSelectList}
+              outingStudentId={outingStudentId}
+              setOutingSelectList={setOutingSelectList}
+              setOutingStudentId={setOutingStudentId}
+            />
+          </OutingBox>
+          <ButtonBox isActive={isClick} outingStudentId={outingStudentId} />
+        </div>
+        <div>
+          <HeadBar title="이동한 학생">
+            <ActivityBtn
+              onClick={() => setOpenModal(true)}
+              disabled={floorState ? false : true}
+            >
+              {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
+            </ActivityBtn>
+          </HeadBar>
+          {isOpenModal && (
+            <Modal
+              setOpenModal={setOpenModal}
+              isDanger={true}
+              btnText="제한하기"
+              mainText={`오늘 ${floorState}층의 모든 이동을
               제한하시겠습니까?`}
-                subText={`제한하기를 선택하면 오늘(${todayDate()})
+              subText={`제한하기를 선택하면 오늘(${todayDate()})
                   방과후 시간동안 학생들의 교실 이동은 불가능합니다.`}
-                callBack={() => {
-                  mutate();
-                }}
-              />
+              callBack={() => {
+                mutate();
+              }}
+            />
+          )}
+          {isOpenOutingModal && (
+            <OutingIssueModal setIsOpenOutingModal={setIsOpenOutingModal} />
+          )}
+          <MovingBox>
+            {moveList?.data && moveList?.data.move_list.length ? (
+              moveList?.data.move_list.map((data) => (
+                <MovingComponent
+                  key={data.student_number}
+                  student_number={data.student_number}
+                  student_name={data.student_name}
+                  after={data.after}
+                  before={data.before}
+                />
+              ))
+            ) : (
+              <NoData />
             )}
-            {isOpenOutingModal && (
-              <OutingIssueModal setIsOpenOutingModal={setIsOpenOutingModal} />
-            )}
-            <MovingBox>
-              {moveList?.data && moveList?.data.move_list.length ? (
-                moveList?.data.move_list.map((data) => (
-                  <MovingComponent
-                    key={data.student_number}
-                    student_number={data.student_number}
-                    student_name={data.student_name}
-                    after={data.after}
-                    before={data.before}
-                  />
-                ))
-              ) : (
-                <NoData />
-              )}
-            </MovingBox>
-          </div>
-        </Container>
-      </PageContainer>
-    </>
+          </MovingBox>
+        </div>
+      </Container>
+    </PageContainer>
   );
 };
 

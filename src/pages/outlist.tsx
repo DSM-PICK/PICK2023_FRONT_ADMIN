@@ -5,11 +5,9 @@ import List from "@/components/outlist/List";
 import { useApiError } from "@/hooks/useApiError";
 import { getOutingStudentList } from "@/utils/api/outing";
 import { todayDate } from "@/utils/functions/todayDate";
-import { useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import css from "styled-jsx/css";
 
 const OutListPage = () => {
   const { handleError } = useApiError();
