@@ -7,11 +7,13 @@ import Button from "../common/Button";
 import { toast } from "react-hot-toast";
 
 interface Props {
-  isActive: boolean;
   outingStudentId: string[];
+  outingSelectList: number[];
 }
 
-const ButtonBox = ({ isActive, outingStudentId }: Props) => {
+const ButtonBox = ({ outingStudentId, outingSelectList }: Props) => {
+  let isActive = outingSelectList.length > 0;
+
   const acceptBtnStyle = css`
     font-size: 13px;
     font-weight: 300;

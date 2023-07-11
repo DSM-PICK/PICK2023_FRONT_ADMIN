@@ -27,11 +27,11 @@ const Container = ({
 
   useEffect(() => {
     setGradeResult({
-      option: myClassData?.grade + "학년",
+      option: `${myClassData?.grade}학년`,
       id: myClassData?.grade as number,
     });
     setClassResult({
-      option: myClassData?.class_num + "반",
+      option: `${myClassData?.class_num}반`,
       id: myClassData?.class_num as number,
     });
   }, [myClassData]);

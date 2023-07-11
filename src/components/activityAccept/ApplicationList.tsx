@@ -28,7 +28,10 @@ const ApplicationList = ({
   const [outingStudentId, setOutingStudentId] = useState<string[]>([]);
 
   const { handleError } = useApiError();
-  let isClick = outingSelectList.length > 0;
+
+  const handleOpenOutingModal = () => {
+    setIsOpenOutingModal(true);
+  };
 
   const { data: todayType } = useQuery(
     "todayType",
@@ -55,7 +58,7 @@ const ApplicationList = ({
   return (
     <div>
       <HeadBar title="외출 신청 목록">
-        <ActivityBtn onClick={() => setIsOpenOutingModal(true)}>
+        <ActivityBtn onClick={handleOpenOutingModal}>
           새로운 외출증 발급
         </ActivityBtn>
       </HeadBar>
@@ -68,7 +71,10 @@ const ApplicationList = ({
           setOutingStudentId={setOutingStudentId}
         />
       </OutingBox>
-      <ButtonBox isActive={isClick} outingStudentId={outingStudentId} />
+      <ButtonBox
+        outingStudentId={outingStudentId}
+        outingSelectList={outingSelectList}
+      />
     </div>
   );
 };

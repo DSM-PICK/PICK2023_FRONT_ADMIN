@@ -1,4 +1,4 @@
-import { RootState } from "@/store/store";
+import { RootState } from "../../store/store";
 import { getMoveStudentList } from "@/utils/api/selfStudy";
 import styled from "@emotion/styled";
 import { useQuery } from "react-query";
@@ -7,9 +7,9 @@ import HeadBar from "./HeadBar";
 import ActivityBtn from "./ActivityBtn";
 import NoData from "../common/Nodata";
 import { useState } from "react";
-import { useApiError } from "@/hooks/useApiError";
+import { useApiError } from "../../hooks/useApiError";
 import MovingComponent from "./MovingComponent";
-import { ItemType } from "@/models/common";
+import { ItemType } from "../../models/common";
 import Modals from "./ModalContainer";
 
 interface MovedStudentProps {
@@ -52,15 +52,12 @@ const MovedStudent = ({
   return (
     <div>
       <HeadBar title="이동한 학생">
-        <ActivityBtn
-          onClick={() => setOpenModal(true)}
-          disabled={floorState ? false : true}
-        >
+        <ActivityBtn onClick={() => setOpenModal(true)} disabled={!floorState}>
           {floorState ? `${floorState}층 이동 제한` : "이동 제한 X"}
         </ActivityBtn>
       </HeadBar>
       <MovingBox>
-        {moveList?.data && moveList?.data.move_list.length ? (
+        {moveList?.data.move_list.length ? (
           moveList?.data.move_list.map((data) => (
             <MovingComponent
               key={data.student_number}
@@ -89,7 +86,7 @@ const MovingBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 export default MovedStudent;
