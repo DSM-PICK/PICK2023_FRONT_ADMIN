@@ -9,28 +9,27 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
 const OutingRecord = () => {
-  const { data: myClass } = useQuery("myClass", getMyClass);
+  const { data: myClassData } = useQuery("myClass", getMyClass);
   const month = new Date().getMonth();
 
   const [gradeResult, setGradeResult] = useState<ItemType>(grades[0]);
   const [classResult, setClassResult] = useState<ItemType>(classes[0]);
-  const [monthResult, setMonthResult] = useState<ItemType>({
-    option: month + 1 + "월",
-    id: month,
-  });
+  const [monthResult, setMonthResult] = useState<ItemType>(
+    monthDropDownItem[month - 2]
+  );
 
   useEffect(() => {
-    if (myClass) {
+    if (myClassData) {
       setGradeResult({
-        option: myClass?.grade + "학년",
-        id: myClass?.grade as number,
+        option: `${myClassData?.grade}학년`,
+        id: myClassData?.grade as number,
       });
       setClassResult({
-        option: myClass?.class_num + "반",
-        id: myClass?.class_num as number,
+        option: `${myClassData?.class_num}반`,
+        id: myClassData?.class_num as number,
       });
     }
-  }, [myClass]);
+  }, [myClassData]);
 
   const filter: JSX.Element = (
     <>
