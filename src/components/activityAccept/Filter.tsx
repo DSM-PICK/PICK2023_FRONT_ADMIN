@@ -1,12 +1,15 @@
 import { ItemType } from "@/models/common";
 import { useState } from "react";
 import DropDown from "../common/Dropdown";
-import { layerDropDownItem } from "./DropDownItem";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useQuery } from "react-query";
 import { getMyClass } from "@/utils/api/common";
-import { classes, grades } from "@/constants/DropDownItem";
+import {
+  classes,
+  grades,
+  moveLayerDropDownItem,
+} from "@/constants/DropDownItem";
 
 interface FilterProps {
   gradeResult: ItemType;
@@ -87,7 +90,7 @@ const Filter = ({
       ) : (
         <DropDown
           setResult={setLayerResult}
-          dropDownItem={layerDropDownItem}
+          dropDownItem={moveLayerDropDownItem}
           title={layerResult.option}
         />
       )}

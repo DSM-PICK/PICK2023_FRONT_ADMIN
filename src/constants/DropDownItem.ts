@@ -14,6 +14,7 @@ export const layerDropDownItem = [
     id: 4,
   },
 ];
+
 export const classDropDownItem = [
   {
     option: "정",
@@ -45,4 +46,27 @@ export const monthDropDownItem: ItemType[] = [
   { id: 5, option: "5월" },
   { id: 6, option: "6월" },
   { id: 7, option: "7월" },
+];
+
+export const moveLayerDropDownItem = [
+  {
+    option: "1층",
+    id: 1,
+  },
+  {
+    option: "2층",
+    id: 2,
+  },
+  {
+    option: "3층",
+    id: 3,
+  },
+  {
+    option: "4층",
+    id: 4,
+  },
+  {
+    option: "5층",
+    id: 5,
+  },
 ];
