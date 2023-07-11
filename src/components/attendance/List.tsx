@@ -23,31 +23,21 @@ const Student = ({
   studentId,
   isFriday,
 }: StudentProps) => {
+  const initialAttendanceDropDownResult = {
+    option: "기본값",
+    id: "DEFAULT",
+  };
+
   const [sixthAttendanceDropDownResult, setSixthAttendanceDropDownResult] =
-    useState<ItemType>({
-      option: "제목",
-      id: "TITLE",
-    });
+    useState<ItemType>(initialAttendanceDropDownResult);
   const [seventhAttendanceDropDownResult, setSeventhAttendanceDropDownResult] =
-    useState<ItemType>({
-      option: "제목",
-      id: "TITLE",
-    });
+    useState<ItemType>(initialAttendanceDropDownResult);
   const [eighthAttendanceDropDownResult, setEighthAttendanceDropDownResult] =
-    useState<ItemType>({
-      option: "제목",
-      id: "TITLE",
-    });
+    useState<ItemType>(initialAttendanceDropDownResult);
   const [ninethAttendanceDropDownResult, setNinethAttendanceDropDownResult] =
-    useState<ItemType>({
-      option: "제목",
-      id: "TITLE",
-    });
+    useState<ItemType>(initialAttendanceDropDownResult);
   const [tenthAttendanceDropDownResult, setTenthAttendanceDropDownResult] =
-    useState<ItemType>({
-      option: "제목",
-      id: "TITLE",
-    });
+    useState<ItemType>(initialAttendanceDropDownResult);
 
   const weekdayArr = [
     setEighthAttendanceDropDownResult,
@@ -85,6 +75,7 @@ const Student = ({
         return "취업";
     }
   };
+
   const { handleError } = useApiError();
   const queryClient = useQueryClient();
 
@@ -97,37 +88,62 @@ const Student = ({
       toast.success("상태가 변경되었습니다.", { duration: 1000 });
     },
   });
-  function updateAttendance(
-    period: number,
-    status: string | number,
-    studentId: string
-  ) {
+
+  function updateAttendance({
+    period,
+    status,
+    studentId,
+  }: {
+    period: number;
+    status: string | number;
+    studentId: string;
+  }) {
     if (status === "TITLE") return;
     mutate({
-      period: period,
+      period,
       user_id: studentId,
-      status: status,
+      status,
     });
   }
 
   useEffect(() => {
-    updateAttendance(6, sixthAttendanceDropDownResult.id, studentId);
+    updateAttendance({
+      period: 6,
+      status: sixthAttendanceDropDownResult.id,
+      studentId,
+    });
   }, [sixthAttendanceDropDownResult]);
 
   useEffect(() => {
-    updateAttendance(7, seventhAttendanceDropDownResult.id, studentId);
+    updateAttendance({
+      period: 7,
+      status: seventhAttendanceDropDownResult.id,
+      studentId,
+    });
   }, [seventhAttendanceDropDownResult]);
 
   useEffect(() => {
-    updateAttendance(8, eighthAttendanceDropDownResult.id, studentId);
+    updateAttendance({
+      period: 8,
+      status: eighthAttendanceDropDownResult.id,
+      studentId,
+    });
   }, [eighthAttendanceDropDownResult]);
 
   useEffect(() => {
-    updateAttendance(9, ninethAttendanceDropDownResult.id, studentId);
+    updateAttendance({
+      period: 9,
+      status: ninethAttendanceDropDownResult.id,
+      studentId,
+    });
   }, [ninethAttendanceDropDownResult]);
 
   useEffect(() => {
-    updateAttendance(10, tenthAttendanceDropDownResult.id, studentId);
+    updateAttendance({
+      period: 10,
+      status: tenthAttendanceDropDownResult.id,
+      studentId,
+    });
   }, [tenthAttendanceDropDownResult]);
 
   return (

@@ -14,14 +14,13 @@ const AttendancePage = () => {
   const [date, setDate] = useState<string>("");
   const isFriday = new Date(date).getDay() === 5;
 
-  const getAttendanceCheckListReq = {
-    classroom_id: classroomId,
-    date: date,
-  };
-
   const { data: attendanceCheckList, isSuccess } = useQuery(
     [className, date],
-    () => getAttendanceCheckList(getAttendanceCheckListReq),
+    () =>
+      getAttendanceCheckList({
+        classroom_id: classroomId,
+        date: date,
+      }),
     {
       enabled: !!classroomId,
     }
