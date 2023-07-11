@@ -33,27 +33,25 @@ const OutListPage = () => {
   );
 
   return (
-    <>
-      <PageContainer title="외출자 목록" subTitle={todayDate()} filter={filter}>
-        <ListBox>
-          {isSuccess && data.outing.length ? (
-            data.outing.map((item) => {
-              return (
-                <List
-                  student_id={item.student_id}
-                  student_name={item.student_name}
-                  student_number={item.student_number}
-                  end_time={item.end_time}
-                  refetch={refetch}
-                />
-              );
-            })
-          ) : (
-            <NoData />
-          )}
-        </ListBox>
-      </PageContainer>
-    </>
+    <PageContainer title="외출자 목록" subTitle={todayDate()} filter={filter}>
+      <ListBox>
+        {isSuccess && data.outing.length ? (
+          data.outing.map((item) => {
+            return (
+              <List
+                student_id={item.student_id}
+                student_name={item.student_name}
+                student_number={item.student_number}
+                end_time={item.end_time}
+                refetch={refetch}
+              />
+            );
+          })
+        ) : (
+          <NoData />
+        )}
+      </ListBox>
+    </PageContainer>
   );
 };
 
