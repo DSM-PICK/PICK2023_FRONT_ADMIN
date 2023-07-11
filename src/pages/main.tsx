@@ -3,7 +3,7 @@ import Card from "@/components/main/Card";
 import Date from "@/components/main/Date";
 import TodayTeacher from "@/components/main/TodayTeacher";
 import styled from "@emotion/styled";
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import {
   getTodaySelfStudyTeacher,
   getTodaySelfStudyTeacherWhether,
