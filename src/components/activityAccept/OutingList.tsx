@@ -108,6 +108,4 @@ const ReasonText = styled.p<{ isReason: boolean }>`
   display: ${({ isReason }) => (isReason ? "block" : "none")};
 `;
 
-
-
 export default OutingList;

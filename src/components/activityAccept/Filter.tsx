@@ -1,15 +1,12 @@
 import { ItemType } from "@/models/common";
 import { useState } from "react";
 import DropDown from "../common/Dropdown";
-import {
-  classDropDownItem,
-  gradeDropDownItem,
-  layerDropDownItem,
-} from "./DropDownItem";
+import { layerDropDownItem } from "./DropDownItem";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useQuery } from "react-query";
 import { getMyClass } from "@/utils/api/common";
+import { classes, grades } from "@/constants/DropDownItem";
 
 interface FilterProps {
   gradeResult: ItemType;
@@ -78,12 +75,12 @@ const Filter = ({
         <>
           <DropDown
             setResult={setGradeResult}
-            dropDownItem={gradeDropDownItem}
+            dropDownItem={grades}
             title={data?.grade + "학년"}
           />
           <DropDown
             setResult={setClassResult}
-            dropDownItem={classDropDownItem}
+            dropDownItem={classes}
             title={data?.class_num + "반"}
           />
         </>
