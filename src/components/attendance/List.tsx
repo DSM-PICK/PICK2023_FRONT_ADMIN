@@ -98,7 +98,7 @@ const Student = ({
     status: string | number;
     studentId: string;
   }) {
-    if (status === "TITLE") return;
+    if (status === "DEFAULT") return;
     mutate({
       period,
       user_id: studentId,
