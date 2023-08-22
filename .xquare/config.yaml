@@ -1,0 +1,5 @@
+config:
+  name: Pick-Frontend
+  service_type: fe
+  port: 3000
+  prefix: /admin
