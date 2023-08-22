@@ -1,15 +1,18 @@
 name: Xquare Deploy for Production
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   job-name:
      permissions:
+  deploy:
+    permissions:
       id-token: write
       contents: read
 
+      contents: read
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to xquare
       uses: team-xquare/xquare-deployment-action@master
@@ -18,3 +21,9 @@ jobs:
         access_key: ${{ secrets.ADMIN_ACCESS }}
         github_token: ${{ secrets.PICK_ACCESS_TOKEN }}
         run: yarn start
+        uses: team-xquare/xquare-deployment-action@master
+        with:
+          environment: prod
+          access_key: ${{ secrets.ADMIN_ACCESS }}
+          github_token: ${{ secrets.PICK_ACCESS_TOKEN }}
+          run: yarn start
