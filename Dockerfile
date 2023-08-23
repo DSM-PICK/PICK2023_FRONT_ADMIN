@@ -1,26 +1,33 @@
 FROM node:16-alpine AS builder
+
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat
+COPY package.json yarn.lock ./
 
-COPY manifests ./
+RUN yarn install --frozen-lockfile
 
-RUN yarn install --immutable
+COPY . .
 
-COPY packs ./
-
-RUN yarn workspace @service/main build
+RUN yarn build
 
 FROM node:16-alpine AS runner
+
 WORKDIR /app
 
 ENV NODE_ENV production
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder --chown=nextjs:nodejs /app/./ ./
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+RUN chown -R nextjs:nodejs /app/.next
 
 USER nextjs
 
-CMD yarn workspace @service/main start
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/yarn.lock ./yarn.lock
+COPY --chown=nextjs:nodejs --from=builder /app/.next ./.next
+COPY --chown=nextjs:nodejs --from=builder /app/public ./public 
+COPY --chown=nextjs:nodejs --from=builder /app/node_modules ./node_modules 
+
+EXPOSE 3000
+
+CMD ["yarn", "start"]
