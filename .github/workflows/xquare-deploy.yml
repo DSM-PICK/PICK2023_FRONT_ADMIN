@@ -27,10 +27,10 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
+
       - name: Deploy to xquare
         uses: team-xquare/xquare-deployment-action@master
         with:
           environment: prod
           access_key: ${{ secrets.ADMIN_ACCESS }}
           github_token: ${{ secrets.PICK_ACCESS_TOKEN }}
-          yarn_docker_build: true
