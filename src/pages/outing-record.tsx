@@ -31,26 +31,26 @@ const OutingRecord = () => {
     }
   }, [myClassData]);
 
-  const filter: JSX.Element = (
+  const filter = (
     <>
-      <ExelBtn>엑셀 출력하기</ExelBtn>
-      <DropDown
-        title={gradeResult.option}
-        dropDownItem={grades}
-        setResult={setGradeResult}
-      />
-      <DropDown
-        title={classResult.option}
-        dropDownItem={classes}
-        setResult={setClassResult}
-      />
-      <DropDown
-        title={monthResult.option}
-        dropDownItem={monthDropDownItem}
-        setResult={setMonthResult}
-      />
-    </>
-  );
+    <ExelBtn>엑셀 출력하기</ExelBtn>
+    <DropDown
+      title={gradeResult?.option}
+      dropDownItem={grades}
+      setResult={setGradeResult}
+    />
+    <DropDown
+      title={classResult?.option}
+      dropDownItem={classes}
+      setResult={setClassResult}
+    />
+    <DropDown
+      title={monthResult?.option}
+      dropDownItem={monthDropDownItem}
+      setResult={setMonthResult}
+    />
+</>
+)
 
   return (
     <PageContainer title="외출자 기록" filter={filter}>
