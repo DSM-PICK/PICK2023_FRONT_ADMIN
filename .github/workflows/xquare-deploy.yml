@@ -20,6 +20,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Generate Environment Variables File for Production
+        run: |
+            echo "NEXT_PUBLIC_PICK_BASE_URL=$NEXT_PUBLIC_PICK_BASE_URL" >> .env
+            echo "NEXT_PUBLIC_HTTP_ONLY=$NEXT_PUBLIC_HTTP_ONLY" >> .env
+          env:
+            NEXT_PUBLIC_PICK_BASE_URL: ${{ secrets.NEXT_PUBLIC_PICK_BASE_URL }}
+            NEXT_PUBLIC_HTTP_ONLY: ${{ secrets.NEXT_PUBLIC_HTTP_ONLY }}
+
       - name: Cache node modules
         uses: actions/cache@v2
         with:
