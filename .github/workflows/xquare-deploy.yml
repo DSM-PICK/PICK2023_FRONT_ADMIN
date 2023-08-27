@@ -1,4 +1,5 @@
 name: Xquare Deploy for Production
+
 on:
   push:
     branches: [ main ]
@@ -28,17 +29,17 @@ jobs:
             NEXT_PUBLIC_PICK_BASE_URL: ${{ secrets.NEXT_PUBLIC_PICK_BASE_URL }}
             NEXT_PUBLIC_HTTP_ONLY: ${{ secrets.NEXT_PUBLIC_HTTP_ONLY }}
 
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
+      - name : Cache node modules
+        uses : actions/cache@v2
+        with :
+          path : node_modules
+          key : ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys : |
             ${{ runner.os }}-node-modules-
 
-      - name: Deploy to xquare
-        uses: team-xquare/xquare-deployment-action@master
-        with:
-          environment: prod
-          access_key: ${{ secrets.ADMIN_ACCESS }}
-          github_token: ${{ secrets.PICK_ACCESS_TOKEN }}
+      - name : Deploy to xquare
+        uses : team-xquare/xquare-deployment-action@master 
+        with :
+          environment : prod
+          access_key : ${{ secrets.ADMIN_ACCESS }}
+          github_token : ${{ secrets.PICK_ACCESS_TOKEN }}
