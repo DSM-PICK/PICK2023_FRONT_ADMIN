@@ -4,7 +4,7 @@ import Image from "next/image";
 import Logo from "../../assets/Logo.svg";
 import { useRouter } from "next/router";
 import Item from "./Item";
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { getTodaySelfStudyTeacherWhether } from "@/utils/api/selfStudy/index";
 import {
   check,
@@ -13,10 +13,17 @@ import {
   teacher,
   out,
   meal,
+  bug,
 } from "../../assets/navigation/index";
 import { useApiError } from "@/hooks/useApiError";
 
 const nameToInfo = [
+  {
+    name: "버그 제보하기",
+    link: "bug-report",
+    Icon: bug,
+    dropdown: false,
+  },
   {
     name: "외출/이동 수락",
     link: "activity-accept",
