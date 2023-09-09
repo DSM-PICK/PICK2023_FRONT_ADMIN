@@ -18,12 +18,12 @@ import {
 import { useApiError } from "@/hooks/useApiError";
 
 const nameToInfo = [
-  // {
-  //   name: "외출/이동 수락",
-  //   link: "activity-accept",
-  //   Icon: check,
-  //   dropdown: false,
-  // },
+  {
+    name: "외출/이동 수락",
+    link: "activity-accept",
+    Icon: check,
+    dropdown: false,
+  },
   {
     name: "외출자 목록",
     link: "outlist",
