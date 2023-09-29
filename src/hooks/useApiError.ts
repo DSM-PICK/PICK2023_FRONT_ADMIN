@@ -12,7 +12,7 @@ export const useApiError = (handlers?: HandlersType) => {
 
   const handle400 = () => {
     toast.error("잘못된 요청입니다.", { duration: 1000 });
-    refreshToken();
+    // refreshToken();
   };
   const handle401 = () => {
     toast.error("다시 로그인해주세요.", { duration: 1000 });
