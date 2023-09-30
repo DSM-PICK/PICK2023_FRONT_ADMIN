@@ -23,7 +23,7 @@ const Modal = ({
 }: Props) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const clickModalOutside = (e: any) => {
+  const clickModalOutside = (e: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current === e.target) {
       setOpenModal(false);
     }
