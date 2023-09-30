@@ -57,6 +57,8 @@ const Student = ({
 
   const convertAttendanceType = (type: string) => {
     switch (type) {
+      case "AWAIT":
+        return "출석";
       case "DISALLOWED":
         return "무단";
       case "LEAVE":
