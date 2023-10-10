@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import DropDown from "@/components/common/Dropdown";
-import { grades, classes } from "@/constants/DropDownItem";
+import {
+  grades,
+  classes,
+  yearDropDownItem,
+  monthDropDownItem,
+} from "@/constants/DropDownItem";
 import { useEffect, useState } from "react";
 import { ItemType } from "@/models/common";
 import PageContainer from "@/components/common/PageContainer";
@@ -9,7 +14,6 @@ import { useApiError } from "@/hooks/useApiError";
 import {
   getIsTeacherCheck,
   getWeekendMealStudentListExcel,
-  weekendMealPeriodChange,
 } from "@/utils/api/weekendMeal";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-hot-toast";
@@ -19,9 +23,18 @@ import {
 } from "@/utils/api/weekendMeal";
 import fileSaver from "file-saver";
 import CheckBox from "@/components/common/CheckBox";
-import Toggle from "@/components/weekendMeal/Toggle";
 
 const WeekendMeal = () => {
+  const nowMonth: number = new Date().getMonth();
+
+  const [year, setYear] = useState<ItemType>({
+    option: "2023년",
+    id: 2023,
+  });
+  const [month, setMonth] = useState<ItemType>({
+    option: `${nowMonth}월`,
+    id: nowMonth,
+  });
   const [gradeNum, setGradeNum] = useState<ItemType>({
     option: "1학년",
     id: 1,
@@ -30,7 +43,6 @@ const WeekendMeal = () => {
     option: "1반",
     id: 1,
   });
-  const [isGetApplication, setIsGetApplication] = useState<boolean>(false);
 
   const { handleError } = useApiError();
 
@@ -39,8 +51,7 @@ const WeekendMeal = () => {
       const blob = new Blob([res.data], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
-      const month = new Date().getMonth();
-      fileSaver.saveAs(blob, `9월 전교생 주말 급식 신청 여부`);
+      fileSaver.saveAs(blob, `11월 전교생 주말 급식 신청 여부`);
       toast.success("엑셀이 출력되었습니다.", { duration: 2000 });
     },
     onError: handleError,
@@ -106,39 +117,27 @@ const WeekendMeal = () => {
     }
   );
 
-  const { mutate: changeWeekendMealPeriod } = useMutation(
-    "",
-    () => weekendMealPeriodChange(!isGetApplication),
-    {
-      onSuccess: () => {
-        if (!isGetApplication) {
-          toast.success("주말 급식 신청기간으로 변경하였습니다.", {
-            duration: 2000,
-          });
-        } else {
-          toast.success("주말 급식 미신청기간으로 변경하였습니다.", {
-            duration: 2000,
-          });
-        }
-        setIsGetApplication(!isGetApplication);
-      },
-      onError: () => {
-        handleError;
-      },
-    }
-  );
-
   const filter: JSX.Element = (
     <DropDownContainer>
-      <Toggle
-        isOn={isGetApplication}
-        onClick={() => changeWeekendMealPeriod()}
+      {/* 년 */}
+      <DropDown
+        title={year.option}
+        dropDownItem={yearDropDownItem}
+        setResult={setYear}
       />
+      {/* 월 */}
+      <DropDown
+        title={month.option}
+        dropDownItem={monthDropDownItem}
+        setResult={setMonth}
+      />
+      {/* 학년 */}
       <DropDown
         title={gradeNum.option}
         dropDownItem={grades}
         setResult={setGradeNum}
       />
+      {/* 반 */}
       <DropDown
         title={classNum.option}
         dropDownItem={classes}
