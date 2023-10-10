@@ -46,9 +46,15 @@ export const monthDropDownItem: ItemType[] = [
   { id: 5, option: "5월" },
   { id: 6, option: "6월" },
   { id: 7, option: "7월" },
+  { id: 8, option: "8월" },
+  { id: 9, option: "9월" },
+  { id: 10, option: "10월" },
+  { id: 11, option: "11월" },
+  { id: 12, option: "12월" },
+  { id: 1, option: "1월" },
 ];
 
-export const moveLayerDropDownItem = [
+export const moveLayerDropDownItem: ItemType[] = [
   {
     option: "1층",
     id: 1,
@@ -69,4 +75,31 @@ export const moveLayerDropDownItem = [
     option: "5층",
     id: 5,
   },
+];
+
+const nowYear: number = new Date().getFullYear();
+
+export const yearDropDownItem: ItemType[] = [
+  {
+    option: `${nowYear}년`,
+    id: nowYear,
+  },
+  {
+    option: `${nowYear - 1}년`,
+    id: nowYear - 1,
+  },
+  {
+    option: `${nowYear - 2}년`,
+    id: nowYear - 2,
+  },
+];
+
+export const BugTypeItem: ItemType[] = [
+  { id: "ALL", option: "전체" },
+  { id: "PICNIC", option: "외출 관리" },
+  { id: "ATTENDANCE", option: "출결상태 관리" },
+  { id: "CHANGE_STUDENT", option: "인원 변경" },
+  { id: "CHANGE_DIRECTOR", option: "자습 감독 변경" },
+  { id: "WEEKEND_MEAL", option: "주말급식" },
+  { id: "ETC", option: "기타" },
 ];
