@@ -38,12 +38,6 @@ export const changeStudentWeekendMealStatus = async (
   });
 };
 
-export const weekendMealPeriodChange = async (allowedPeriod: boolean) => {
-  return instance.patch("/applications/admin/change/period", {
-    allowed_period: allowedPeriod,
-  });
-};
-
 export const getIsTeacherCheck = async (
   request: getIsTeacherCheckRequestDto
 ) => {
