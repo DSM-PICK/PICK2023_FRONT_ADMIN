@@ -32,8 +32,8 @@ const WeekendMeal = () => {
     id: 2023,
   });
   const [month, setMonth] = useState<ItemType>({
-    option: `${nowMonth}월`,
-    id: nowMonth,
+    option: `${nowMonth + 2}월`,
+    id: nowMonth + 2,
   });
   const [gradeNum, setGradeNum] = useState<ItemType>({
     option: "1학년",
