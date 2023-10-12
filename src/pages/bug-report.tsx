@@ -1,25 +1,35 @@
 import AddImgButton from "@/components/bugReport/AddImgButton";
 import Block from "@/components/bugReport/Block";
+import BugDetailInput from "@/components/bugReport/BugDetailInput";
 import DropDown from "@/components/common/Dropdown";
 import PageContainer from "@/components/common/PageContainer";
-import { ItemType } from "@/models/common";
+import { BugTypeItem } from "@/constants/DropDownItem";
+import { usePutImg } from "@/hooks/usePutImg";
+import { FileInfoType, ItemType } from "@/models/common";
 import styled from "@emotion/styled";
 import { useState } from "react";
 
 const BugReportPage = () => {
-  const BugTypeItem: ItemType[] = [
-    { id: 1, option: "외출 관리" },
-    { id: 3, option: "출결상태 관리" },
-    { id: 4, option: "인원 변경" },
-    { id: 5, option: "자습 감독 변경" },
-    { id: 6, option: "주말급식" },
-  ];
-
+  const filter = <ReportButton onClick={() => mutate()}>제출하기</ReportButton>;
+  const [bugDetail, setBugDetail] = useState<string>("");
   const [bugTypeResult, setBugTypeResult] = useState<ItemType>(BugTypeItem[0]);
+  const [fileInfo, setFileInfo] = useState<FileInfoType>();
+
+  const { mutate } = usePutImg({ fileInfo });
+
+  const bugDetailInputChangeHandler = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setBugDetail(e.target.value);
+  };
 
   return (
-    <PageContainer title="버그 제보하기" subTitle="*은 필수항목입니다.">
-      <Container>
+    <PageContainer
+      title="버그 제보하기"
+      subTitle="*은 필수항목입니다."
+      filter={filter}
+    >
+      <>
         <Block title="어디서 버그가 발생했나요?*">
           <>
             <DropDown
@@ -27,35 +37,25 @@ const BugReportPage = () => {
               dropDownItem={BugTypeItem}
               setResult={setBugTypeResult}
             />
-            <BugInfoInput placeholder="버그에 대해 요약해서 설명해주세요.*" />
+            <BugDetailInput onChange={bugDetailInputChangeHandler} />
           </>
         </Block>
         <Block title="사진을 첨부해주세요.">
-          <AddImgButton onClick={() => ""} />
+          <AddImgButton fileInfo={fileInfo!} setFileInfo={setFileInfo} />
         </Block>
-      </Container>
+      </>
     </PageContainer>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const BugInfoInput = styled.textarea`
-  height: 130px;
-  font-size: 20px;
-  line-height: 34px;
-  padding: 16px;
+const ReportButton = styled.button`
+  width: 147px;
+  height: 48px;
+  border: 1px solid ${({ theme }) => theme.colors.purple400};
   border-radius: 12px;
-  border: none;
-  color: ${({ theme }) => theme.colors.gray900};
-
-  ::placeholder {
-    color: ${({ theme }) => theme.colors.gray300};
-  }
+  background-color: ${({ theme }) => theme.colors.white};
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.purple400};
 `;
 
 export default BugReportPage;
