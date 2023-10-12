@@ -70,3 +70,13 @@ export const moveLayerDropDownItem = [
     id: 5,
   },
 ];
+
+export const BugTypeItem: ItemType[] = [
+  { id: "ALL", option: "전체" },
+  { id: "PICNIC", option: "외출 관리" },
+  { id: "ATTENDANCE", option: "출결상태 관리" },
+  { id: "CHANGE_STUDENT", option: "인원 변경" },
+  { id: "CHANGE_DIRECTOR", option: "자습 감독 변경" },
+  { id: "WEEKEND_MEAL", option: "주말급식" },
+  { id: "ETC", option: "기타" },
+];
