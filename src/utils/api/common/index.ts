@@ -1,4 +1,8 @@
-import { GetMyClassResponseDto } from "@/models/common";
+import {
+  GetMyClassResponseDto,
+  GetPresignedUrlRequest,
+  PresignedUrlsType,
+} from "@/models/common";
 import instance from "@/utils/axios";
 
 interface GetDateTypeDto {
@@ -29,5 +33,12 @@ export const getMyClass = async () => {
   const response = await instance.get<GetMyClassResponseDto>(
     `/pick/teachers/buck`
   );
+  return response.data;
+};
+
+export const getPresignedUrl = async (request: GetPresignedUrlRequest) => {
+  const response = await instance.post<PresignedUrlsType>(`/attachment`, {
+    image_file_requests: [request],
+  });
   return response.data;
 };
