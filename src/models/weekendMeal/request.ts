@@ -1,6 +1,8 @@
 export interface WeekendMealStudentListRequestDto {
   gradeNum: number;
   classNum: number;
+  year: number;
+  month: number;
 }
 
 export interface CheckTeacherRequestDto {

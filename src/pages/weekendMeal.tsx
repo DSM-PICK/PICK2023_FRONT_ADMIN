@@ -63,6 +63,8 @@ const WeekendMeal = () => {
       getWeekendMealStudentList({
         gradeNum: gradeNum.id as number,
         classNum: classNum.id as number,
+        year: year.id as number,
+        month: month.id as number,
       }),
     {
       onError: handleError,

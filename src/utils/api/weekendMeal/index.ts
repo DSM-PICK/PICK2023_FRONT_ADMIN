@@ -10,7 +10,7 @@ export const getWeekendMealStudentList = async (
   request: WeekendMealStudentListRequestDto
 ) => {
   const weekendMealStudentList = await instance.get(
-    `/applications/admin/weekend-meal/?grade=${request.gradeNum}&classNum=${request.classNum}`
+    `/applications/admin/weekend-meal/?grade=${request.gradeNum}&classNum=${request.classNum}$year=${request.year}&month=${request.month}`
   );
   return weekendMealStudentList;
 };
