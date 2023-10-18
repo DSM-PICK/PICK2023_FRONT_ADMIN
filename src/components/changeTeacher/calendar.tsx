@@ -1,4 +1,4 @@
-import { DataType } from "@/pages/changeTeacher";
+import { DataType } from "@/pages/change-teacher";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import ChangeType from "./changeType";
