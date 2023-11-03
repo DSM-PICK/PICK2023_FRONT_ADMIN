@@ -9,7 +9,6 @@ import { useApiError } from "@/hooks/useApiError";
 import {
   getIsTeacherCheck,
   getWeekendMealStudentListExcel,
-  weekendMealPeriodChange,
 } from "@/utils/api/weekendMeal";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "react-hot-toast";
@@ -19,7 +18,6 @@ import {
 } from "@/utils/api/weekendMeal";
 import fileSaver from "file-saver";
 import CheckBox from "@/components/common/CheckBox";
-import Toggle from "@/components/weekendMeal/Toggle";
 
 const WeekendMeal = () => {
   const [gradeNum, setGradeNum] = useState<ItemType>({
@@ -106,34 +104,8 @@ const WeekendMeal = () => {
     }
   );
 
-  const { mutate: changeWeekendMealPeriod } = useMutation(
-    "",
-    () => weekendMealPeriodChange(!isGetApplication),
-    {
-      onSuccess: () => {
-        if (!isGetApplication) {
-          toast.success("주말 급식 신청기간으로 변경하였습니다.", {
-            duration: 2000,
-          });
-        } else {
-          toast.success("주말 급식 미신청기간으로 변경하였습니다.", {
-            duration: 2000,
-          });
-        }
-        setIsGetApplication(!isGetApplication);
-      },
-      onError: () => {
-        handleError;
-      },
-    }
-  );
-
   const filter: JSX.Element = (
     <DropDownContainer>
-      <Toggle
-        isOn={isGetApplication}
-        onClick={() => changeWeekendMealPeriod()}
-      />
       <DropDown
         title={gradeNum.option}
         dropDownItem={grades}
