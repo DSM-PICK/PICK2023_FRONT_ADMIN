@@ -44,13 +44,13 @@ const nameToInfo = [
   },
   {
     name: "자습 감독 선생님 변경",
-    link: "changeTeacher",
+    link: "change-teacher",
     Icon: teacher,
     dropdown: false,
   },
   {
     name: "주말 급식",
-    link: "weekendMeal",
+    link: "weekend-meal",
     Icon: meal,
     dropdown: false,
   },

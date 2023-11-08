@@ -37,10 +37,11 @@ export default function App({
     <Provider store={store}>
       <>
         <Head>
+          <title>PiCK Admin</title>
           <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-          />
+            name="description"
+            content="야간자율학습 출결관리 웹 서비스, 여기서 전부 관리하고, 확인해요!"
+          ></meta>
           <link rel="preconnect" href="https://fonts.googleapis.com/" />
           <link
             rel="preconnect"

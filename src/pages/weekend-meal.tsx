@@ -58,7 +58,7 @@ const WeekendMeal = () => {
   });
 
   const { data: studentList } = useQuery(
-    ["", gradeNum, classNum],
+    ["", gradeNum, classNum, year, month],
     () =>
       getWeekendMealStudentList({
         gradeNum: gradeNum.id as number,
