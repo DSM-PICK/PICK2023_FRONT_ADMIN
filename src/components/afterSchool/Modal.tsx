@@ -30,7 +30,7 @@ const Modal = ({ setIsActiveModal }: ModalProps) => {
     enabled: name != "",
   });
 
-  const { data: classroom, isSuccess: isSuccessClassRoom } = useQuery(
+  const { data: classroom } = useQuery(
     "classroom",
     () => getLayerClassList(2, "AFTER_SCHOOL"),
     {
@@ -85,15 +85,13 @@ const Modal = ({ setIsActiveModal }: ModalProps) => {
             value={name}
           />
           <AddButton onClick={pushUserIdList}>추가</AddButton>
-          {name != "" && !(userList?.data.length === 0) && (
+          {name != "" && !(userList?.length === 0) && (
             <SearchStudentList>
-              {userList?.data.map(
-                (value: SearchedUserListType, idx: number) => (
-                  <span key={idx} onClick={() => onSetId(value)}>
-                    {value.num} {value.name}
-                  </span>
-                )
-              )}
+              {userList?.map((value: SearchedUserListType, idx: number) => (
+                <span key={idx} onClick={() => onSetId(value)}>
+                  {value.num} {value.name}
+                </span>
+              ))}
             </SearchStudentList>
           )}
         </NameInput>
