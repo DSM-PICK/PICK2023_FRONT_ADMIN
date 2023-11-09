@@ -48,7 +48,7 @@ const ApplicationList = ({
         grade: gradeResult.id as number,
         classNum: classResult.id as number,
         floor: layerResult.id as number,
-        type: (todayType?.data.type as string) || "SELF_STUDY",
+        type: (todayType?.type as string) || "SELF_STUDY",
       }),
     {
       cacheTime: 0,

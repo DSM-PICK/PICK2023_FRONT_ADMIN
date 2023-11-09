@@ -68,13 +68,13 @@ const WeekendMeal = () => {
       }),
     {
       onSuccess: () => {
-        setIsTeacherCheck(isTeacherCheckData?.data.check);
+        setIsTeacherCheck(isTeacherCheckData?.check);
       },
     }
   );
 
   useEffect(() => {
-    setIsTeacherCheck(isTeacherCheckData?.data.check);
+    setIsTeacherCheck(isTeacherCheckData?.check);
   }, [isTeacherCheckData]);
 
   const { mutate: teacherCheck } = useMutation(
@@ -130,12 +130,12 @@ const WeekendMeal = () => {
         <StudentContainer
           title="응답자"
           subTitle="응답자의 상태는 수정할 수 없습니다"
-          students={studentList?.data.response_students}
+          students={studentList?.response_students}
         />
         <StudentContainer
           title="미응답자"
           subTitle="미응답자의 상태를 수정할 수 있습니다"
-          students={studentList?.data.non_response_students}
+          students={studentList?.non_response_students}
         />
       </Wrapper>
     </PageContainer>

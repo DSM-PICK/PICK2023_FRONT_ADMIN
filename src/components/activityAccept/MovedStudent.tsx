@@ -57,8 +57,8 @@ const MovedStudent = ({
         </ActivityBtn>
       </HeadBar>
       <MovingBox>
-        {moveList?.data.move_list.length ? (
-          moveList?.data.move_list.map((data) => (
+        {moveList?.move_list.length ? (
+          moveList?.move_list.map((data) => (
             <MovingComponent
               key={data.student_number}
               student_number={data.student_number}

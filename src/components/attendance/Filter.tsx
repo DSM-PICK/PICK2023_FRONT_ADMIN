@@ -56,10 +56,10 @@ const Filter = ({ setClassName, setDate, setClassroomId }: Props) => {
     () =>
       getLayerClassList(
         floorDropDownResult.id,
-        isSuccessDateType && !!dateType.data.type ? dateType.data.type : ""
+        isSuccessDateType && !!dateType.type ? dateType.type : ""
       ),
     {
-      enabled: isSuccessDateType && !!dateType.data.type,
+      enabled: isSuccessDateType && !!dateType.type,
     }
   );
 

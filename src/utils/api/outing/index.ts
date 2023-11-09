@@ -48,5 +48,5 @@ export const searchUser = async (name: string) => {
   const userList = await instance.get<SearchedUserListType[]>(
     `/users/search?name=${name}`
   );
-  return userList;
+  return userList.data;
 };

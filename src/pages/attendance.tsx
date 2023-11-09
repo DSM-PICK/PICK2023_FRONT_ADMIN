@@ -39,8 +39,8 @@ const AttendancePage = () => {
       <>
         <Header className={className} isFriday={isFriday} />
         <StudentWrapper>
-          {isSuccess && attendanceCheckList.data.student_list.length ? (
-            attendanceCheckList.data.student_list.map((data, idx) => {
+          {isSuccess && attendanceCheckList.student_list.length ? (
+            attendanceCheckList.student_list.map((data, idx) => {
               return (
                 <List
                   key={idx}

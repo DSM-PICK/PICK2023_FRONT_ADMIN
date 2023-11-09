@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ItemType } from "../../models/common/index";
 import Member from "@/components/club/member";
 import DropDown from "@/components/common/Dropdown";
@@ -69,22 +69,22 @@ const ClubPerson = () => {
 
   return (
     <PageContainer
-      title={clubList?.data.club_name! && `${clubList?.data.club_name}`}
+      title={clubList?.club_name! && `${clubList?.club_name}`}
       subTitle={
-        clubList?.data
-          ? `${clubList?.data.classroom_name}(${clubList?.data.teacher_name}
+        clubList
+          ? `${clubList.classroom_name}(${clubList.teacher_name}
             선생님 담당)`
           : `층 및 동아리를 선택해주세요.`
       }
       filter={filter}
     >
       <Container>
-        {clubList && clubList.data.student_list.length ? (
-          clubList.data.student_list?.map((list) => (
+        {clubList && clubList.student_list.length ? (
+          clubList.student_list?.map((list) => (
             <Member
               key={list.student_id}
-              head_club_id={clubList.data.club_id}
-              club_name={clubList.data.club_name}
+              head_club_id={clubList.club_id}
+              club_name={clubList.club_name}
               refetch={refetch}
               {...list}
             />

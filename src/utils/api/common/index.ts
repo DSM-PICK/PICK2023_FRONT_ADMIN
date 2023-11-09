@@ -14,7 +14,7 @@ export const getDateType = async (date: string) => {
   const dateType = await instance.get<GetDateTypeDto>(
     `/pick/admin/?date=${date}`
   );
-  return dateType;
+  return dateType.data;
 };
 
 interface GetTeachersListDto {

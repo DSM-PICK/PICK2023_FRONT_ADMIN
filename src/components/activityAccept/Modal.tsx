@@ -108,15 +108,13 @@ const OutingIssueModal = ({ setIsOpenOutingModal }: OutingIssueModalProps) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            {name != "" && !(userList?.data.length === 0) && (
+            {name != "" && !(userList?.length === 0) && (
               <SearchStudentList>
-                {userList?.data.map(
-                  (value: SearchedUserListType, idx: number) => (
-                    <span key={idx} onClick={() => onSetId(value)}>
-                      {value.num} {value.name}
-                    </span>
-                  )
-                )}
+                {userList?.map((value: SearchedUserListType, idx: number) => (
+                  <span key={idx} onClick={() => onSetId(value)}>
+                    {value.num} {value.name}
+                  </span>
+                ))}
               </SearchStudentList>
             )}
             <AddButton onClick={pushUserIdList}>추가</AddButton>

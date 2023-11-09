@@ -27,14 +27,14 @@ import {
 export const getTodaySelfStudyTeacherWhether = async () => {
   const todaySelfStudyTeacherWhether =
     await instance.get<TodaySelfStudyTeacher>(`/pick/admin/state`);
-  return todaySelfStudyTeacherWhether;
+  return todaySelfStudyTeacherWhether.data;
 };
 
 export const getTodaySelfStudyTeacher = async () => {
   const todaySelfStudyTeacher = await instance.get<TodaySelfStudyTeacherDto>(
     `/pick/self-study/today`
   );
-  return todaySelfStudyTeacher;
+  return todaySelfStudyTeacher.data;
 };
 
 export const getChargeClass = async () => {
@@ -63,14 +63,14 @@ export const getMainpageStudnetCount = async () => {
   const getManipageCount = await instance.get<MainPageStudentNumber>(
     `/pick/admin/students/count`
   );
-  return getManipageCount;
+  return getManipageCount.data;
 };
 
 export const getMoveStudentList = async (request: MoveStudentRequest) => {
   const moveStudentList = await instance.get<MoveSudentList>(
     `/pick/admin/movement?grade=${request.grade}&classNum=${request.classNum}&floor=${request.floor}`
   );
-  return moveStudentList;
+  return moveStudentList.data;
 };
 
 export const getAttendanceCheckList = async (
@@ -79,7 +79,7 @@ export const getAttendanceCheckList = async (
   const attendanceCheckList = await instance.get<AttendanceCheckStudentList>(
     `/pick/admin/attendance/${request.classroom_id}?date=${request.date}`
   );
-  return attendanceCheckList;
+  return attendanceCheckList.data;
 };
 
 export const getAfterSchoolMemberList = async (after_school_id: string) => {
@@ -93,7 +93,7 @@ export const getClubMemberList = async (club_id: string) => {
   const clubMemberList = await instance.get<ClubMemberList>(
     `/pick/admin/club/${club_id}`
   );
-  return clubMemberList;
+  return clubMemberList.data;
 };
 
 export const postIssuanceOuting = async (request: IssuanceOuting) => {

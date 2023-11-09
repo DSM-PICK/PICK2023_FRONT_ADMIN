@@ -9,10 +9,10 @@ import instance from "@/utils/axios";
 export const getWeekendMealStudentList = async (
   request: WeekendMealStudentListRequestDto
 ) => {
-  const weekendMealStudentList = await instance.get(
+  const response = await instance.get(
     `/applications/admin/weekend-meal/?grade=${request.gradeNum}&classNum=${request.classNum}`
   );
-  return weekendMealStudentList;
+  return response.data;
 };
 
 export const checkTeacher = async (request: CheckTeacherRequestDto) => {
@@ -47,7 +47,8 @@ export const weekendMealPeriodChange = async (allowedPeriod: boolean) => {
 export const getIsTeacherCheck = async (
   request: getIsTeacherCheckRequestDto
 ) => {
-  return instance.get(
+  const response = await instance.get(
     `/applications/admin/check?grade=${request.gradeNum}&classNum=${request.classNum}`
   );
+  return response.data;
 };
